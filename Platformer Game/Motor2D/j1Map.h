@@ -34,14 +34,24 @@ struct MapLayer
 
 };
 
-// ----------------------------------------------------
+struct ImageLayer
+{
+	p2SString		name;
+	SDL_Texture*	texture;
+	int				offset_x;
+	int				offset_y;
+	int				width;
+	int				height;
+	fPoint			position;
+	float			speed = 0;
 
-	// TODO 6: Short function to get the value of x,y
+	/*~ImageLayer()
+	{
+		App->tex->UnLoad(texture);
+		texture = nullptr;
+	}*/
+};
 
-
-
-
-// ----------------------------------------------------
 struct TileSet
 {
 	// TODO 7: Create a method that receives a tile id and returns it's Rectfind the Rect associated with a specific tile id
@@ -79,8 +89,7 @@ struct MapData
 	SDL_Color			background_color;
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
-	// TODO 2: Add a list/array of layers to the map!
-
+	p2List<ImageLayer*> image_layers;
 	p2List<MapLayer*>   map_layers;
 };
 
@@ -114,8 +123,8 @@ private:
 	bool LoadMap();
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
-	// TODO 3: Create a method that loads a single laye
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+	bool LoadLayerImage(pugi::xml_node& node, ImageLayer* img);
 
 public:
 

@@ -30,6 +30,20 @@ void j1Map::Draw()
 {
 	if (map_loaded == false)
 		return;
+
+	// Drawing all image_layers
+	p2List_item<ImageLayer*>* image;
+	for (image = data.image_layers.start; image; image = image->next)
+	{
+		SDL_Texture* tex = image->data->texture;
+		SDL_Rect rect = { 0,0,image->data->width, image->data->height };
+		if (image->data->position.x < -image->data->width)
+		{
+			image->data->position.x = image->data->width;
+		}
+		App->render->Blit(tex, image->data->position.x, image->data->position.y, &rect);
+	}
+
 	p2List_item<TileSet*>* item;
 	item = data.tilesets.start;
 
@@ -55,6 +69,8 @@ void j1Map::Draw()
 		// TODO 9: Complete the draw function
 
 	}
+	
+
 }
 
 
@@ -98,15 +114,25 @@ bool j1Map::CleanUp()
 	// TODO 2: clean up all layer data
 	// Remove all layers
 
-	p2List_item<MapLayer*>* layer;
-	layer = data.map_layers.start;
+	p2List_item<MapLayer*>* item_layer;
+	item_layer = data.map_layers.start;
 
-	while (layer != NULL)
+	while (item_layer != NULL)
 	{
-		RELEASE(layer->data);
-		layer = layer->next;
+		RELEASE(item_layer->data);
+		item_layer = item_layer->next;
 	}
 	data.map_layers.clear();
+
+	p2List_item<ImageLayer*>* img_layer;
+	img_layer = data.image_layers.start;
+
+	while (img_layer != NULL)
+	{
+		RELEASE(img_layer->data);
+		img_layer = img_layer->next;
+	}
+	data.image_layers.clear();
 
 
 	// Clean up the pugui tree
@@ -168,6 +194,19 @@ bool j1Map::Load(const char* file_name)
 			data.map_layers.add(layer);
 		}
 			
+	}
+
+	//Load ImageLayer info -------------------------------------------
+	pugi::xml_node img_layer_node;
+	for (img_layer_node = map_file.child("map").child("imagelayer"); img_layer_node && ret; img_layer_node = img_layer_node.next_sibling("imagelayer"))
+	{
+		ImageLayer* img_layer = new ImageLayer();
+
+		if (ret == true)
+		{
+			ret = LoadLayerImage(img_layer_node, img_layer);
+		}
+		data.image_layers.add(img_layer);
 	}
 
 	if(ret == true)
@@ -366,6 +405,35 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 	return ret;
 
+}
+
+bool j1Map::LoadLayerImage(pugi::xml_node& node, ImageLayer* img)
+{
+	bool ret = true;
+
+	img->name = node.attribute("name").as_string();
+	img->offset_x = node.attribute("offsetx").as_int();
+	img->offset_y = node.attribute("offsety").as_int();
+
+	img->position.x = img->offset_x;
+	img->position.y = img->offset_y;
+
+	pugi::xml_node image = node.child("image");
+
+	if (image == NULL)
+	{
+		LOG("Error parsing map xml file: Cannot find 'imagelayer/image' tag.");
+		ret = false;
+		RELEASE(img);
+	}
+	else
+	{
+		img->texture = App->tex->Load(PATH(folder.GetString(), image.attribute("source").as_string()));
+		img->width = image.attribute("width").as_int();
+		img->height = image.attribute("height").as_int();
+	}
+
+	return ret;
 }
 
 
