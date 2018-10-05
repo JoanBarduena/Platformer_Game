@@ -45,11 +45,7 @@ struct ImageLayer
 	fPoint			position;
 	float			speed = 0;
 
-	/*~ImageLayer()
-	{
-		App->tex->UnLoad(texture);
-		texture = nullptr;
-	}*/
+	
 };
 
 struct TileSet

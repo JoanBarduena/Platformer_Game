@@ -15,7 +15,7 @@
   <tile id="49" terrain="0,0,,"/>
   <tile id="50" terrain="0,,,"/>
  </tileset>
- <imagelayer name="Capa de Imagen 1" offsetx="64" offsety="-16">
+ <imagelayer name="Capa de Imagen 1" offsetx="-1" offsety="41">
   <image source="long_sky.png" width="7680" height="1080"/>
  </imagelayer>
  <layer name="Capa de Patrones 1" width="200" height="36" offsetx="63.79" offsety="-54.6062">
