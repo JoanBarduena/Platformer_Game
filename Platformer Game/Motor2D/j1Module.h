@@ -9,7 +9,9 @@
 #include "p2SString.h"
 #include "PugiXml\src\pugixml.hpp"
 
+class Collider;
 class j1App;
+
 
 class j1Module
 {
@@ -68,6 +70,9 @@ public:
 	{
 		return true;
 	}
+
+	// Callbacks ---
+	virtual void OnCollision(Collider* c1, Collider* c2) {}
 
 public:
 
