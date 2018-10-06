@@ -44,7 +44,7 @@ bool j1Collision::PreUpdate()
 }
 
 // Called before render is available
-bool j1Collision::Update()
+bool j1Collision::Update(float dt)
 {
 	Collider* c1;
 	Collider* c2;
@@ -79,7 +79,7 @@ bool j1Collision::Update()
 			
 		}
 	}
-
+	
 	DebugDraw();
 
 	return true;
@@ -88,8 +88,10 @@ bool j1Collision::Update()
 void j1Collision::DebugDraw()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	{
 		debug = !debug;
-
+	}
+		
 	if (debug == false)
 		return;
 

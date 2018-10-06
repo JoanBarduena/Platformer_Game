@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Collision.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -207,6 +208,14 @@ bool j1Map::Load(const char* file_name)
 			ret = LoadLayerImage(img_layer_node, img_layer);
 		}
 		data.image_layers.add(img_layer);
+	}
+
+	//Load Collisions --------------------------------------------------
+	pugi::xml_node collider;
+	p2SString name;
+	for (collider = map_file.child("map").child("objectgroup"); collider && ret; collider = collider.next_sibling("objectgroup"))
+	{
+		LoadColliders(collider);
 	}
 
 	if(ret == true)
@@ -431,6 +440,46 @@ bool j1Map::LoadLayerImage(pugi::xml_node& node, ImageLayer* img)
 		img->texture = App->tex->Load(PATH(folder.GetString(), image.attribute("source").as_string()));
 		img->width = image.attribute("width").as_int();
 		img->height = image.attribute("height").as_int();
+	}
+
+	return ret;
+}
+
+bool j1Map::LoadColliders(pugi::xml_node& node)
+{
+	bool ret = true;
+
+	pugi::xml_node obj = node.child("object");
+
+	if (obj == NULL)
+	{
+		LOG("Error parsing map xml file: Cannot find 'objectgroup/object' tag.");
+		ret = false;
+	}
+
+	COLLIDER_TYPE col_type;
+	p2SString type;
+
+	for (obj = node.child("object"); obj; obj = obj.next_sibling("object"))
+	{
+		type = obj.attribute("type").as_string();
+
+		if (type == "floor_jumpable")
+		{
+			col_type = COLLIDER_FLOOR_JUMPABLE;
+		}
+		else if (type == "floor")
+		{
+			col_type = COLLIDER_FLOOR;
+		}
+		SDL_Rect rect;
+		rect.x = obj.attribute("x").as_int();
+		rect.y = obj.attribute("y").as_int();
+		rect.h = obj.attribute("height").as_int();
+		rect.w = obj.attribute("width").as_int();
+
+		App->collision->AddCollider(rect, col_type);
+		LOG("Collider added with pos %d , %d", rect.x, rect.y);
 	}
 
 	return ret;

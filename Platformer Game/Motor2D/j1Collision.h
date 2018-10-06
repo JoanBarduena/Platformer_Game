@@ -1,7 +1,7 @@
 #ifndef __j1Collision_H__
 #define __j1Collision_H__
 
-#define MAX_COLLIDERS 200
+#define MAX_COLLIDERS 300
 
 #include "j1Module.h"
 #include "SDL/include/SDL_rect.h"
@@ -12,7 +12,6 @@ enum COLLIDER_TYPE
 	COLLIDER_PLAYER,
 	COLLIDER_FLOOR,
 	COLLIDER_FLOOR_JUMPABLE,
-
 	COLLIDER_MAX
 };
 
@@ -48,18 +47,20 @@ public:
 	~j1Collision();
 
 	bool PreUpdate();
-	bool Update();
+	bool Update(float dt);
 	bool CleanUp();
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
 	bool EraseCollider(Collider* collider);
 	void DebugDraw();
 
+	bool debug = false;
+
 private:
 
 	Collider * colliders[MAX_COLLIDERS];
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
-	bool debug = false;
+	
 };
 
 #endif // __j1Collision_H__

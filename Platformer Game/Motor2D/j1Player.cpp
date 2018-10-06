@@ -8,6 +8,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Audio.h"
+#include "j1Collision.h"
 
 #include<stdio.h>
 
@@ -67,7 +68,6 @@ bool j1Player::Update(float dt)
 		speed.x = -4;
 		current_animation = &running;
 		
-
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
