@@ -30,6 +30,8 @@ public:
 	Animation idle;
 	Animation running;
 
+	bool flip;
+
 };
 
 #endif // __j1PLAYER_H__

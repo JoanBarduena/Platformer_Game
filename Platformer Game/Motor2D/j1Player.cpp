@@ -20,6 +20,14 @@ j1Player::j1Player() : j1Module()
 	idle.PushBack({ 292, 13, 50, 67 });
 	idle.PushBack({ 398, 13, 50, 67 });
 
+	running.PushBack({ 188, 97, 53, 66 });
+	running.PushBack({ 294, 97, 53, 66 });
+	running.PushBack({ 406, 97, 53, 66 });
+	running.PushBack({ 518, 97, 53, 66 });
+	running.PushBack({ 624, 97, 53, 66 });
+	running.PushBack({ 733, 97, 53, 66 });
+
+
 }
 
 j1Player::~j1Player()
@@ -37,7 +45,8 @@ bool j1Player::Start()
 
 	position.x = 0;
 	position.y = 925;
-	speed = 2;
+	speed = 0;
+	flip = false;
 
 	current_animation = &idle;
 
@@ -54,14 +63,30 @@ bool j1Player::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		position.x -= speed;
+		speed = -1;
+		current_animation = &running;
+		
 
 	}
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		position.x += speed;
+		speed = 1;
+		current_animation = &running;
+		
+	}
+	else
+	{
+		speed = 0;
+		current_animation = &idle;
+		
 	}
 	
+	if (speed > 0)
+		flip = false;
+	else if (speed < 0)
+		flip = true;
+
+	position.x += speed;
 
 	
 
@@ -70,6 +95,10 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
-	App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame());
+	if (flip == false)
+		App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_NONE);
+	else 
+		App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
+
 	return true;
 }
