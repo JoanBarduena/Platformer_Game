@@ -4,13 +4,13 @@
 #include "j1Module.h"
 #include "p2Point.h"
 
-class j1Player
+class j1Player : public j1Module
 {
 public:
 	j1Player();
 	~j1Player();
 
-	bool Awake(pugi::xml_node&);
+	bool Awake(pugi::xml_node& config);
 	bool Start();
 	bool Update(float dt);
 	bool PostUpdate();
