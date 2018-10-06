@@ -15,7 +15,7 @@
   <tile id="49" terrain="0,0,,"/>
   <tile id="50" terrain="0,,,"/>
  </tileset>
- <imagelayer name="Background" offsetx="44" offsety="-132">
+ <imagelayer name="Background" offsetx="-72" offsety="-32">
   <image source="Background_lv2.png" width="6456" height="1192"/>
  </imagelayer>
  <layer name="Capa de Patrones 1" width="200" height="36" offsetx="63.79" offsety="-110.606">
