@@ -45,7 +45,8 @@ bool j1Player::Start()
 
 	position.x = 0;
 	position.y = 925;
-	speed = 0;
+	speed.x = 0;
+	speed.y = 0;
 	flip = false;
 
 	current_animation = &idle;
@@ -63,30 +64,29 @@ bool j1Player::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		speed = -1;
+		speed.x = -4;
 		current_animation = &running;
 		
 
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		speed = 1;
+		speed.x = 4;
 		current_animation = &running;
 		
 	}
 	else
 	{
-		speed = 0;
+		speed.x = 0;
 		current_animation = &idle;
 		
 	}
 	
-	if (speed > 0)
-		flip = false;
-	else if (speed < 0)
-		flip = true;
+	//flip texture if speed
+	Flip();
 
-	position.x += speed;
+	//move player
+	position.x += speed.x;
 
 	
 
@@ -101,4 +101,12 @@ bool j1Player::PostUpdate()
 		App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
 
 	return true;
+}
+
+void j1Player::Flip()
+{
+	if (speed.x > 0)
+		flip = false;
+	else if (speed.x < 0)
+		flip = true;
 }

@@ -19,11 +19,13 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 
+	void Flip();
+
 public:
 	SDL_Texture * graphics = nullptr;
 
 	iPoint position;
-	float speed;
+	iPoint speed;
 
 	//Animations--------------------------
 	Animation* current_animation = nullptr;
