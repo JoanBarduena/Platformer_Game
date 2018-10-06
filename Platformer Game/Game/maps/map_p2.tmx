@@ -15,10 +15,10 @@
   <tile id="49" terrain="0,0,,"/>
   <tile id="50" terrain="0,,,"/>
  </tileset>
- <imagelayer name="Capa de Imagen 1" offsetx="-2" offsety="26">
-  <image source="long_sky.png" width="7680" height="1080"/>
+ <imagelayer name="Background" offsetx="44" offsety="-132">
+  <image source="Background_lv2.png" width="6456" height="1192"/>
  </imagelayer>
- <layer name="Capa de Patrones 1" width="200" height="36" offsetx="63.79" offsety="-54.6062">
+ <layer name="Capa de Patrones 1" width="200" height="36" offsetx="63.79" offsety="-110.606">
   <data>
    <tile gid="98"/>
    <tile gid="98"/>
