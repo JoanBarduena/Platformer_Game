@@ -43,14 +43,18 @@ bool j1Player::Start()
 	if (graphics == nullptr)
 		graphics = App->tex->Load("textures/adventurer_v2.png");
 
+	//initial values
 	position.x = 0;
 	position.y = 0;
 	speed.x = 0;
 	speed.y = 0;
 
 	flip = false;
-	touching = false;
+	touching_y = false;
+	touching_right = false;
+	touching_left = false;
 
+	//standard animation
 	current_animation = &idle;
 
 	playerHitbox = App->collision->AddCollider({ position.x, position.y, 50, 67 }, COLLIDER_PLAYER, this);
@@ -67,7 +71,9 @@ bool j1Player::CleanUp()
 bool j1Player::Update(float dt)
 {
 
-	touching = false;
+	touching_y = false;
+	touching_right = false;
+	touching_left = false;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
@@ -105,17 +111,8 @@ bool j1Player::PostUpdate()
 	else 
 		App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
 
-	//checking if player is touching ground
-	if (touching == false)
-	{
-		speed.y += 1;
-		if (speed.y > 7)
-			speed.y = 7;
-	}
-	else
-	{
-		speed.y = 0;
-	}
+	//
+	Check_Collision();
 
 	//move player
 	position.x += speed.x;
@@ -126,14 +123,21 @@ bool j1Player::PostUpdate()
 
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
-	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR && touching == false)
+	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR)
 	{
-		//if player touches ground from above 
-		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 10)))) 
+		
+		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 10)))) //if player touches ground from above 
 		{
-			touching = true;
+			touching_y = true;
 		}
-			
+		else if ((c2->rect.x) > (c1->rect.x + c1->rect.w - 10)) //if player touches wall from right
+		{
+			touching_right = true;
+		}
+		else if ((c2->rect.x + (c2->rect.w)) < (c1->rect.x + 10)) //if player touches wall from left
+		{
+			touching_left = true;
+		}
 	}
 	
 }
@@ -144,4 +148,31 @@ void j1Player::Flip()
 		flip = false;
 	else if (speed.x < 0)
 		flip = true;
+}
+
+void j1Player::Check_Collision()
+{
+	//checking if player is touching ground from above
+	if (touching_y == false)
+	{
+		speed.y += 1;
+		if (speed.y > 7)
+			speed.y = 7;
+	}
+	else
+	{
+		speed.y = 0;
+	}
+	//checking if player is touching ground from right
+	if (touching_right == true)
+	{
+		if (speed.x > 0)
+			speed.x = 0;
+	}
+	//checking if player is touching ground from left
+	if (touching_left == true)
+	{
+		if (speed.x < 0)
+			speed.x = 0;
+	}
 }
