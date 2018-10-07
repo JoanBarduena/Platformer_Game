@@ -28,7 +28,6 @@ j1Player::j1Player() : j1Module()
 	running.PushBack({ 624, 97, 53, 66 });
 	running.PushBack({ 733, 97, 53, 66 });
 
-
 }
 
 j1Player::~j1Player()
@@ -52,6 +51,8 @@ bool j1Player::Start()
 
 	current_animation = &idle;
 
+	playerHitbox = App->collision->AddCollider({ position.x, position.y, 50, 67 }, COLLIDER_PLAYER, this);
+
 	return true;
 }
 
@@ -63,6 +64,9 @@ bool j1Player::CleanUp()
 
 bool j1Player::Update(float dt)
 {
+
+	playerHitbox->SetPos(position.x, position.y); 
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		speed.x = -4;

@@ -32,6 +32,8 @@ public:
 	Animation idle;
 	Animation running;
 
+	Collider* playerHitbox; 
+
 	bool flip;
 
 };
