@@ -33,14 +33,19 @@ public:
 	Animation* current_animation = nullptr;
 	Animation idle;
 	Animation running;
+	Animation jumping;
+	Animation falling;
 
 	Collider* playerHitbox; 
 
 	bool flip;
 
-	bool touching_y;
-	bool touching_right;
-	bool touching_left;
+	bool touching_y; //if player is touching from above
+	bool touching_right; //if player is touching from right
+	bool touching_left; //if player is touching from left
+
+	bool is_jumping; //if player is jumping (speed.y < 0)
+	bool is_falling; //if player is falling (speed.y > 0)
 };
 
 #endif // __j1PLAYER_H__
