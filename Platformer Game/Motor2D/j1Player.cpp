@@ -44,10 +44,12 @@ bool j1Player::Start()
 		graphics = App->tex->Load("textures/adventurer_v2.png");
 
 	position.x = 0;
-	position.y = 925;
+	position.y = 0;
 	speed.x = 0;
 	speed.y = 0;
+
 	flip = false;
+	touching = false;
 
 	current_animation = &idle;
 
@@ -65,7 +67,7 @@ bool j1Player::CleanUp()
 bool j1Player::Update(float dt)
 {
 
-	playerHitbox->SetPos(position.x, position.y); 
+	touching = false;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
@@ -89,9 +91,8 @@ bool j1Player::Update(float dt)
 	//flip texture if speed
 	Flip();
 
-	//move player
-	position.x += speed.x;
-
+	//Set playerhitbox position
+	playerHitbox->SetPos(position.x, position.y);
 	
 
 	return true;
@@ -104,7 +105,37 @@ bool j1Player::PostUpdate()
 	else 
 		App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
 
+	//checking if player is touching ground
+	if (touching == false)
+	{
+		speed.y += 1;
+		if (speed.y > 7)
+			speed.y = 7;
+	}
+	else
+	{
+		speed.y = 0;
+	}
+
+	//move player
+	position.x += speed.x;
+	position.y += speed.y;
+
 	return true;
+}
+
+void j1Player::OnCollision(Collider* c1, Collider* c2)
+{
+	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR && touching == false)
+	{
+		//if player touches ground from above 
+		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 10)))) 
+		{
+			touching = true;
+		}
+			
+	}
+	
 }
 
 void j1Player::Flip()

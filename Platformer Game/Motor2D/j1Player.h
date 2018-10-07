@@ -20,6 +20,7 @@ public:
 	bool CleanUp();
 
 	void Flip();
+	void OnCollision(Collider* c1, Collider* c2);
 
 public:
 	SDL_Texture * graphics = nullptr;
@@ -35,7 +36,7 @@ public:
 	Collider* playerHitbox; 
 
 	bool flip;
-
+	bool touching;
 };
 
 #endif // __j1PLAYER_H__
