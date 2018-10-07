@@ -29,6 +29,8 @@ public:
 	iPoint position;
 	iPoint speed;
 
+	int maxSpeed_y;
+
 	//Animations--------------------------
 	Animation* current_animation = nullptr;
 	Animation idle;
