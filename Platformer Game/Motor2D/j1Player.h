@@ -38,7 +38,12 @@ public:
 	Animation jumping;
 	Animation falling;
 
+	//HitBox
 	Collider* playerHitbox; 
+
+	//Sounds FX
+	uint jump; 
+	uint run; 
 
 	bool flip;
 

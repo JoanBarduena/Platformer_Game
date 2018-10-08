@@ -82,7 +82,17 @@ bool j1Player::Start()
 	//standard animation
 	current_animation = &idle;
 
+	//Player HitBox
 	playerHitbox = App->collision->AddCollider({ position.x, position.y, 50, 67 }, COLLIDER_PLAYER, this);
+
+	//Loading Sounds FX
+
+
+
+	if (jump == 0)
+		jump = App->audio->LoadFx("audio/fx/Jump.wav");
+	if (run == 0)
+	run = App->audio->LoadFx("audio/fx/Run.wav"); 
 
 	return true;
 }
@@ -90,6 +100,7 @@ bool j1Player::Start()
 bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(graphics);
+
 	return true;
 }
 
@@ -103,15 +114,21 @@ bool j1Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		speed.x = -6;
-		if(current_animation == &idle)
+		if (current_animation == &idle)
+		{
 			current_animation = &running;
+			App->audio->PlayFx(run, 0);
+		}
 		
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		speed.x = 6;
 		if (current_animation == &idle)
+		{
 			current_animation = &running;
+			App->audio->PlayFx(run, 0);
+		}
 		
 	}
 	else // if not clicking anything
@@ -125,6 +142,7 @@ bool j1Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && is_falling == false && is_jumping == false)
 	{
 		current_animation = &jumping;
+		App->audio->PlayFx(run, 0);
 		speed.y = -25; //jumping force
 		
 	}
@@ -147,6 +165,7 @@ bool j1Player::Update(float dt)
 	{
 		is_jumping = true;
 		is_falling = false;
+		App->audio->PlayFx(jump, 0);
 	}
 	//----------------------------------------------------------------------------------
 
