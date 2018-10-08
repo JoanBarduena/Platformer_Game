@@ -102,14 +102,14 @@ bool j1Player::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		speed.x = -5;
+		speed.x = -6;
 		if(current_animation == &idle)
 			current_animation = &running;
 		
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		speed.x = 5;
+		speed.x = 6;
 		if (current_animation == &idle)
 			current_animation = &running;
 		
@@ -177,7 +177,7 @@ bool j1Player::PostUpdate()
 
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
-	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR)
+	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR) //Standard Floor
 	{
 		
 		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 10)))) //if player touches ground from above 
@@ -195,6 +195,13 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		}
 	}
 	
+	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR_JUMPABLE) //Floor that you can pass through
+	{
+		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 10)))) //if player touches ground from above 
+		{
+			touching_y = true;
+		}
+	}
 }
 
 //To flip Player texture
