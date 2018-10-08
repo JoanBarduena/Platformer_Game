@@ -68,7 +68,10 @@ bool j1Player::Start()
 
 	//initial values ---------------------
 	position.x = 0;
-	position.y = 0;
+	position.y = 700;
+
+	App->render->camera.y = -350;
+
 	speed.x = 0;
 	speed.y = 0;
 	maxSpeed_y = 10;
@@ -83,7 +86,7 @@ bool j1Player::Start()
 	current_animation = &idle;
 
 	//Player HitBox
-	playerHitbox = App->collision->AddCollider({ position.x, position.y, 50, 67 }, COLLIDER_PLAYER, this);
+	playerHitbox = App->collision->AddCollider({ position.x, position.y, 35, 67 }, COLLIDER_PLAYER, this);
 
 	//Loading Sounds FX
 
@@ -92,7 +95,7 @@ bool j1Player::Start()
 	if (jump == 0)
 		jump = App->audio->LoadFx("audio/fx/Jump.wav");
 	if (run == 0)
-	run = App->audio->LoadFx("audio/fx/Run.wav"); 
+		run = App->audio->LoadFx("audio/fx/Run.wav"); 
 
 	return true;
 }
@@ -151,7 +154,7 @@ bool j1Player::Update(float dt)
 	Flip();
 
 	//Set playerhitbox position
-	playerHitbox->SetPos(position.x, position.y);
+	playerHitbox->SetPos(position.x + 8, position.y);
 
 	//----------------------------------------------------------------------------------
 	//When player speed.y != 0  setting if the player is FALLING or JUMPING
@@ -191,6 +194,7 @@ bool j1Player::PostUpdate()
 	position.x += speed.x;
 	position.y += speed.y;
 
+	
 	return true;
 }
 
@@ -199,16 +203,16 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR) //Standard Floor
 	{
 		
-		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 10)))) //if player touches ground from above 
+		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)))) //if player touches ground from above 
 		{
 			touching_y = true;
 			
 		}
-		else if ((c2->rect.x) > (c1->rect.x + c1->rect.w - 10)) //if player touches wall from right
+		else if ((c2->rect.x) > (c1->rect.x + c1->rect.w - 15)) //if player touches wall from right
 		{
 			touching_right = true;
 		}
-		else if ((c2->rect.x + (c2->rect.w)) < (c1->rect.x + 10)) //if player touches wall from left
+		else if ((c2->rect.x + (c2->rect.w)) < (c1->rect.x + 15)) //if player touches wall from left
 		{
 			touching_left = true;
 		}
@@ -216,7 +220,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR_JUMPABLE) //Floor that you can pass through
 	{
-		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 10)))) //if player touches ground from above 
+		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)))) //if player touches ground from above 
 		{
 			touching_y = true;
 		}

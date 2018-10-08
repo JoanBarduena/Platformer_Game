@@ -212,7 +212,6 @@ bool j1Map::Load(const char* file_name)
 
 	//Load Collisions --------------------------------------------------
 	pugi::xml_node collider;
-	p2SString name;
 	for (collider = map_file.child("map").child("objectgroup"); collider && ret; collider = collider.next_sibling("objectgroup"))
 	{
 		LoadColliders(collider);
