@@ -58,6 +58,25 @@ j1Player::~j1Player()
 
 bool j1Player::Awake(pugi::xml_node& config)
 {
+	//PLayer initial position
+	position.x = config.child("position").attribute("x").as_int();
+	position.y = config.child("position").attribute("y").as_int();
+
+	//camera limits
+	limit_up = config.child("limits").attribute("up").as_int();
+	limit_down = config.child("limits").attribute("down").as_int();
+	limit_left = config.child("limits").attribute("left").as_int();
+	limit_right = config.child("limits").attribute("right").as_int();
+
+	//Player physic values
+	player_speed = config.child("speed_x").attribute("value").as_int();
+	maxSpeed_y = config.child("maxSpeed_y").attribute("value").as_int();
+	jump_force = config.child("jump_force").attribute("value").as_int();
+
+	//Player dimensions
+	player_width = config.child("player_size").attribute("width").as_int();
+	player_height = config.child("player_size").attribute("height").as_int();
+
 	return true;
 }
 
@@ -66,30 +85,10 @@ bool j1Player::Start()
 	if (graphics == nullptr)
 		graphics = App->tex->Load("textures/adventurer_v2.png");
 
-	//initial values ---------------------
-	position.x = 100;
-	position.y = 700;
-
-	App->render->camera.x = 0;
-	App->render->camera.y = -350;
-
-	speed.x = 0;
-	speed.y = 0;
-	player_speed = 7;
-	maxSpeed_y = 10;
-	flip = false;
-	touching_above = false;
-	touching_right = false;
-	touching_left = false;
-	touching_bottom = false;
-	is_jumping = false;
-	//-------------------------------------
-
 	//standard animation
 	current_animation = &idle;
-
 	//Player HitBox
-	playerHitbox = App->collision->AddCollider({ position.x, position.y, 25, 67 }, COLLIDER_PLAYER, this);
+	playerHitbox = App->collision->AddCollider({ position.x, position.y, player_width, player_height }, COLLIDER_PLAYER, this);
 
 	//Loading Sounds FX
 	if (jump == 0)
@@ -145,7 +144,7 @@ bool j1Player::Update(float dt)
 	{
 		current_animation = &jumping;
 		App->audio->PlayFx(run, 0);
-		speed.y = -25; //jumping force
+		speed.y = -jump_force; //jumping force
 		
 	}
 	
@@ -153,7 +152,7 @@ bool j1Player::Update(float dt)
 	Flip();
 
 	//Set playerhitbox position
-	playerHitbox->SetPos(position.x + 13, position.y);
+	playerHitbox->SetPos(position.x + (player_width/2), position.y);
 
 	//----------------------------------------------------------------------------------
 	//When player speed.y != 0  setting if the player is FALLING or JUMPING
@@ -178,7 +177,7 @@ bool j1Player::Update(float dt)
 	}
 
 	
-
+	LOG("jump_force: %d", jump_force);
 
 	return true;
 }
@@ -198,12 +197,21 @@ bool j1Player::PostUpdate()
 
 	CameraOnPlayer();
 	//Camera limits
-	if (App->render->camera.x*-1 < 5)
-		App->render->camera.x = -5;
-	if (App->render->camera.y < -347)
-		App->render->camera.y = -347;
-	if (App->render->camera.y > -47)
-		App->render->camera.y = -47;
+	if (App->render->camera.x*-1 < limit_left)
+	{
+		App->render->camera.x = -limit_left;
+	}
+		
+	if (App->render->camera.y < -limit_down)
+	{
+		App->render->camera.y = -limit_down;
+	}
+		
+	if (App->render->camera.y > -limit_up)
+	{
+		App->render->camera.y = -limit_up;
+	}
+		
 
 	//Player limits	
 	if (position.x < 6)

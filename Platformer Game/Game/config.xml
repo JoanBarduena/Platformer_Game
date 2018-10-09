@@ -26,4 +26,14 @@
     <folder>maps/</folder>
   </map>
 
+  <player>
+    <position x="100" y="700" />
+    <limits up="47" down="347" left="5" right="0" />
+    <speed_x value="7" />
+    <maxSpeed_y value="10"/>
+    <player_size width="25" height="67" />
+    <jump_force value="25" />
+  </player>
+  
+
 </config>
