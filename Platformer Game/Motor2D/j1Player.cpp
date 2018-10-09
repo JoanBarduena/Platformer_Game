@@ -118,7 +118,6 @@ bool j1Player::Update(float dt)
 		if (current_animation == &idle)
 		{
 			current_animation = &running;
-			App->audio->PlayFx(run, 0);
 		}
 		
 	}
@@ -128,7 +127,6 @@ bool j1Player::Update(float dt)
 		if (current_animation == &idle)
 		{
 			current_animation = &running;
-			App->audio->PlayFx(run, 0);
 		}
 		
 	}
@@ -198,7 +196,12 @@ bool j1Player::PostUpdate()
 	if (position.x < 6)
 		position.x = 6;
 
-	
+	if (speed.x != 0 && touching_y && SDL_GetTicks() > run_time)
+	{
+		App->audio->PlayFx(run, 0);
+		run_time = SDL_GetTicks() + (1 / player_speed) + 450;
+	}
+
 	return true;
 }
 

@@ -46,6 +46,7 @@ public:
 	//Sounds FX
 	uint jump; 
 	uint run; 
+	float run_time = 0; 
 
 	bool flip;
 
