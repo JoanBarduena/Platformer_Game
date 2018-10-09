@@ -9,10 +9,19 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Collision.h"
+#include "j1Player.h"
 
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
+		
+	level* lvl1 = new level(1, "map_p1.tmx");
+	level* lvl2 = new level(2, "map_p2.tmx");
+
+	levels.add(lvl1);
+	levels.add(lvl2);
+
+	current_lvl = levels.start;
 }
 
 // Destructor
@@ -25,13 +34,15 @@ bool j1Scene::Awake()
 	LOG("Loading Scene");
 	bool ret = true;
 
-	return ret;
+	return ret; 
 }
 
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load("map_p1.tmx");
+	App->map->Load(levels.start->data->mapPath.GetString());
+
+	//App->map->Load("map_p1.tmx");
 	//App->map->Load("map_p2.tmx");
 	return true;
 }
@@ -62,10 +73,21 @@ bool j1Scene::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 3;
+	
+	//F2 Starts from the beginning of the level
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		if (current_lvl->data->lvl == 2)
+			LoadLvl(2);
+		else
+			LoadLvl(1);
+	}
 
 
 	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
+
+ 
 
 	// TODO 7: Set the window title like
 	// "Map:%dx%d Tiles:%dx%d Tilesets:%d"
@@ -95,4 +117,39 @@ bool j1Scene::CleanUp()
 	LOG("Freeing scene");
 
 	return true;
+}
+
+void j1Scene::LoadLvl(int num)
+{
+	if (num == 0)
+	{
+		current_lvl = current_lvl->next;
+		if (current_lvl == nullptr)
+		{
+			current_lvl = levels.start;
+		}
+	}
+	else
+	{
+		p2List_item<level*>* lvl = levels.start;
+		for (int i = 1; i < num; i++)
+		{
+			lvl = lvl->next;
+			if (lvl == nullptr)
+			{
+				LOG("There is no level %d to load", num);
+				break;
+			}
+		}
+		current_lvl = lvl;
+	}
+
+	if (current_lvl != nullptr)
+	{
+		App->collision->CleanUp();
+		App->map->Load(current_lvl->data->mapPath.GetString());
+		// Restart player data
+		App->player->Start();
+		App->collision->Start();
+	}
 }

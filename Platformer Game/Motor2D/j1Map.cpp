@@ -71,7 +71,6 @@ void j1Map::Draw()
 
 	}
 	
-
 }
 
 

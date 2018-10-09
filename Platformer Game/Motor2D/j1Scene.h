@@ -5,6 +5,18 @@
 
 struct SDL_Texture;
 
+struct level
+{
+	level(int num, char* mapPath)
+	{
+		this->mapPath.create(mapPath);
+		lvl = num;
+	}
+
+	p2SString mapPath;
+	int lvl;
+};
+
 class j1Scene : public j1Module
 {
 public:
@@ -32,7 +44,13 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-private:
+	//Load Level
+	void LoadLvl(int num = 0);
+
+public:
+
+	p2List<level*> levels;
+	p2List_item<level*>* current_lvl;
 };
 
 #endif // __j1SCENE_H__
