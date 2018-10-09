@@ -67,13 +67,14 @@ bool j1Player::Start()
 		graphics = App->tex->Load("textures/adventurer_v2.png");
 
 	//initial values ---------------------
-	position.x = 0;
+	position.x = 100;
 	position.y = 700;
 
 	App->render->camera.y = -350;
 
 	speed.x = 0;
 	speed.y = 0;
+	player_speed = 6;
 	maxSpeed_y = 10;
 	flip = false;
 	touching_y = false;
@@ -113,7 +114,7 @@ bool j1Player::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		speed.x = -6;
+		speed.x = -player_speed;
 		if (current_animation == &idle)
 		{
 			current_animation = &running;
@@ -123,7 +124,7 @@ bool j1Player::Update(float dt)
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		speed.x = 6;
+		speed.x = player_speed;
 		if (current_animation == &idle)
 		{
 			current_animation = &running;
@@ -190,6 +191,12 @@ bool j1Player::PostUpdate()
 	//applaying movement to the player
 	position.x += speed.x;
 	position.y += speed.y;
+
+	CameraOnPlayer();
+
+	//Player limits	
+	if (position.x < 6)
+		position.x = 6;
 
 	
 	return true;
@@ -261,4 +268,23 @@ void j1Player::Check_Collision()
 		if (speed.x < 0)
 			speed.x = 0;
 	}
+}
+
+void j1Player::CameraOnPlayer()
+{
+	uint window_w, window_h;
+	App->win->GetWindowSize(window_w, window_h);
+
+	if (position.x >(App->render->camera.x * -1) + ((5 * window_w) / 8))
+	{
+		App->render->camera.x -= player_speed;
+	}
+	else if (position.x < (App->render->camera.x*-1) + ((3 * window_w) / 8))
+	{
+		App->render->camera.x += player_speed;
+	}
+
+	//Camera limits
+	if (App->render->camera.x*-1 < 0)
+		App->render->camera.x = 0;
 }

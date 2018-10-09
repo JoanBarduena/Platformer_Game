@@ -22,12 +22,14 @@ public:
 	void Flip();
 	void OnCollision(Collider* c1, Collider* c2);
 	void Check_Collision();
+	void CameraOnPlayer();
 
 public:
 	SDL_Texture * graphics = nullptr;
 
 	iPoint position;
 	iPoint speed;
+	int player_speed;
 
 	int maxSpeed_y;
 
