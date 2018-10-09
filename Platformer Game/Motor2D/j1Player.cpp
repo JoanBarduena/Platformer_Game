@@ -70,6 +70,7 @@ bool j1Player::Start()
 	position.x = 100;
 	position.y = 700;
 
+	App->render->camera.x = 0;
 	App->render->camera.y = -350;
 
 	speed.x = 0;
@@ -77,9 +78,10 @@ bool j1Player::Start()
 	player_speed = 7;
 	maxSpeed_y = 10;
 	flip = false;
-	touching_y = false;
+	touching_above = false;
 	touching_right = false;
 	touching_left = false;
+	touching_bottom = false;
 	is_jumping = false;
 	//-------------------------------------
 
@@ -108,9 +110,10 @@ bool j1Player::CleanUp()
 bool j1Player::Update(float dt)
 {
 
-	touching_y = false;
+	touching_above = false;
 	touching_right = false;
 	touching_left = false;
+	touching_bottom = false;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
@@ -206,7 +209,7 @@ bool j1Player::PostUpdate()
 	if (position.x < 6)
 		position.x = 6;
 
-	if (speed.x != 0 && touching_y && SDL_GetTicks() > run_time)
+	if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
 	{
 		App->audio->PlayFx(run, 0);
 		run_time = SDL_GetTicks() + (1 / player_speed) + 450;
@@ -222,7 +225,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		
 		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)))) //if player touches ground from above 
 		{
-			touching_y = true;
+			touching_above = true;
 			
 		}
 		else if ((c2->rect.x) > (c1->rect.x + c1->rect.w - 15)) //if player touches wall from right
@@ -233,13 +236,17 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		{
 			touching_left = true;
 		}
+		else if ((c2->rect.y + (c2->rect.h) ) < (c1->rect.y + 15)) //if player touches ground from bottom
+		{
+			touching_bottom = true;
+		}
 	}
 	
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR_JUMPABLE) //Floor that you can pass through
 	{
-		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)))) //if player touches ground from above 
+		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 19)))) //if player touches ground from above 
 		{
-			touching_y = true;
+			touching_above = true;
 		}
 	}
 }
@@ -256,19 +263,26 @@ void j1Player::Flip()
 void j1Player::Check_Collision()
 {
 	//checking if player is touching ground from above
-	if (touching_y == false)
+	if (touching_above == false)
 	{
 		speed.y += 1; //Aplying "gravity"
 		if (speed.y > maxSpeed_y)
 			speed.y = maxSpeed_y;
 	}
-	else if (touching_y == true && is_falling == true)
+	else if (touching_above == true && is_falling == true)
 	{
 		speed.y = 0;
 		is_falling = false;
 		current_animation = &idle; //set animation to idle when player lands
 		jumping.Reset(); //jumping frame reset to frame number 1
 	}
+	
+	if (touching_bottom == true)
+	{
+		speed.y = 1;
+		is_falling == true;
+	}
+
 	//checking if player is touching ground from right
 	if (touching_right == true)
 	{

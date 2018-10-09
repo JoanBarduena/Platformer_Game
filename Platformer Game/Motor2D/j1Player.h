@@ -50,7 +50,8 @@ public:
 
 	bool flip;
 
-	bool touching_y; //if player is touching from above
+	bool touching_above;//if player is touching from above
+	bool touching_bottom;
 	bool touching_right; //if player is touching from right
 	bool touching_left; //if player is touching from left
 
