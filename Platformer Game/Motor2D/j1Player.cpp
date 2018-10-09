@@ -86,12 +86,9 @@ bool j1Player::Start()
 	current_animation = &idle;
 
 	//Player HitBox
-	playerHitbox = App->collision->AddCollider({ position.x, position.y, 35, 67 }, COLLIDER_PLAYER, this);
+	playerHitbox = App->collision->AddCollider({ position.x, position.y, 25, 67 }, COLLIDER_PLAYER, this);
 
 	//Loading Sounds FX
-
-
-
 	if (jump == 0)
 		jump = App->audio->LoadFx("audio/fx/Jump.wav");
 	if (run == 0)
@@ -154,7 +151,7 @@ bool j1Player::Update(float dt)
 	Flip();
 
 	//Set playerhitbox position
-	playerHitbox->SetPos(position.x + 8, position.y);
+	playerHitbox->SetPos(position.x + 13, position.y);
 
 	//----------------------------------------------------------------------------------
 	//When player speed.y != 0  setting if the player is FALLING or JUMPING
