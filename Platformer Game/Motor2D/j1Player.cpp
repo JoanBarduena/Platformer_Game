@@ -74,7 +74,7 @@ bool j1Player::Start()
 
 	speed.x = 0;
 	speed.y = 0;
-	player_speed = 6;
+	player_speed = 7;
 	maxSpeed_y = 10;
 	flip = false;
 	touching_y = false;
@@ -174,6 +174,9 @@ bool j1Player::Update(float dt)
 		current_animation = &falling;
 	}
 
+	
+
+
 	return true;
 }
 
@@ -191,6 +194,13 @@ bool j1Player::PostUpdate()
 	position.y += speed.y;
 
 	CameraOnPlayer();
+	//Camera limits
+	if (App->render->camera.x*-1 < 5)
+		App->render->camera.x = -5;
+	if (App->render->camera.y < -347)
+		App->render->camera.y = -347;
+	if (App->render->camera.y > -47)
+		App->render->camera.y = -47;
 
 	//Player limits	
 	if (position.x < 6)
@@ -278,6 +288,7 @@ void j1Player::CameraOnPlayer()
 	uint window_w, window_h;
 	App->win->GetWindowSize(window_w, window_h);
 
+
 	// for X AXIS 
 	if (position.x >(App->render->camera.x * -1) + ((5 * window_w) / 8))
 	{
@@ -288,22 +299,18 @@ void j1Player::CameraOnPlayer()
 		App->render->camera.x += player_speed;
 	}
 
-	//// for Y AXIS
-	//if (position.y >(App->render->camera.y * -1) + ((5 * window_w) / 8))
-	//{
-	//	App->render->camera.x -= player_speed;
-	//}
-	//else if (position.x < (App->render->camera.x*-1) + ((3 * window_w) / 8))
-	//{
-	//	App->render->camera.x += player_speed;
-	//}
-	
+	// for Y AXIS
+	if (position.y + 67 > (App->render->camera.y*-1) + ((5 * window_h) / 8))
+	{
+		App->render->camera.y -= 6;
+	}
+	else if (position.y < (App->render->camera.y*-1) + ((window_h) / 8))
+	{
+		App->render->camera.y += 6;
+	}
 
-	//Camera limits
-	if (App->render->camera.x*-1 < 0)
-		App->render->camera.x = 0;
-	else if (App->render->camera.y < -350)
-		App->render->camera.y = -350;
-	else if (App->render->camera.y > -47)
-		App->render->camera.y = -47;
+	LOG("position.y = %d", position.y);
+	LOG("camera.y : %d", App->render->camera.y);
+
+	
 }
