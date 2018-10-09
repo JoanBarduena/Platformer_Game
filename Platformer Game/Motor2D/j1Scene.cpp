@@ -74,7 +74,14 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 3;
 	
-	//F2 Starts from the beginning of the level
+	//F1 Starts form the very first level 
+
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		LoadLvl(1); 
+	}
+
+	//F2 Starts from the beginning of the current level
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
 		if (current_lvl->data->lvl == 2)
