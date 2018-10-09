@@ -275,6 +275,7 @@ void j1Player::CameraOnPlayer()
 	uint window_w, window_h;
 	App->win->GetWindowSize(window_w, window_h);
 
+	// for X AXIS 
 	if (position.x >(App->render->camera.x * -1) + ((5 * window_w) / 8))
 	{
 		App->render->camera.x -= player_speed;
@@ -284,7 +285,22 @@ void j1Player::CameraOnPlayer()
 		App->render->camera.x += player_speed;
 	}
 
+	//// for Y AXIS
+	//if (position.y >(App->render->camera.y * -1) + ((5 * window_w) / 8))
+	//{
+	//	App->render->camera.x -= player_speed;
+	//}
+	//else if (position.x < (App->render->camera.x*-1) + ((3 * window_w) / 8))
+	//{
+	//	App->render->camera.x += player_speed;
+	//}
+	
+
 	//Camera limits
 	if (App->render->camera.x*-1 < 0)
 		App->render->camera.x = 0;
+	else if (App->render->camera.y < -350)
+		App->render->camera.y = -350;
+	else if (App->render->camera.y > -47)
+		App->render->camera.y = -47;
 }
