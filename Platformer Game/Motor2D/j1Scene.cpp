@@ -18,10 +18,10 @@ j1Scene::j1Scene() : j1Module()
 	level* lvl1 = new level(1, "map_p1.tmx");
 	level* lvl2 = new level(2, "map_p2.tmx");
 
-	levels.add(lvl1);
-	levels.add(lvl2);
+	levels_list.add(lvl1);
+	levels_list.add(lvl2);
 
-	current_lvl = levels.start;
+	actual_level = levels_list.start;
 }
 
 // Destructor
@@ -40,7 +40,7 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load(levels.start->data->mapPath.GetString());
+	App->map->Load(levels_list.start->data->mapPath.GetString());
 
 	//App->map->Load("map_p1.tmx");
 	//App->map->Load("map_p2.tmx");
@@ -75,21 +75,25 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x -= 3;
 	
 	//F1 Starts form the very first level 
-
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
-		LoadLvl(1); 
+		Level_Load(1); 
 	}
 
 	//F2 Starts from the beginning of the current level
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
-		if (current_lvl->data->lvl == 2)
-			LoadLvl(2);
+		if (actual_level->data->lvl == 2)
+			Level_Load(2);
 		else
-			LoadLvl(1);
+			Level_Load(1);
 	}
 
+	//F3 Starts the second level  
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		Level_Load(2);
+	}
 
 	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
@@ -126,36 +130,23 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
-void j1Scene::LoadLvl(int num)
+void j1Scene::Level_Load(uint number)
 {
-	if (num == 0)
+	
+	p2List_item<level*>* lvl = levels_list.start;
+	for (int i = 1; i < number; i++)
 	{
-		current_lvl = current_lvl->next;
-		if (current_lvl == nullptr)
-		{
-			current_lvl = levels.start;
-		}
+		lvl = lvl->next;
 	}
-	else
-	{
-		p2List_item<level*>* lvl = levels.start;
-		for (int i = 1; i < num; i++)
-		{
-			lvl = lvl->next;
-			if (lvl == nullptr)
-			{
-				LOG("There is no level %d to load", num);
-				break;
-			}
-		}
-		current_lvl = lvl;
-	}
+	actual_level = lvl;
 
-	if (current_lvl != nullptr)
+	if (actual_level != nullptr)
 	{
+		//Clean up the level
 		App->collision->CleanUp();
-		App->map->Load(current_lvl->data->mapPath.GetString());
-		// Restart player data
+		App->map->CleanUp(); 
+		App->map->Load(actual_level->data->mapPath.GetString());
+		//Starting the level & player
 		App->player->Start();
 		App->collision->Start();
 	}

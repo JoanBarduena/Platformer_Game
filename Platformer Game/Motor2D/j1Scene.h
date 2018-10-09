@@ -45,12 +45,12 @@ public:
 	bool CleanUp();
 
 	//Load Level
-	void LoadLvl(int num = 0);
+	void Level_Load(uint number = 0);
 
 public:
 
-	p2List<level*> levels;
-	p2List_item<level*>* current_lvl;
+	p2List<level*> levels_list;
+	p2List_item<level*>* actual_level;
 };
 
 #endif // __j1SCENE_H__
