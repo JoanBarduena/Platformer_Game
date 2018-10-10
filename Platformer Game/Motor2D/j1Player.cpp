@@ -96,6 +96,8 @@ bool j1Player::Start()
 	if (run == 0)
 		run = App->audio->LoadFx("audio/fx/Run.wav"); 
 
+	cooldown = 100;
+
 	return true;
 }
 
@@ -144,9 +146,22 @@ bool j1Player::Update(float dt)
 	{
 		current_animation = &jumping;
 		App->audio->PlayFx(run, 0);
-		speed.y = -jump_force; //jumping force
+		
+		if (invert_gravity == true)
+			speed.y = jump_force;
+		else
+		{
+			speed.y = -jump_force; 
+		}
 		
 	}
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && cooldown == 100)
+	{
+		invert_gravity = !invert_gravity;
+		cooldown = 0;
+	}
+	
+
 	
 	//flip texture in case speed.x is negative
 	Flip();
@@ -156,18 +171,36 @@ bool j1Player::Update(float dt)
 
 	//----------------------------------------------------------------------------------
 	//When player speed.y != 0  setting if the player is FALLING or JUMPING
-
-	if (speed.y > 0) //falling
+	if (invert_gravity == false)
 	{
-		is_falling = true;
-		is_jumping = false;
+		if (speed.y > 0) //falling
+		{
+			is_falling = true;
+			is_jumping = false;
+		}
+		if (speed.y < 0) //jumping
+		{
+			is_jumping = true;
+			is_falling = false;
+			App->audio->PlayFx(jump, 0);
+		}
 	}
-	if (speed.y < 0) //jumping
+	else
 	{
-		is_jumping = true;
-		is_falling = false;
-		App->audio->PlayFx(jump, 0);
+		if (speed.y > 0) //jumping
+		{
+			is_falling = false;
+			is_jumping = true;
+			App->audio->PlayFx(jump, 0);
+		}
+		if (speed.y < 0) //falling
+		{
+			is_jumping = false;
+			is_falling = true;
+			
+		}
 	}
+	
 	//----------------------------------------------------------------------------------
 
 	// if the player is falling set falling animation
@@ -185,9 +218,23 @@ bool j1Player::Update(float dt)
 bool j1Player::PostUpdate()
 {
 	if (flip == false)
-		App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_NONE);
-	else 
+	{
+		if (invert_gravity == true)
+		{
+			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_VERTICAL);
+		}
+		else
+		{
+			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_NONE);
+		}
+	}
+	else if (flip == true)
+	{
 		App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
+	}
+		
+	if(cooldown < 100)
+		cooldown++;
 
 	Check_Collision();
 	
@@ -233,7 +280,10 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		
 		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)))) //if player touches ground from above 
 		{
-			touching_above = true;
+			if(invert_gravity == false)
+				touching_above = true;
+			else
+				touching_bottom = true;
 			
 		}
 		else if ((c2->rect.x) > (c1->rect.x + c1->rect.w - 15)) //if player touches wall from right
@@ -246,7 +296,10 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		}
 		else if ((c2->rect.y + (c2->rect.h) ) < (c1->rect.y + 15)) //if player touches ground from bottom
 		{
-			touching_bottom = true;
+			if (invert_gravity == false)
+				touching_bottom = true;
+			else
+				touching_above = true;
 		}
 	}
 	
@@ -254,7 +307,13 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	{
 		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 19)))) //if player touches ground from above 
 		{
-			touching_above = true;
+			if(invert_gravity == false)
+				touching_above = true;
+		}
+		else if ((c2->rect.y + (c2->rect.h)) < (c1->rect.y + 15)) //if player touches ground from bottom
+		{
+			if (invert_gravity == true)
+				touching_above = true;
 		}
 	}
 }
@@ -273,9 +332,19 @@ void j1Player::Check_Collision()
 	//checking if player is touching ground from above
 	if (touching_above == false)
 	{
-		speed.y += 1; //Aplying "gravity"
-		if (speed.y > maxSpeed_y)
-			speed.y = maxSpeed_y;
+		if (invert_gravity == false)
+		{
+			speed.y += 1; //Aplying "gravity"
+			if (speed.y > maxSpeed_y)
+				speed.y = maxSpeed_y;
+		}
+		else
+		{
+			speed.y -= 1; //Aplying "gravity inverted"
+			if (speed.y < -maxSpeed_y)
+				speed.y = -maxSpeed_y;
+		}
+		
 	}
 	else if (touching_above == true && is_falling == true)
 	{
@@ -287,7 +356,15 @@ void j1Player::Check_Collision()
 	
 	if (touching_bottom == true)
 	{
-		speed.y = 1;
+		if (invert_gravity == false)
+		{
+			speed.y = 1;
+		}
+		else
+		{
+			speed.y = -1;
+		}
+
 		is_falling == true;
 	}
 

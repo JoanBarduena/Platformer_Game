@@ -58,9 +58,12 @@ public:
 	bool touching_left; //if player is touching from left
 	bool is_jumping; //if player is jumping (speed.y < 0)
 	bool is_falling; //if player is falling (speed.y > 0)
+	
+	bool invert_gravity;
 
 	int player_width, player_height;
 	int jump_force;
+	int cooldown;
 
 	p2SString folder;
 
