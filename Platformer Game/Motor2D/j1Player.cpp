@@ -481,3 +481,23 @@ void j1Player::SetIdleAnimation()
 		current_animation = &idle;
 
 }
+
+//Save player position
+bool j1Player::Save(pugi::xml_node& data) const
+{
+	pugi::xml_node player = data.append_child("player");
+
+	player.append_attribute("x") = position.x;
+	player.append_attribute("y") = position.y;
+
+	return true;
+}
+
+//Load player position
+bool j1Player::Load(pugi::xml_node& data)
+{
+	position.x = data.child("player").attribute("x").as_int();
+	position.y = data.child("player").attribute("y").as_int();
+
+	return true; 
+}

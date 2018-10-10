@@ -44,6 +44,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// render last to swap buffer
 	AddModule(render);
+
+	//Save and load are the same .xml file
+	save_game = load_game = "save_game.xml";
 }
 
 // Destructor

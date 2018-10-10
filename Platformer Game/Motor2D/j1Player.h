@@ -25,6 +25,10 @@ public:
 	void CameraOnPlayer();
 	void SetIdleAnimation();
 
+	//Save and Load
+	bool Save(pugi::xml_node&) const;
+	bool Load(pugi::xml_node&);
+
 public:
 	SDL_Texture * graphics = nullptr;
 
