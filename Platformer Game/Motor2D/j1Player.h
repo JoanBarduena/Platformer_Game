@@ -35,9 +35,13 @@ public:
 	//Animations--------------------------
 	Animation* current_animation = nullptr;
 	Animation idle;
+	Animation idle_turned; 
 	Animation running;
+	Animation run_turned; 
 	Animation jumping;
+	Animation jump_turned; 
 	Animation falling;
+	Animation falling_turned; 
 
 	//HitBox
 	Collider* playerHitbox; 

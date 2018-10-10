@@ -23,7 +23,6 @@ j1Player::j1Player() : j1Module()
 	idle.PushBack({ 292, 13, 50, 67 });
 	idle.PushBack({ 398, 13, 50, 67 });
 	
-
 	//Running Animation
 	running.PushBack({ 188, 97, 53, 66 });
 	running.PushBack({ 294, 97, 53, 66 });
@@ -46,10 +45,43 @@ j1Player::j1Player() : j1Module()
 	jumping.loop = false;
 	jumping.speed = 0.2;
 
+	//Idle Animation Turned
+	idle_turned.PushBack({ 1092, 118, 50, 69 });
+	idle_turned.PushBack({ 1082, 118, 50, 69 });
+	idle_turned.PushBack({ 970, 118, 50, 69 });
+	idle_turned.PushBack({ 862, 118, 50, 69 });
+
+	//Running Animation Turned
+	run_turned.PushBack({ 1409, 213, 53, 66 });
+	run_turned.PushBack({ 1302, 213, 53, 66 });
+	run_turned.PushBack({ 1192, 213, 53, 66 });
+	run_turned.PushBack({ 1073, 213, 53, 66 });
+	run_turned.PushBack({ 972, 213, 53, 66 });
+	run_turned.PushBack({ 863, 213, 53, 66 });
+
+	//Jumping Animation Turned 
+	jump_turned.PushBack({ 1528, 304, 60, 71 });
+	jump_turned.PushBack({ 1418, 304, 153, 52 });
+	jump_turned.PushBack({ 1307, 308, 60, 71 });
+	jump_turned.PushBack({ 1199, 322, 60, 71 });
+	jump_turned.PushBack({ 1094, 322, 60, 71 });
+	jump_turned.PushBack({ 973, 324, 60, 71 });
+	jump_turned.PushBack({ 863, 316, 60, 71 });
+	jump_turned.PushBack({ 1078, 410, 60, 71 });
+	jump_turned.PushBack({ 973, 405, 60, 71 });
+	jump_turned.PushBack({ 863, 405, 60, 71 });
+	jump_turned.loop = false;
+	jump_turned.speed = 0.2;
+
 	//Falling Animation
 	jumping.PushBack({ 191, 244, 60, 71 });
 	falling.PushBack({ 299, 244, 60, 71 });
 	falling.loop = true;
+
+	//Falling Animation Turned 
+	falling_turned.PushBack({ 973, 405, 60, 71 });
+	falling_turned.PushBack({ 863, 405, 60, 71 });
+	falling_turned.loop = true;
 	
 }
 
