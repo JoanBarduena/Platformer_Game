@@ -485,10 +485,12 @@ void j1Player::SetIdleAnimation()
 //Save player position
 bool j1Player::Save(pugi::xml_node& data) const
 {
-	pugi::xml_node player = data.append_child("player");
+	pugi::xml_node position_ = data.append_child("position");
+	pugi::xml_node state = data.append_child("state");
 
-	player.append_attribute("x") = position.x;
-	player.append_attribute("y") = position.y;
+	position_.append_attribute("x") = position.x;
+	position_.append_attribute("y") = position.y;
+	state.append_attribute("invert_gravity") = invert_gravity; 
 
 	return true;
 }
@@ -496,8 +498,9 @@ bool j1Player::Save(pugi::xml_node& data) const
 //Load player position
 bool j1Player::Load(pugi::xml_node& data)
 {
-	position.x = data.child("player").attribute("x").as_int();
-	position.y = data.child("player").attribute("y").as_int();
+	position.x = data.child("position").attribute("x").as_int();
+	position.y = data.child("position").attribute("y").as_int();
+	invert_gravity = data.child("state").attribute("invert_gravity").as_bool();
 
 	return true; 
 }
