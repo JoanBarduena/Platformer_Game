@@ -23,6 +23,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	void Check_Collision();
 	void CameraOnPlayer();
+	void SetIdleAnimation();
 
 public:
 	SDL_Texture * graphics = nullptr;

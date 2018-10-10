@@ -46,7 +46,7 @@ j1Player::j1Player() : j1Module()
 	jumping.speed = 0.2;
 
 	//Idle Animation Turned
-	idle_turned.PushBack({ 1092, 118, 50, 69 });
+	idle_turned.PushBack({ 1192, 118, 50, 69 });
 	idle_turned.PushBack({ 1082, 118, 50, 69 });
 	idle_turned.PushBack({ 970, 118, 50, 69 });
 	idle_turned.PushBack({ 862, 118, 50, 69 });
@@ -61,7 +61,7 @@ j1Player::j1Player() : j1Module()
 
 	//Jumping Animation Turned 
 	jump_turned.PushBack({ 1528, 304, 60, 71 });
-	jump_turned.PushBack({ 1418, 304, 153, 52 });
+	jump_turned.PushBack({ 1418, 304, 60, 71 });
 	jump_turned.PushBack({ 1307, 308, 60, 71 });
 	jump_turned.PushBack({ 1199, 322, 60, 71 });
 	jump_turned.PushBack({ 1094, 322, 60, 71 });
@@ -74,7 +74,7 @@ j1Player::j1Player() : j1Module()
 	jump_turned.speed = 0.2;
 
 	//Falling Animation
-	jumping.PushBack({ 191, 244, 60, 71 });
+	falling.PushBack({ 191, 244, 60, 71 });
 	falling.PushBack({ 299, 244, 60, 71 });
 	falling.loop = true;
 
@@ -151,42 +151,59 @@ bool j1Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		speed.x = -player_speed;
-		if (current_animation == &idle)
+		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
 		{
-			current_animation = &running;
+			if (invert_gravity == false)
+			{
+				current_animation = &running;
+			}
+			else if (invert_gravity == true && flip == true)
+			{
+				current_animation = &run_turned;
+			}
 		}
 		
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		speed.x = player_speed;
-		if (current_animation == &idle)
+		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
 		{
 			current_animation = &running;
+
 		}
 		
 	}
 	else // if not clicking anything
 	{
 		speed.x = 0;
-
-		if (current_animation != &jumping)
-			current_animation = &idle;
+		if (current_animation != &jumping && current_animation != &jump_turned)
+		{
+			SetIdleAnimation();
+		}
+		
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && is_falling == false && is_jumping == false)
 	{
-		current_animation = &jumping;
-		App->audio->PlayFx(run, 0);
-		
-		if (invert_gravity == true)
+		if (invert_gravity == true && flip == true)
+		{
+			current_animation = &jump_turned;
 			speed.y = jump_force;
+		}
+		else if (invert_gravity == true && flip == false)
+		{
+			current_animation = &jumping;
+			speed.y = jump_force;
+		}
 		else
 		{
+			current_animation = &jumping;
 			speed.y = -jump_force; 
 		}
-		
+		App->audio->PlayFx(run, 0);
 	}
+
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && cooldown == 100)
 	{
 		invert_gravity = !invert_gravity;
@@ -217,7 +234,7 @@ bool j1Player::Update(float dt)
 			App->audio->PlayFx(jump, 0);
 		}
 	}
-	else
+	else if (invert_gravity == true)
 	{
 		if (speed.y > 0) //jumping
 		{
@@ -236,13 +253,15 @@ bool j1Player::Update(float dt)
 	//----------------------------------------------------------------------------------
 
 	// if the player is falling set falling animation
-	if(is_falling == true && current_animation != &jumping)
+	if(is_falling == true && current_animation != &jumping && current_animation != &jump_turned)
 	{ 
-		current_animation = &falling;
+		if (invert_gravity == false)
+			current_animation = &falling;
+		else if (invert_gravity == true && flip == false)
+			current_animation = &falling;
+		else if (invert_gravity == true && flip == true)
+			current_animation = &falling_turned;
 	}
-
-	
-	LOG("jump_force: %d", jump_force);
 
 	return true;
 }
@@ -262,7 +281,15 @@ bool j1Player::PostUpdate()
 	}
 	else if (flip == true)
 	{
-		App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
+		if (invert_gravity == false)
+		{
+			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
+		}
+		else
+		{
+			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_NONE);
+		}
+		
 	}
 		
 	if(cooldown < 100)
@@ -382,7 +409,7 @@ void j1Player::Check_Collision()
 	{
 		speed.y = 0;
 		is_falling = false;
-		current_animation = &idle; //set animation to idle when player lands
+		SetIdleAnimation(); //set animation to idle when player lands
 		jumping.Reset(); //jumping frame reset to frame number 1
 	}
 	
@@ -440,8 +467,17 @@ void j1Player::CameraOnPlayer()
 		App->render->camera.y += 6;
 	}
 
-	LOG("position.y = %d", position.y);
-	LOG("camera.y : %d", App->render->camera.y);
 
+}
+
+void j1Player::SetIdleAnimation()
+{
 	
+	if (invert_gravity == false)
+		current_animation = &idle;
+	else if (invert_gravity == true && flip == true)
+		current_animation = &idle_turned;
+	else if (invert_gravity == true && flip == false)
+		current_animation = &idle;
+
 }
