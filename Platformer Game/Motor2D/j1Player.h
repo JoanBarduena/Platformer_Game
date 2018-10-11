@@ -10,11 +10,45 @@ struct SDL_Texture;
 struct player_config
 {
 	iPoint position;
-	int limit_up, limit_down, limit_left, limit_right; 
-	int maxSpeed_y, player_speed, jump_force; 
-	int player_width, player_height; 
-	iPoint camera_position; 
-	int player_limit_left, player_limit_right; 
+	int limit_up, limit_down, limit_left, limit_right;
+	int maxSpeed_y, player_speed, jump_force;
+	int player_width, player_height;
+	iPoint camera_position;
+	int player_limit_left, player_limit_right;
+
+	//Idle animation
+	int idle_width, idle_height;
+	iPoint idle1, idle2, idle3, idle4;
+
+	//Jump animation
+	int jump_width, jump_height;
+	float jump_speed;
+	iPoint jump1, jump2, jump3, jump4, jump5, jump6, jump7, jump8, jump9, jump10;
+
+	//Run animation
+	int run_width, run_height;
+	iPoint run1, run2, run3, run4, run5, run6;
+
+	//Idle animation turned 
+	int idle_turned_width, idle_turned_height;
+	iPoint idle_turned1, idle_turned2, idle_turned3, idle_turned4;
+
+	//Run animation turned 
+	int run_turned_width, run_turned_height;
+	iPoint run_turned1, run_turned2, run_turned3, run_turned4, run_turned5, run_turned6;
+
+	//Jump animation turned
+	int jump_turned_width, jump_turned_height;
+	float jump_turned_speed;
+	iPoint jump_turned1, jump_turned2, jump_turned3, jump_turned4, jump_turned5, jump_turned6, jump_turned7, jump_turned8, jump_turned9, jump_turned10;
+
+	//Falling animation
+	int falling_width, falling_height;
+	iPoint falling1, falling2;
+
+	//Falling animation turned 
+	int falling_turned_width, falling_turned_height;
+	iPoint falling_turned1, falling_turned2;
 };
 
 class j1Player : public j1Module

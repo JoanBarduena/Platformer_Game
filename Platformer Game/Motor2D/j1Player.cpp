@@ -110,12 +110,180 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Player.player_height = config.child("player_size").attribute("height").as_int();
 
 	//Camera initial position
-	Player.camera_position.x = config.child("camera").attribute("x").as_int(); 
+	Player.camera_position.x = config.child("camera").attribute("x").as_int();
 	Player.camera_position.y = config.child("camera").attribute("y").as_int();
 
 	//Player limits 
-	Player.player_limit_left = config.child("player_limit").attribute("left").as_int(); 
+	Player.player_limit_left = config.child("player_limit").attribute("left").as_int();
 	Player.player_limit_right = config.child("player_limit").attribute("right").as_int();
+
+	//Idle Animation------------------------------------------------
+	Player.idle_width = config.child("animations").child("idle").attribute("width").as_int();
+	Player.idle_height = config.child("animations").child("idle").attribute("height").as_int();
+
+	Player.idle1.x = config.child("animations").child("idle").child("idle1").attribute("x").as_int();
+	Player.idle1.y = config.child("animations").child("idle").child("idle1").attribute("y").as_int();
+
+	Player.idle2.x = config.child("animations").child("idle").child("idle2").attribute("x").as_int();
+	Player.idle2.y = config.child("animations").child("idle").child("idle2").attribute("y").as_int();
+
+	Player.idle3.x = config.child("animations").child("idle").child("idle3").attribute("x").as_int();
+	Player.idle3.y = config.child("animations").child("idle").child("idle3").attribute("y").as_int();
+
+	Player.idle4.x = config.child("animations").child("idle").child("idle4").attribute("x").as_int();
+	Player.idle4.y = config.child("animations").child("idle").child("idle4").attribute("y").as_int();
+
+	//Running Animation------------------------------------------------
+	Player.jump_width = config.child("animation").child("jumping").attribute("width").as_int();
+	Player.jump_height = config.child("animation").child("jumping").attribute("height").as_int();
+
+	Player.jump1.x = config.child("animations").child("jumping").child("jumping1").attribute("x").as_int();
+	Player.jump1.y = config.child("animations").child("jumping").child("jumping1").attribute("y").as_int();
+
+	Player.jump2.x = config.child("animations").child("jumping").child("jumping2").attribute("x").as_int();
+	Player.jump2.y = config.child("animations").child("jumping").child("jumping2").attribute("y").as_int();
+
+	Player.jump3.x = config.child("animations").child("jumping").child("jumping3").attribute("x").as_int();
+	Player.jump3.y = config.child("animations").child("jumping").child("jumping3").attribute("y").as_int();
+
+	Player.jump4.x = config.child("animations").child("jumping").child("jumping4").attribute("x").as_int();
+	Player.jump4.y = config.child("animations").child("jumping").child("jumping4").attribute("y").as_int();
+
+	Player.jump5.x = config.child("animations").child("jumping").child("jumping5").attribute("x").as_int();
+	Player.jump5.y = config.child("animations").child("jumping").child("jumping5").attribute("y").as_int();
+
+	Player.jump6.x = config.child("animations").child("jumping").child("jumping6").attribute("x").as_int();
+	Player.jump6.y = config.child("animations").child("jumping").child("jumping6").attribute("y").as_int();
+
+	Player.jump7.x = config.child("animations").child("jumping").child("jumping7").attribute("x").as_int();
+	Player.jump7.y = config.child("animations").child("jumping").child("jumping7").attribute("y").as_int();
+
+	Player.jump8.x = config.child("animations").child("jumping").child("jumping8").attribute("x").as_int();
+	Player.jump8.y = config.child("animations").child("jumping").child("jumping8").attribute("y").as_int();
+
+	Player.jump9.x = config.child("animations").child("jumping").child("jumping9").attribute("x").as_int();
+	Player.jump9.y = config.child("animations").child("jumping").child("jumping9").attribute("y").as_int();
+
+	Player.jump10.x = config.child("animations").child("jumping").child("jumping10").attribute("x").as_int();
+	Player.jump10.y = config.child("animations").child("jumping").child("jumping10").attribute("y").as_int();
+
+	Player.jump_speed = config.child("animations").child("jumping").child("jumping_speed").attribute("value").as_float();
+
+	//Running animation ------------------------------------------------
+	Player.run_width = config.child("animations").child("running").attribute("width").as_int();
+	Player.run_height = config.child("animations").child("running").attribute("height").as_int();
+
+	Player.run1.x = config.child("animations").child("running").child("run1").attribute("x").as_int();
+	Player.run1.y = config.child("animations").child("running").child("run1").attribute("y").as_int();
+
+	Player.run2.x = config.child("animations").child("running").child("run2").attribute("x").as_int();
+	Player.run2.y = config.child("animations").child("running").child("run2").attribute("y").as_uint();
+
+	Player.run3.x = config.child("animations").child("running").child("run3").attribute("x").as_int();
+	Player.run3.y = config.child("animations").child("running").child("run3").attribute("y").as_int();
+
+	Player.run4.x = config.child("animations").child("running").child("run4").attribute("x").as_int();
+	Player.run4.y = config.child("animations").child("running").child("run4").attribute("y").as_int();
+
+	Player.run5.x = config.child("animations").child("running").child("run5").attribute("x").as_int();
+	Player.run5.y = config.child("animations").child("running").child("run5").attribute("y").as_int();
+
+	Player.run6.x = config.child("animations").child("running").child("run6").attribute("x").as_int();
+	Player.run6.y = config.child("animations").child("running").child("run6").attribute("y").as_int();
+
+	//Idle animation turned ------------------------------------------------
+	Player.idle_turned_width = config.child("animations").child("idle_turned").attribute("width").as_int();
+	Player.idle_turned_height = config.child("animations").child("idle_turned").attribute("height").as_int();
+
+	Player.idle_turned1.x = config.child("animations").child("idle_turned").child("idle_turned1").attribute("x").as_int();
+	Player.idle_turned1.y = config.child("animations").child("idle_turned").child("idle_turned1").attribute("y").as_int();
+
+	Player.idle_turned2.x = config.child("animations").child("idle_turned").child("idle_turned2").attribute("x").as_int();
+	Player.idle_turned2.y = config.child("animations").child("idle_turned").child("idle_turned2").attribute("y").as_int();
+
+	Player.idle_turned3.x = config.child("animations").child("idle_turned").child("idle_turned3").attribute("x").as_int();
+	Player.idle_turned3.y = config.child("animations").child("idle_turned").child("idle_turned3").attribute("y").as_int();
+
+	Player.idle_turned4.x = config.child("animations").child("idle_turned").child("idle_turned4").attribute("x").as_int();
+	Player.idle_turned4.y = config.child("animations").child("idle_turned").child("idle_turned4").attribute("y").as_int();
+
+	//Run animation turned ------------------------------------------------
+	Player.run_turned_width = config.child("animations").child("run_turned").attribute("width").as_int();
+	Player.run_turned_height = config.child("animations").child("run_turned").attribute("height").as_int();
+
+	Player.run_turned1.x = config.child("animations").child("run_turned").child("run_turned1").attribute("x").as_int();
+	Player.run_turned1.y = config.child("animations").child("run_turned").child("run_turned1").attribute("y").as_int();
+
+	Player.run_turned2.x = config.child("animations").child("run_turned").child("run_turned2").attribute("x").as_int();
+	Player.run_turned2.y = config.child("animations").child("run_turned").child("run_turned2").attribute("y").as_int();
+
+	Player.run_turned3.x = config.child("animations").child("run_turned").child("run_turned3").attribute("x").as_int();
+	Player.run_turned3.y = config.child("animations").child("run_turned").child("run_turned3").attribute("y").as_int();
+
+	Player.run_turned4.x = config.child("animations").child("run_turned").child("run_turned4").attribute("x").as_int();
+	Player.run_turned4.y = config.child("animations").child("run_turned").child("run_turned4").attribute("y").as_int();
+
+	Player.run_turned5.x = config.child("animations").child("run_turned").child("run_turned5").attribute("x").as_int();
+	Player.run_turned5.y = config.child("animations").child("run_turned").child("run_turned5").attribute("y").as_int();
+
+	Player.run_turned6.x = config.child("animations").child("run_turned").child("run_turned6").attribute("x").as_int();
+	Player.run_turned6.y = config.child("animations").child("run_turned").child("run_turned6").attribute("y").as_int();
+
+	//Jump animation turned ------------------------------------------------
+	Player.jump_turned_width = config.child("animation").child("jump_turned").attribute("width").as_int();
+	Player.jump_turned_height = config.child("animation").child("jump_turned").attribute("height").as_int();
+
+	Player.jump_turned1.x = config.child("animations").child("jump_turned").child("jump_turned1").attribute("x").as_int();
+	Player.jump_turned1.y = config.child("animations").child("jump_turned").child("jump_turned1").attribute("y").as_int();
+
+	Player.jump_turned2.x = config.child("animations").child("jump_turned").child("jump_turned2").attribute("x").as_int();
+	Player.jump_turned2.y = config.child("animations").child("jump_turned").child("jump_turned2").attribute("y").as_int();
+
+	Player.jump_turned3.x = config.child("animations").child("jump_turned").child("jump_turned3").attribute("x").as_int();
+	Player.jump_turned3.y = config.child("animations").child("jump_turned").child("jump_turned3").attribute("y").as_int();
+
+	Player.jump_turned4.x = config.child("animations").child("jump_turned").child("jump_turned4").attribute("x").as_int();
+	Player.jump_turned4.y = config.child("animations").child("jump_turned").child("jump_turned4").attribute("y").as_int();
+
+	Player.jump_turned5.x = config.child("animations").child("jump_turned").child("jump_turned5").attribute("x").as_int();
+	Player.jump_turned5.y = config.child("animations").child("jump_turned").child("jump_turned5").attribute("y").as_int();
+
+	Player.jump_turned6.x = config.child("animations").child("jump_turned").child("jump_turned6").attribute("x").as_int();
+	Player.jump_turned6.y = config.child("animations").child("jump_turned").child("jump_turned6").attribute("y").as_int();
+
+	Player.jump_turned7.x = config.child("animations").child("jump_turned").child("jump_turned7").attribute("x").as_int();
+	Player.jump_turned7.y = config.child("animations").child("jump_turned").child("jump_turned7").attribute("y").as_int();
+
+	Player.jump_turned8.x = config.child("animations").child("jump_turned").child("jump_turned8").attribute("x").as_int();
+	Player.jump_turned8.y = config.child("animations").child("jump_turned").child("jump_turned8").attribute("y").as_int();
+
+	Player.jump_turned9.x = config.child("animations").child("jump_turned").child("jump_turned9").attribute("x").as_int();
+	Player.jump_turned9.y = config.child("animations").child("jump_turned").child("jump_turned9").attribute("y").as_int();
+
+	Player.jump_turned10.x = config.child("animations").child("jump_turned").child("jump_turned10").attribute("x").as_int();
+	Player.jump_turned10.y = config.child("animations").child("jump_turned").child("jump_turned10").attribute("y").as_int();
+
+	Player.jump_turned_speed = config.child("animations").child("jump_turned").child("jump_turned_speed").attribute("value").as_float();
+
+	//Falling animation ------------------------------------------------
+	Player.falling_width = config.child("animations").child("falling").attribute("width").as_int();
+	Player.falling_height = config.child("animations").child("falling").attribute("height").as_int();
+
+	Player.falling1.x = config.child("animations").child("falling").child("falling1").attribute("x").as_int();
+	Player.falling1.y = config.child("animations").child("falling").child("falling1").attribute("y").as_int();
+
+	Player.falling2.x = config.child("animations").child("falling").child("falling2").attribute("x").as_int();
+	Player.falling2.y = config.child("animations").child("falling").child("falling2").attribute("y").as_int();
+
+	//Falling animation turned ------------------------------------------------
+	Player.falling_turned_width = config.child("animations").child("falling_turned").attribute("width").as_int();
+	Player.falling_turned_height = config.child("animations").child("falling_turned").attribute("height").as_int();
+
+	Player.falling_turned1.x = config.child("animations").child("falling_turned").child("falling_turned1").attribute("x").as_int();
+	Player.falling_turned1.y = config.child("animations").child("falling_turned").child("falling_turned1").attribute("y").as_int();
+
+	Player.falling_turned2.x = config.child("animations").child("falling_turned").child("falling_turned2").attribute("x").as_int();
+	Player.falling_turned2.y = config.child("animations").child("falling_turned").child("falling_turned2").attribute("y").as_int();
 
 	return true;
 }
