@@ -441,6 +441,16 @@ bool j1Map::LoadLayerImage(pugi::xml_node& node, ImageLayer* img)
 		img->texture = App->tex->Load(PATH(folder.GetString(), image.attribute("source").as_string()));
 		img->width = image.attribute("width").as_int();
 		img->height = image.attribute("height").as_int();
+
+		pugi::xml_node property;
+		for (property = node.child("properties").child("property"); property; property = property.next_sibling("property"))
+		{
+			p2SString name = property.attribute("name").as_string();
+			if (name == "speed")
+			{
+				img->speed = property.attribute("value").as_float();
+			}
+		}
 	}
 
 	return ret;

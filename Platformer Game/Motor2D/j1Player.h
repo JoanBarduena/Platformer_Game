@@ -85,6 +85,9 @@ public:
 
 	bool god_mode = false;
 
+	bool camera_goes_left;
+	bool camera_goes_right;
+
 	int player_width, player_height;
 	int jump_force;
 	int cooldown;

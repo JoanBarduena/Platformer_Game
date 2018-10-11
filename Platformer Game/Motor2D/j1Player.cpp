@@ -177,6 +177,8 @@ bool j1Player::Update(float dt)
 	touching_right = false;
 	touching_left = false;
 	touching_bottom = false;
+	camera_goes_right = false;
+	camera_goes_left = false;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
@@ -374,6 +376,25 @@ if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
 	run_time = SDL_GetTicks() + (1 / player_speed) + 450;
 }
 
+// Parallax if the camera moves
+p2List_item<ImageLayer*>* image = nullptr;
+for (image = App->map->data.image_layers.start; image; image = image->next)
+{
+	if (image->data->speed > 0)
+	{
+		if (camera_goes_left && App->render->camera.x > 200)
+		{
+			image->data->position.x += image->data->speed;
+		}
+		else if (camera_goes_right)
+		{
+			image->data->position.x -= image->data->speed;
+		}
+
+	}
+}
+
+
 return true;
 }
 
@@ -528,10 +549,12 @@ void j1Player::CameraOnPlayer()
 	if (position.x >(App->render->camera.x * -1) + ((5 * window_w) / 8))
 	{
 		App->render->camera.x -= player_speed;
+		camera_goes_right = true;
 	}
 	else if (position.x < (App->render->camera.x*-1) + ((3 * window_w) / 8))
 	{
 		App->render->camera.x += player_speed;
+		camera_goes_left = true;
 	}
 
 	// for Y AXIS
