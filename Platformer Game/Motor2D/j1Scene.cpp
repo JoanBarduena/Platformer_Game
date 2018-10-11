@@ -150,4 +150,8 @@ void j1Scene::Level_Load(uint number)
 		App->player->Start();
 		App->collision->Start();
 	}
+	else
+	{
+		LOG("Actual Level (%u) is nullptr", number);
+	}
 }

@@ -253,7 +253,7 @@ bool j1Player::Update(float dt)
 	//----------------------------------------------------------------------------------
 
 	// if the player is falling set falling animation
-	if(is_falling == true && current_animation != &jumping && current_animation != &jump_turned)
+	if(is_falling == true && current_animation /*!= &jumping && current_animation != &jump_turned*/)
 	{ 
 		if (invert_gravity == false)
 			current_animation = &falling;
@@ -373,6 +373,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		{
 			if (invert_gravity == true)
 				touching_above = true;
+			else if (invert_gravity == true && is_falling==false)
+				touching_bottom = true;
 		}
 	}
 }
