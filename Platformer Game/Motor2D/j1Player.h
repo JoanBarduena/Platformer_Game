@@ -13,7 +13,8 @@ struct player_config
 	int limit_up, limit_down, limit_left, limit_right; 
 	int maxSpeed_y, player_speed, jump_force; 
 	int player_width, player_height; 
-
+	iPoint camera_position; 
+	int player_limit_left, player_limit_right; 
 };
 
 class j1Player : public j1Module
@@ -70,6 +71,7 @@ public:
 
 	//camera limits values
 	int limit_left, limit_right, limit_up, limit_down;
+	int player_limit_right, player_limit_left; 
 
 	bool flip;
 	bool touching_above;//if player is touching from above
@@ -80,6 +82,8 @@ public:
 	bool is_falling; //if player is falling (speed.y > 0)
 	
 	bool invert_gravity;
+
+	bool god_mode = false;
 
 	int player_width, player_height;
 	int jump_force;

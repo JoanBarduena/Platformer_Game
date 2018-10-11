@@ -109,6 +109,14 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Player.player_width = config.child("player_size").attribute("width").as_int();
 	Player.player_height = config.child("player_size").attribute("height").as_int();
 
+	//Camera initial position
+	Player.camera_position.x = config.child("camera").attribute("x").as_int(); 
+	Player.camera_position.y = config.child("camera").attribute("y").as_int();
+
+	//Player limits 
+	Player.player_limit_left = config.child("player_limit").attribute("left").as_int(); 
+	Player.player_limit_right = config.child("player_limit").attribute("right").as_int();
+
 	return true;
 }
 
@@ -129,6 +137,9 @@ bool j1Player::Start()
 
 	player_width = Player.player_width;
 	player_height = Player.player_height;
+
+	App->render->camera.x = Player.camera_position.x; 
+	App->render->camera.y = Player.camera_position.y; 
 
 	graphics = App->tex->Load("textures/adventurer_v2.png");
 
@@ -151,7 +162,11 @@ bool j1Player::Start()
 bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(graphics);
-
+	if (playerHitbox != nullptr)
+	{
+		playerHitbox->to_delete = true;
+		playerHitbox = nullptr;
+	}
 	return true;
 }
 
@@ -225,7 +240,10 @@ bool j1Player::Update(float dt)
 		cooldown = 0;
 	}
 	
-
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		god_mode = !god_mode;
+	}
 	
 	//flip texture in case speed.x is negative
 	Flip();
@@ -278,6 +296,8 @@ bool j1Player::Update(float dt)
 			current_animation = &falling_turned;
 	}
 
+	LOG("camera.y %d", App->render->camera.y); 
+
 	return true;
 }
 
@@ -312,53 +332,63 @@ bool j1Player::PostUpdate()
 
 	Check_Collision();
 	
-	//applaying movement to the player
-	position.x += speed.x;
-	position.y += speed.y;
+//applaying movement to the player
+position.x += speed.x;
+position.y += speed.y;
 
-	CameraOnPlayer();
-	//Camera limits
-	if (App->render->camera.x*-1 < limit_left)
-	{
-		App->render->camera.x = -limit_left;
-	}
-		
-	if (App->render->camera.y < -limit_down)
-	{
-		App->render->camera.y = -limit_down;
-	}
-		
-	if (App->render->camera.y > -limit_up)
-	{
-		App->render->camera.y = -limit_up;
-	}
-		
+CameraOnPlayer();
 
-	//Player limits	
-	if (position.x < 8)
-		position.x = 8;
+//Camera limits
+if (App->render->camera.x*-1 < limit_left)
+{
+	App->render->camera.x = -limit_left;
+}
 
-	if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
-	{
-		App->audio->PlayFx(run, 0);
-		run_time = SDL_GetTicks() + (1 / player_speed) + 450;
-	}
+if (App->render->camera.y < -limit_down)
+{
+	App->render->camera.y = -limit_down;
+}
 
-	return true;
+if (App->render->camera.y > -limit_up)
+{
+	App->render->camera.y = -limit_up;
+}
+
+if (App->render->camera.x* -1 > limit_right)
+{
+	App->render->camera.x = -limit_right; 
+}
+
+
+//Player limits	
+if (position.x < Player.player_limit_left)
+	position.x = Player.player_limit_left;
+
+if (position.x > Player.player_limit_right)
+	position.x = Player.player_limit_right;
+
+
+if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
+{
+	App->audio->PlayFx(run, 0);
+	run_time = SDL_GetTicks() + (1 / player_speed) + 450;
+}
+
+return true;
 }
 
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
 	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR) //Standard Floor
 	{
-		
+
 		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)))) //if player touches ground from above 
 		{
-			if(invert_gravity == false)
+			if (invert_gravity == false)
 				touching_above = true;
 			else
 				touching_bottom = true;
-			
+
 		}
 		else if ((c2->rect.x) > (c1->rect.x + c1->rect.w - 15)) //if player touches wall from right
 		{
@@ -368,7 +398,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		{
 			touching_left = true;
 		}
-		else if ((c2->rect.y + (c2->rect.h) ) < (c1->rect.y + 15)) //if player touches ground from bottom
+		else if ((c2->rect.y + (c2->rect.h)) < (c1->rect.y + 15)) //if player touches ground from bottom
 		{
 			if (invert_gravity == false)
 				touching_bottom = true;
@@ -376,20 +406,51 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				touching_above = true;
 		}
 	}
-	
+
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR_JUMPABLE) //Floor that you can pass through
 	{
 		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 19)))) //if player touches ground from above 
 		{
-			if(invert_gravity == false)
+			if (invert_gravity == false)
 				touching_above = true;
 		}
 		else if ((c2->rect.y + (c2->rect.h)) < (c1->rect.y + 15)) //if player touches ground from bottom
 		{
 			if (invert_gravity == true)
 				touching_above = true;
-			else if (invert_gravity == true && is_falling==false)
+			else if (invert_gravity == true && is_falling == false)
 				touching_bottom = true;
+		}
+	}
+
+	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_LIMIT)
+	{
+		if ((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)) && invert_gravity == false) //if player touches ground from above 
+		{
+			if (god_mode == false)
+			{
+				position.x = Player.position.x;
+				position.y = Player.position.y;
+				invert_gravity = false;
+				App->render->camera.x = Player.camera_position.x;
+				App->render->camera.y = Player.camera_position.y;
+			}
+			else
+				touching_above = true;
+
+		}
+		else if ((c2->rect.y + c2->rect.h) < (c1->rect.y + 15) && invert_gravity == true)
+		{
+			if (god_mode == false)
+			{
+				position.x = Player.position.x;
+				position.y = Player.position.y;
+				invert_gravity = false;
+				App->render->camera.x = Player.camera_position.x;
+				App->render->camera.y = Player.camera_position.y;
+			}
+			else
+				touching_above = true;
 		}
 	}
 }
@@ -462,7 +523,6 @@ void j1Player::CameraOnPlayer()
 {
 	uint window_w, window_h;
 	App->win->GetWindowSize(window_w, window_h);
-
 
 	// for X AXIS 
 	if (position.x >(App->render->camera.x * -1) + ((5 * window_w) / 8))

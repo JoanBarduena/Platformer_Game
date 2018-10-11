@@ -134,7 +134,6 @@ bool j1Map::CleanUp()
 	}
 	data.image_layers.clear();
 
-
 	// Clean up the pugui tree
 	map_file.reset();
 
@@ -145,6 +144,10 @@ bool j1Map::CleanUp()
 bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
+
+	CleanUp();
+	App->collision->CleanUp();
+
 	p2SString tmp("%s%s", folder.GetString(), file_name);
 
 	pugi::xml_parse_result result = map_file.load_file(tmp.GetString());
@@ -213,7 +216,7 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_node collider;
 	for (collider = map_file.child("map").child("objectgroup"); collider && ret; collider = collider.next_sibling("objectgroup"))
 	{
-		LoadColliders(collider);
+			LoadColliders(collider);
 	}
 
 	if(ret == true)
@@ -469,6 +472,10 @@ bool j1Map::LoadColliders(pugi::xml_node& node)
 		else if (type == "floor")
 		{
 			col_type = COLLIDER_FLOOR;
+		}
+		else if (type == "limit")
+		{
+			col_type = COLLIDER_LIMIT; 
 		}
 		SDL_Rect rect;
 		rect.x = obj.attribute("x").as_int();

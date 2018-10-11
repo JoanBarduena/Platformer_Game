@@ -27,12 +27,14 @@
   </map>
 
   <player>
-    <position x="100" y="700" />
-    <limits up="47" down="347" left="5" right="0" />
+    <position x="0" y="920" />
+    <limits up="47" down="347" left="5" right="5370" />
     <speed_x value="7" />
     <maxSpeed_y value="10"/>
     <player_size width="25" height="67" />
     <jump_force value="25" />
+    <camera x="0" y="-347"/>
+    <player_limit left="8" right="6350"/>
   </player>
   
 

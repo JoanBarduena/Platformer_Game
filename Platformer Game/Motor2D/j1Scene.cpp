@@ -132,7 +132,6 @@ bool j1Scene::CleanUp()
 
 void j1Scene::Level_Load(uint number)
 {
-	
 	p2List_item<level*>* lvl = levels_list.start;
 	for (int i = 1; i < number; i++)
 	{
@@ -145,12 +144,12 @@ void j1Scene::Level_Load(uint number)
 		//Clean up the level
 		App->collision->CleanUp();
 		App->map->CleanUp(); 
-		App->player->CleanUp(); 
+		App->player->CleanUp();
 
 		//Starting the level & player
 		App->map->Load(actual_level->data->mapPath.GetString());
 		App->player->Start();
-		App->collision->Start();
+
 	}
 	else
 	{

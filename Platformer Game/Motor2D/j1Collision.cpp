@@ -13,14 +13,23 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_FLOOR][COLLIDER_FLOOR] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_FLOOR_JUMPABLE] = false;
+	matrix[COLLIDER_FLOOR][COLLIDER_LIMIT] = false; 
 
 	matrix[COLLIDER_PLAYER][COLLIDER_FLOOR] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_FLOOR_JUMPABLE] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_LIMIT] = true; 
 
 	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_FLOOR] = false;
 	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_FLOOR_JUMPABLE] = false;
+	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_LIMIT] = false; 
+
+	matrix[COLLIDER_LIMIT][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_LIMIT][COLLIDER_FLOOR] = false; 
+	matrix[COLLIDER_LIMIT][COLLIDER_FLOOR_JUMPABLE] = false; 
+	matrix[COLLIDER_LIMIT][COLLIDER_LIMIT] = false; 
+
 
 }
 
@@ -115,7 +124,11 @@ void j1Collision::DebugDraw()
 		case COLLIDER_FLOOR_JUMPABLE: // cyan
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
 			break;
+		case COLLIDER_LIMIT: // red 
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			break;
 		}
+	
 	}
 }
 
