@@ -91,31 +91,46 @@ j1Player::~j1Player()
 bool j1Player::Awake(pugi::xml_node& config)
 {
 	//PLayer initial position
-	position.x = config.child("position").attribute("x").as_int();
-	position.y = config.child("position").attribute("y").as_int();
+	Player.position.x = config.child("position").attribute("x").as_int();
+	Player.position.y = config.child("position").attribute("y").as_int();
 
 	//camera limits
-	limit_up = config.child("limits").attribute("up").as_int();
-	limit_down = config.child("limits").attribute("down").as_int();
-	limit_left = config.child("limits").attribute("left").as_int();
-	limit_right = config.child("limits").attribute("right").as_int();
+	Player.limit_up = config.child("limits").attribute("up").as_int();
+	Player.limit_down = config.child("limits").attribute("down").as_int();
+	Player.limit_left = config.child("limits").attribute("left").as_int();
+	Player.limit_right = config.child("limits").attribute("right").as_int();
 
 	//Player physic values
-	player_speed = config.child("speed_x").attribute("value").as_int();
-	maxSpeed_y = config.child("maxSpeed_y").attribute("value").as_int();
-	jump_force = config.child("jump_force").attribute("value").as_int();
+	Player.player_speed = config.child("speed_x").attribute("value").as_int();
+	Player.maxSpeed_y = config.child("maxSpeed_y").attribute("value").as_int();
+	Player.jump_force = config.child("jump_force").attribute("value").as_int();
 
 	//Player dimensions
-	player_width = config.child("player_size").attribute("width").as_int();
-	player_height = config.child("player_size").attribute("height").as_int();
+	Player.player_width = config.child("player_size").attribute("width").as_int();
+	Player.player_height = config.child("player_size").attribute("height").as_int();
 
 	return true;
 }
 
 bool j1Player::Start()
 {
-	if (graphics == nullptr)
-		graphics = App->tex->Load("textures/adventurer_v2.png");
+	//Initial Values 
+	position.x = Player.position.x;
+	position.y = Player.position.y;
+
+	limit_up = Player.limit_up;
+	limit_down = Player.limit_down;
+	limit_right = Player.limit_right;
+	limit_left = Player.limit_left;
+
+	player_speed = Player.player_speed;
+	maxSpeed_y = Player.maxSpeed_y;
+	jump_force = Player.jump_force;
+
+	player_width = Player.player_width;
+	player_height = Player.player_height;
+
+	graphics = App->tex->Load("textures/adventurer_v2.png");
 
 	//standard animation
 	current_animation = &idle;
@@ -320,8 +335,8 @@ bool j1Player::PostUpdate()
 		
 
 	//Player limits	
-	if (position.x < 6)
-		position.x = 6;
+	if (position.x < 8)
+		position.x = 8;
 
 	if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
 	{

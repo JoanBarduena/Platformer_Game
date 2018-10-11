@@ -7,6 +7,15 @@
 
 struct SDL_Texture;
 
+struct player_config
+{
+	iPoint position;
+	int limit_up, limit_down, limit_left, limit_right; 
+	int maxSpeed_y, player_speed, jump_force; 
+	int player_width, player_height; 
+
+};
+
 class j1Player : public j1Module
 {
 public:
@@ -56,6 +65,8 @@ public:
 	uint run; 
 	float run_time = 0;
 	//---------------
+
+	player_config Player;
 
 	//camera limits values
 	int limit_left, limit_right, limit_up, limit_down;
