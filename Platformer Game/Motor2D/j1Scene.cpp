@@ -144,13 +144,12 @@ void j1Scene::Level_Load(uint number)
 	{
 		//Clean up the level
 		App->collision->CleanUp();
-		App->map->CleanUp(); 
+		App->map->CleanUp();
 		App->player->CleanUp();
 
-		//Starting the level & player
+		////Starting the level & player
 		App->map->Load(actual_level->data->mapPath.GetString());
 		App->player->Start();
-
 	}
 	else
 	{

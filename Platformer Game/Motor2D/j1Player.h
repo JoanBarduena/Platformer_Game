@@ -127,6 +127,7 @@ public:
 	int player_width, player_height;
 	int jump_force;
 	int cooldown;
+	int counter = 0; 
 
 	p2SString folder;
 

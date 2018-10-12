@@ -223,34 +223,33 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 bool j1Player::Start()
 {
+	if (counter <= 0)
+	{
+		LoadAnimations();
 
-	LoadAnimations(); 
+		limit_up = Player.limit_up;
+		limit_down = Player.limit_down;
+		limit_right = Player.limit_right;
+		limit_left = Player.limit_left;
 
+		player_speed = Player.player_speed;
+		maxSpeed_y = Player.maxSpeed_y;
+		jump_force = Player.jump_force;
+
+		player_width = Player.player_width;
+		player_height = Player.player_height;
+
+		counter++;
+	}
 	//Initial Values 
 	position.x = Player.position.x;
 	position.y = Player.position.y;
-
-	limit_up = Player.limit_up;
-	limit_down = Player.limit_down;
-	limit_right = Player.limit_right;
-	limit_left = Player.limit_left;
-
-	player_speed = Player.player_speed;
-	maxSpeed_y = Player.maxSpeed_y;
-	jump_force = Player.jump_force;
-
-	player_width = Player.player_width;
-	player_height = Player.player_height;
 
 	App->render->camera.x = Player.camera_position.x; 
 	App->render->camera.y = Player.camera_position.y; 
 
 	graphics = App->tex->Load("textures/adventurer_v2.png");
-
-	j1Module(); 
-
-	//standard animation
-	current_animation = &idle;
+	
 	//Player HitBox
 	playerHitbox = App->collision->AddCollider({ position.x, position.y, player_width, player_height }, COLLIDER_PLAYER, this);
 
