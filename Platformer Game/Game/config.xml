@@ -35,6 +35,70 @@
     <jump_force value="25" />
     <camera x="0" y="-347"/>
     <player_limit left="8" right="6350"/>
+    <animations>
+      <idle width="50" height="67">
+       <idle1 x="70" y="11"/>
+       <idle2 x="184" y="11"/>
+       <idle3 x="292" y="13"/>
+       <idle4 x="398" y="13"/>
+      </idle>
+      <jumping width ="60" height="71">
+        <jumping1 x="72" y="172"/>
+        <jumping2 x="181" y="172"/>
+        <jumping3 x="296" y="172"/>
+        <jumping4 x="399" y="172"/>
+        <jumping5 x="517" y="172"/>
+        <jumping6 x="619" y="172"/>
+        <jumping7 x="740" y="172"/>
+        <jumping8 x="65" y="260"/>
+        <jumping9 x="191" y="244"/>
+        <jumping10 x="299" y="244"/>
+        <jumping_speeed value="0.2"/>
+      </jumping>
+      <running width="53" height="66">
+        <run1 x="188" y="97"/>
+        <run2 x="294" y="97"/>
+        <run3 x="406" y="97"/>
+        <run4 x="518" y="97"/>
+        <run5 x="624" y="97"/>
+        <run6 x="733" y="97"/>
+      </running>
+      <idle_turned width="50" height="69">
+        <idle_turned1 x="1192" y="118"/>
+        <idle_turned2 x="1082" y="118"/>
+        <idle_turned3 x="970" y="118"/>
+        <idle_turned4 x="862" y="118"/>
+      </idle_turned>
+      <run_turned width="53" height="66">
+        <run_turned1 x="1409" y="213"/>
+        <run_turned2 x="1302" y="213"/>
+        <run_turned3 x="1192" y="213"/>
+        <run_turned4 x="1073" y="213"/>
+        <run_turned5 x="972" y="213"/>
+        <run_turned6 x="863" y="213"/>
+      </run_turned>
+      <jump_turned width="60" height="71">
+        <jump_turned1 x="1528" y="304"/>
+        <jump_turned2 x="1418" y="304"/>
+        <jump_turned3 x="1307" y="308"/>
+        <jump_turned4 x="1199" y="322"/>
+        <jump_turned5 x="1094" y="322"/>
+        <jump_turned6 x="973" y="324"/>
+        <jump_turned7 x="863" y="316"/>
+        <jump_turned8 x="1078" y="410"/>
+        <jump_turned9 x="973" y="405"/>
+        <jump_turned10 x="863" y="405"/>
+        <jump_turned_speed value="0.2"/>
+      </jump_turned>
+      <falling width="60" height="71">
+        <falling1 x="191" y="244"/>
+        <falling2 x="299" y="244"/>
+      </falling>
+      <falling_turned width="60" height="71">
+        <falling_turned1 x="973" y="405"/>
+        <falling_turned2 x="863" y="405"/>
+      </falling_turned>
+    </animations>
   </player>
   
 
