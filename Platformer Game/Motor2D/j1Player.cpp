@@ -15,75 +15,7 @@
 
 j1Player::j1Player() : j1Module()
 {
-	name.create("player");
-	
-
-	//Idle Animation
-	idle.PushBack({ Player.idle1.x, Player.idle1.y, Player.idle_width, Player.idle_height });
-	idle.PushBack({ Player.idle2.x, Player.idle2.y, Player.idle_width, Player.idle_height });
-	idle.PushBack({ Player.idle3.x, Player.idle3.y, Player.idle_width, Player.idle_height });
-	idle.PushBack({ Player.idle4.x, Player.idle4.y, Player.idle_width, Player.idle_height });
-	
-	//Running Animation
-	running.PushBack({ Player.run1.x, Player.run1.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run2.x, Player.run2.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run3.x, Player.run3.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run4.x, Player.run4.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run5.x, Player.run5.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run6.x, Player.run6.y, Player.run_width, Player.run_height });
-	
-	//Jumping Animation
-	jumping.PushBack({ Player.jump1.x, Player.jump1.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump2.x, Player.jump2.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump3.x, Player.jump3.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump4.x, Player.jump4.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump5.x, Player.jump5.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump6.x, Player.jump6.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump7.x, Player.jump7.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump8.x, Player.jump8.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump9.x, Player.jump9.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump10.x, Player.jump10.y, Player.jump_width, Player.jump_height });
-	jumping.loop = false;
-	jumping.speed = Player.jump_speed;
-
-	//Idle Animation Turned
-	idle_turned.PushBack({ Player.idle_turned1.x, Player.idle_turned1.y, Player.idle_turned_width, Player.idle_turned_height });
-	idle_turned.PushBack({ Player.idle_turned2.x, Player.idle_turned2.y, Player.idle_turned_width, Player.idle_turned_height });
-	idle_turned.PushBack({ Player.idle_turned3.x, Player.idle_turned3.y, Player.idle_turned_width, Player.idle_turned_height });
-	idle_turned.PushBack({ Player.idle_turned4.x, Player.idle_turned4.y, Player.idle_turned_width, Player.idle_turned_height });
-
-	//Running Animation Turned
-	run_turned.PushBack({ Player.run_turned1.x, Player.run_turned1.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned2.x, Player.run_turned2.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned3.x, Player.run_turned3.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned4.x, Player.run_turned4.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned5.x, Player.run_turned5.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned6.x, Player.run_turned6.y, Player.run_turned_width, Player.run_turned_height });
-
-	//Jumping Animation Turned 
-	jump_turned.PushBack({ Player.jump_turned1.x, Player.jump_turned1.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned2.x, Player.jump_turned2.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned3.x, Player.jump_turned3.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned4.x, Player.jump_turned4.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned5.x, Player.jump_turned5.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned6.x, Player.jump_turned6.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned7.x, Player.jump_turned7.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned8.x, Player.jump_turned8.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned9.x, Player.jump_turned9.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned10.x, Player.jump_turned10.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.loop = false;
-	jump_turned.speed = Player.jump_turned_speed;
-
-	//Falling Animation
-	falling.PushBack({ Player.falling1.x, Player.falling1.y, Player.falling_width, Player.falling_height });
-	falling.PushBack({ Player.falling2.x, Player.falling2.y, Player.falling_width, Player.falling_height });
-	falling.loop = true;
-
-	//Falling Animation Turned 
-	falling_turned.PushBack({ Player.falling_turned1.x, Player.falling_turned1.y, Player.falling_turned_width, Player.falling_turned_height });
-	falling_turned.PushBack({ Player.falling_turned2.x, Player.falling_turned2.y, Player.falling_turned_width, Player.falling_turned_height });
-	falling_turned.loop = true;
-	
+	name.create("player");	
 }
 
 j1Player::~j1Player()
@@ -134,9 +66,9 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Player.idle4.x = config.child("animations").child("idle").child("idle4").attribute("x").as_int();
 	Player.idle4.y = config.child("animations").child("idle").child("idle4").attribute("y").as_int();
 
-	//Running Animation------------------------------------------------
-	Player.jump_width = config.child("animation").child("jumping").attribute("width").as_int();
-	Player.jump_height = config.child("animation").child("jumping").attribute("height").as_int();
+	//Jumping Animation------------------------------------------------
+	Player.jump_width = config.child("animations").child("jumping").attribute("width").as_int();
+	Player.jump_height = config.child("animations").child("jumping").attribute("height").as_int();
 
 	Player.jump1.x = config.child("animations").child("jumping").child("jumping1").attribute("x").as_int();
 	Player.jump1.y = config.child("animations").child("jumping").child("jumping1").attribute("y").as_int();
@@ -291,6 +223,9 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 bool j1Player::Start()
 {
+
+	LoadAnimations(); 
+
 	//Initial Values 
 	position.x = Player.position.x;
 	position.y = Player.position.y;
@@ -311,6 +246,8 @@ bool j1Player::Start()
 	App->render->camera.y = Player.camera_position.y; 
 
 	graphics = App->tex->Load("textures/adventurer_v2.png");
+
+	j1Module(); 
 
 	//standard animation
 	current_animation = &idle;
@@ -467,7 +404,7 @@ bool j1Player::Update(float dt)
 			current_animation = &falling_turned;
 	}
 
-	LOG("camera.y %d", App->render->camera.y); 
+	/*LOG("camera.y %d", App->render->camera.y); */
 
 	return true;
 }
@@ -772,4 +709,73 @@ bool j1Player::Load(pugi::xml_node& data)
 	invert_gravity = data.child("state").attribute("invert_gravity").as_bool();
 
 	return true; 
+}
+
+void j1Player::LoadAnimations()
+{
+	//Idle Animation
+	idle.PushBack({ Player.idle1.x, Player.idle1.y, Player.idle_width, Player.idle_height });
+	idle.PushBack({ Player.idle2.x, Player.idle2.y, Player.idle_width, Player.idle_height });
+	idle.PushBack({ Player.idle3.x, Player.idle3.y, Player.idle_width, Player.idle_height });
+	idle.PushBack({ Player.idle4.x, Player.idle4.y, Player.idle_width, Player.idle_height });
+
+	//Running Animation
+	running.PushBack({ Player.run1.x, Player.run1.y, Player.run_width, Player.run_height });
+	running.PushBack({ Player.run2.x, Player.run2.y, Player.run_width, Player.run_height });
+	running.PushBack({ Player.run3.x, Player.run3.y, Player.run_width, Player.run_height });
+	running.PushBack({ Player.run4.x, Player.run4.y, Player.run_width, Player.run_height });
+	running.PushBack({ Player.run5.x, Player.run5.y, Player.run_width, Player.run_height });
+	running.PushBack({ Player.run6.x, Player.run6.y, Player.run_width, Player.run_height });
+
+	//Jumping Animation
+	jumping.PushBack({ Player.jump1.x, Player.jump1.y, Player.jump_width, Player.jump_height });
+	jumping.PushBack({ Player.jump2.x, Player.jump2.y, Player.jump_width, Player.jump_height });
+	jumping.PushBack({ Player.jump3.x, Player.jump3.y, Player.jump_width, Player.jump_height });
+	jumping.PushBack({ Player.jump4.x, Player.jump4.y, Player.jump_width, Player.jump_height });
+	jumping.PushBack({ Player.jump5.x, Player.jump5.y, Player.jump_width, Player.jump_height });
+	jumping.PushBack({ Player.jump6.x, Player.jump6.y, Player.jump_width, Player.jump_height });
+	jumping.PushBack({ Player.jump7.x, Player.jump7.y, Player.jump_width, Player.jump_height });
+	jumping.PushBack({ Player.jump8.x, Player.jump8.y, Player.jump_width, Player.jump_height });
+	jumping.PushBack({ Player.jump9.x, Player.jump9.y, Player.jump_width, Player.jump_height });
+	jumping.PushBack({ Player.jump10.x, Player.jump10.y, Player.jump_width, Player.jump_height });
+	jumping.loop = false;
+	jumping.speed = Player.jump_speed;
+
+	//Idle Animation Turned
+	idle_turned.PushBack({ Player.idle_turned1.x, Player.idle_turned1.y, Player.idle_turned_width, Player.idle_turned_height });
+	idle_turned.PushBack({ Player.idle_turned2.x, Player.idle_turned2.y, Player.idle_turned_width, Player.idle_turned_height });
+	idle_turned.PushBack({ Player.idle_turned3.x, Player.idle_turned3.y, Player.idle_turned_width, Player.idle_turned_height });
+	idle_turned.PushBack({ Player.idle_turned4.x, Player.idle_turned4.y, Player.idle_turned_width, Player.idle_turned_height });
+
+	//Running Animation Turned
+	run_turned.PushBack({ Player.run_turned1.x, Player.run_turned1.y, Player.run_turned_width, Player.run_turned_height });
+	run_turned.PushBack({ Player.run_turned2.x, Player.run_turned2.y, Player.run_turned_width, Player.run_turned_height });
+	run_turned.PushBack({ Player.run_turned3.x, Player.run_turned3.y, Player.run_turned_width, Player.run_turned_height });
+	run_turned.PushBack({ Player.run_turned4.x, Player.run_turned4.y, Player.run_turned_width, Player.run_turned_height });
+	run_turned.PushBack({ Player.run_turned5.x, Player.run_turned5.y, Player.run_turned_width, Player.run_turned_height });
+	run_turned.PushBack({ Player.run_turned6.x, Player.run_turned6.y, Player.run_turned_width, Player.run_turned_height });
+
+	//Jumping Animation Turned 
+	jump_turned.PushBack({ Player.jump_turned1.x, Player.jump_turned1.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.PushBack({ Player.jump_turned2.x, Player.jump_turned2.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.PushBack({ Player.jump_turned3.x, Player.jump_turned3.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.PushBack({ Player.jump_turned4.x, Player.jump_turned4.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.PushBack({ Player.jump_turned5.x, Player.jump_turned5.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.PushBack({ Player.jump_turned6.x, Player.jump_turned6.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.PushBack({ Player.jump_turned7.x, Player.jump_turned7.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.PushBack({ Player.jump_turned8.x, Player.jump_turned8.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.PushBack({ Player.jump_turned9.x, Player.jump_turned9.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.PushBack({ Player.jump_turned10.x, Player.jump_turned10.y, Player.jump_turned_width, Player.jump_turned_height });
+	jump_turned.loop = false;
+	jump_turned.speed = Player.jump_turned_speed;
+
+	//Falling Animation
+	falling.PushBack({ Player.falling1.x, Player.falling1.y, Player.falling_width, Player.falling_height });
+	falling.PushBack({ Player.falling2.x, Player.falling2.y, Player.falling_width, Player.falling_height });
+	falling.loop = true;
+
+	//Falling Animation Turned 
+	falling_turned.PushBack({ Player.falling_turned1.x, Player.falling_turned1.y, Player.falling_turned_width, Player.falling_turned_height });
+	falling_turned.PushBack({ Player.falling_turned2.x, Player.falling_turned2.y, Player.falling_turned_width, Player.falling_turned_height });
+	falling_turned.loop = true;
 }

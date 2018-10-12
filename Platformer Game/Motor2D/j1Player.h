@@ -73,6 +73,8 @@ public:
 	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
 
+	void LoadAnimations(); 
+
 public:
 	SDL_Texture * graphics = nullptr;
 
