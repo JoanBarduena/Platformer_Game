@@ -42,8 +42,6 @@ bool j1Scene::Start()
 {
 	App->map->Load(levels_list.start->data->mapPath.GetString());
 
-	//App->map->Load("map_p1.tmx");
-	//App->map->Load("map_p2.tmx");
 	return true;
 }
 
@@ -145,10 +143,10 @@ void j1Scene::Level_Load(uint number)
 		//Clean up the level
 		App->collision->CleanUp();
 		App->map->CleanUp();
-		App->player->CleanUp();
 
 		////Starting the level & player
-		App->map->Load(actual_level->data->mapPath.GetString());
+		App->map->Load(actual_level->data->mapPath.GetString()); 
+		App->player->playerHitbox = nullptr;
 		App->player->Start();
 	}
 	else

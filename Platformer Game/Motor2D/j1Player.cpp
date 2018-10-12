@@ -246,12 +246,14 @@ bool j1Player::Start()
 	position.y = Player.position.y;
 
 	App->render->camera.x = Player.camera_position.x; 
-	App->render->camera.y = Player.camera_position.y; 
+	App->render->camera.y = Player.camera_position.y;
 
+	if (graphics == nullptr)
 	graphics = App->tex->Load("textures/adventurer_v2.png");
 	
 	//Player HitBox
-	playerHitbox = App->collision->AddCollider({ position.x, position.y, player_width, player_height }, COLLIDER_PLAYER, this);
+	if (playerHitbox == nullptr)
+		playerHitbox = App->collision->AddCollider({ position.x, position.y, player_width, player_height }, COLLIDER_PLAYER, this);
 
 	//Loading Sounds FX
 	if (jump == 0)
