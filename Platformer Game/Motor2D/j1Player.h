@@ -105,6 +105,7 @@ public:
 
 	player_config Player;
 
+
 	//camera limits values
 	int limit_left, limit_right, limit_up, limit_down;
 	int player_limit_right, player_limit_left; 
@@ -116,6 +117,9 @@ public:
 	bool touching_left; //if player is touching from left
 	bool is_jumping; //if player is jumping (speed.y < 0)
 	bool is_falling; //if player is falling (speed.y > 0)
+
+	bool win1;
+	bool win2;
 	
 	bool invert_gravity;
 

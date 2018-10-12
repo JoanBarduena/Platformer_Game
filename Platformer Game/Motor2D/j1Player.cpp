@@ -286,6 +286,8 @@ bool j1Player::Update(float dt)
 	touching_bottom = false;
 	camera_goes_right = false;
 	camera_goes_left = false;
+	win1 = false;
+	win2 = false;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
@@ -581,6 +583,14 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				touching_above = true;
 		}
 	}
+	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN1)
+	{
+		win1 = true;
+	}
+	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN2)
+	{
+		win2 = true;
+	}
 }
 
 //To flip Player texture
@@ -644,6 +654,15 @@ void j1Player::Check_Collision()
 	{
 		if (speed.x < 0)
 			speed.x = 0;
+	}
+
+	if (win1 == true)
+	{
+		App->scene->Level_Load(2);
+	}
+	if (win2 == true)
+	{
+		App->scene->Level_Load(1);
 	}
 }
 

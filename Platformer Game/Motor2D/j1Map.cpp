@@ -487,6 +487,14 @@ bool j1Map::LoadColliders(pugi::xml_node& node)
 		{
 			col_type = COLLIDER_LIMIT; 
 		}
+		else if (type == "win1")
+		{
+			col_type = COLLIDER_WIN1;
+		}
+		else if (type == "win2")
+		{
+			col_type = COLLIDER_WIN2;
+		}
 		SDL_Rect rect;
 		rect.x = obj.attribute("x").as_int();
 		rect.y = obj.attribute("y").as_int();

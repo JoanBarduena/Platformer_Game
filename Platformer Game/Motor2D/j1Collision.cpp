@@ -14,21 +14,43 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_FLOOR][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_FLOOR_JUMPABLE] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_LIMIT] = false; 
+	matrix[COLLIDER_FLOOR][COLLIDER_WIN1] = false;
+	matrix[COLLIDER_FLOOR][COLLIDER_WIN2] = false;
 
 	matrix[COLLIDER_PLAYER][COLLIDER_FLOOR] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_FLOOR_JUMPABLE] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_LIMIT] = true; 
+	matrix[COLLIDER_PLAYER][COLLIDER_WIN1] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_WIN2] = true;
 
 	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_FLOOR] = false;
 	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_FLOOR_JUMPABLE] = false;
 	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_LIMIT] = false; 
+	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_WIN1] = false;
+	matrix[COLLIDER_FLOOR_JUMPABLE][COLLIDER_WIN2] = false;
 
 	matrix[COLLIDER_LIMIT][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_LIMIT][COLLIDER_FLOOR] = false; 
 	matrix[COLLIDER_LIMIT][COLLIDER_FLOOR_JUMPABLE] = false; 
 	matrix[COLLIDER_LIMIT][COLLIDER_LIMIT] = false; 
+	matrix[COLLIDER_LIMIT][COLLIDER_WIN1] = false;
+	matrix[COLLIDER_LIMIT][COLLIDER_WIN2] = false;
+
+	matrix[COLLIDER_WIN1][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_WIN1][COLLIDER_FLOOR] = false;
+	matrix[COLLIDER_WIN1][COLLIDER_FLOOR_JUMPABLE] = false;
+	matrix[COLLIDER_WIN1][COLLIDER_LIMIT] = false;
+	matrix[COLLIDER_WIN1][COLLIDER_WIN1] = false;
+	matrix[COLLIDER_WIN1][COLLIDER_WIN2] = false;
+
+	matrix[COLLIDER_WIN2][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_WIN2][COLLIDER_FLOOR] = false;
+	matrix[COLLIDER_WIN2][COLLIDER_FLOOR_JUMPABLE] = false;
+	matrix[COLLIDER_WIN2][COLLIDER_LIMIT] = false;
+	matrix[COLLIDER_WIN2][COLLIDER_WIN1] = false;
+	matrix[COLLIDER_WIN2][COLLIDER_WIN2] = false;
 
 
 }
@@ -126,6 +148,12 @@ void j1Collision::DebugDraw()
 			break;
 		case COLLIDER_LIMIT: // red 
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			break;
+		case COLLIDER_WIN1: // purple 
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
+			break;
+		case COLLIDER_WIN2: // purple 
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
 			break;
 		}
 	

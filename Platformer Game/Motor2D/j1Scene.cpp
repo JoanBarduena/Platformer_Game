@@ -91,7 +91,6 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		Level_Load(2);
-		App->player->position.y -= 200;
 	}
 
 	//App->render->Blit(img, 0, 0);
