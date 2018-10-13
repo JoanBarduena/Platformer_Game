@@ -1,4 +1,4 @@
-# Upside-Down
+# Upside Down
 In this repository there is a platformer video game made by two second year students of the Videogame Design and Development degree.
 The game has been made using C++ (using SDL and pugi libraires) and the maps have been created using Tiled.
 
@@ -55,5 +55,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-All the art and audio that we have used are free for comercial use and it was taken from the internet.
