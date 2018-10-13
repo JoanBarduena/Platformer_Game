@@ -568,7 +568,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				invert_gravity = false;
 				App->render->camera.x = Player.camera_position.x;
 				App->render->camera.y = Player.camera_position.y;
-				App->fadetoblack->Fadetoblack(1, 2.0f); 
 			}
 			else
 				touching_above = true;
