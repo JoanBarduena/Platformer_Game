@@ -35,6 +35,7 @@
     <jump_force value="25" />
     <camera x="0" y="-347"/>
     <player_limit left="8" right="6350"/>
+    <cooldown value="80" />
     <animations>
       <idle width="50" height="67">
        <idle1 x="70" y="11"/>

@@ -219,6 +219,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Player.falling_turned2.x = config.child("animations").child("falling_turned").child("falling_turned2").attribute("x").as_int();
 	Player.falling_turned2.y = config.child("animations").child("falling_turned").child("falling_turned2").attribute("y").as_int();
 
+	Player.cooldown = config.child("cooldown").attribute("value").as_int();
+
 	return true;
 }
 
@@ -263,7 +265,7 @@ bool j1Player::Start()
 	if (run == 0)
 		run = App->audio->LoadFx("audio/fx/Run.wav"); 
 
-	cooldown = 100;
+	cooldown = Player.cooldown; 
 
 	return true;
 }
@@ -347,7 +349,7 @@ bool j1Player::Update(float dt)
 		App->audio->PlayFx(run, 0);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && cooldown == 100)
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && cooldown == 80)
 	{
 		invert_gravity = !invert_gravity;
 		cooldown = 0;
@@ -440,7 +442,7 @@ bool j1Player::PostUpdate()
 		
 	}
 		
-	if(cooldown < 100)
+	if(cooldown < 80)
 		cooldown++;
 
 	Check_Collision();
@@ -566,6 +568,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				invert_gravity = false;
 				App->render->camera.x = Player.camera_position.x;
 				App->render->camera.y = Player.camera_position.y;
+				App->fadetoblack->Fadetoblack(1, 2.0f); 
 			}
 			else
 				touching_above = true;

@@ -49,6 +49,9 @@ struct player_config
 	//Falling animation turned 
 	int falling_turned_width, falling_turned_height;
 	iPoint falling_turned1, falling_turned2;
+
+	//Gravity cooldown value 
+	int cooldown; 
 };
 
 class j1Player : public j1Module
