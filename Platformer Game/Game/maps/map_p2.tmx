@@ -7301,8 +7301,8 @@
   <object id="155" type="floor" x="6146" y="97.3333" width="58" height="30.6667"/>
   <object id="156" type="floor" x="6243.33" y="32.6667" width="165.333" height="350.667"/>
   <object id="158" type="floor" x="6241.33" y="481.333" width="286.667" height="678.667"/>
-  <object id="161" type="limit" x="-4" y="1208" width="6552" height="68"/>
-  <object id="162" type="limit" x="-4" y="-100" width="6516" height="68"/>
+  <object id="161" type="limit" x="-6" y="1152" width="6552" height="68"/>
+  <object id="162" type="limit" x="6" y="-56" width="6516" height="68"/>
   <object id="163" type="win2" x="6338" y="450" width="28" height="28"/>
   <object id="165" type="floor" x="321" y="802" width="413" height="352"/>
   <object id="166" type="floor" x="-4" y="996" width="324" height="157"/>
