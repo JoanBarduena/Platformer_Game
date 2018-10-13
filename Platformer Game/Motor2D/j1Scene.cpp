@@ -139,10 +139,6 @@ void j1Scene::Level_Load(uint number)
 
 	if (actual_level != nullptr)
 	{
-		//Clean up the level
-		App->collision->CleanUp();
-		App->map->CleanUp();
-
 		////Starting the level & player
 		App->map->Load(actual_level->data->mapPath.GetString()); 
 		App->player->playerHitbox = nullptr;

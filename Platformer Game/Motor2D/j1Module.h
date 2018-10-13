@@ -71,6 +71,26 @@ public:
 		return true;
 	}
 
+	bool IsEnabled() const { return enabled; }
+
+	void Enable()
+	{
+		if (enabled == false)
+		{
+			enabled = true;
+			Start();
+		}
+	}
+
+	void Disable()
+	{
+		if (enabled == true)
+		{
+			enabled = false;
+			CleanUp();
+		}
+	}
+
 	// Callbacks ---
 	virtual void OnCollision(Collider* c1, Collider* c2) {}
 
@@ -78,7 +98,7 @@ public:
 
 	p2SString	name;
 	bool		active;
-
+	bool		enabled; 
 };
 
 #endif // __j1MODULE_H__

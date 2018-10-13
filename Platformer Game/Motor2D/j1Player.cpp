@@ -10,6 +10,7 @@
 #include "j1Audio.h"
 #include "j1Collision.h"
 #include "Animation.h"
+#include "j1Fadetoblack.h"
 
 #include<stdio.h>
 
@@ -240,6 +241,7 @@ bool j1Player::Start()
 		player_height = Player.player_height;
 
 		counter++;
+		LOG("counter %d", counter); 
 	}
 	//Initial Values 
 	position.x = Player.position.x;

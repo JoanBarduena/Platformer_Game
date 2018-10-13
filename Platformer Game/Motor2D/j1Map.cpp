@@ -33,7 +33,7 @@ void j1Map::Draw()
 		return;
 
 	// Drawing all image_layers
-	p2List_item<ImageLayer*>* image;
+	p2List_item<ImageLayer*>* image = nullptr;
 	for (image = data.image_layers.start; image; image = image->next)
 	{
 		SDL_Texture* tex = image->data->texture;
@@ -45,10 +45,10 @@ void j1Map::Draw()
 		App->render->Blit(tex, image->data->position.x, image->data->position.y, &rect);
 	}
 
-	p2List_item<TileSet*>* item;
+	p2List_item<TileSet*>* item = nullptr;
 	item = data.tilesets.start;
 
-	p2List_item<MapLayer*>* layer;
+	p2List_item<MapLayer*>* layer = nullptr;
 	layer = data.map_layers.start;
 
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
@@ -458,6 +458,7 @@ bool j1Map::LoadLayerImage(pugi::xml_node& node, ImageLayer* img)
 
 bool j1Map::LoadColliders(pugi::xml_node& node)
 {
+
 	bool ret = true;
 
 	pugi::xml_node obj = node.child("object");
