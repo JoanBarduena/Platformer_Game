@@ -5,6 +5,8 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
+#include "j1App.h"
+#include "j1Textures.h"
 
 // TODO 1: Create a struct for the map layer
 
@@ -16,9 +18,6 @@ struct MapLayer
 	uint				height;
 	uint*               data;
 	float				parallaxSpeed;
-
-	MapLayer() : data(NULL)
-	{}
 
 	~MapLayer()
 	{
@@ -37,7 +36,7 @@ struct MapLayer
 struct ImageLayer
 {
 	p2SString		name;
-	SDL_Texture*	texture;
+	SDL_Texture*	texture = nullptr;
 	int				offset_x;
 	int				offset_y;
 	int				width;
@@ -45,6 +44,14 @@ struct ImageLayer
 	fPoint			position;
 	float			speed = 0;
 
+	~ImageLayer()
+	{
+		if (texture != nullptr)
+		{
+			App->tex->UnLoad(texture);
+			texture = nullptr;
+		}
+	}
 	
 };
 
@@ -59,13 +66,22 @@ struct TileSet
 	int					spacing;
 	int					tile_width;
 	int					tile_height;
-	SDL_Texture*		texture;
+	SDL_Texture*		texture = nullptr;
 	int					tex_width;
 	int					tex_height;
 	int					num_tiles_width;
 	int					num_tiles_height;
 	int					offset_x;
 	int					offset_y;
+
+	~TileSet()
+	{
+		if (texture != nullptr)
+		{
+			App->tex->UnLoad(texture);
+			texture = nullptr;
+		}
+	}
 };
 
 enum MapTypes
