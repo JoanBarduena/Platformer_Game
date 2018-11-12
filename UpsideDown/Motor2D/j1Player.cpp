@@ -253,7 +253,7 @@ bool j1Player::Start()
 	App->render->camera.y = Player.camera_position.y;
 
 	if (graphics == nullptr)
-	graphics = App->tex->Load("textures/adventurer_v2.png");
+	graphics = App->tex->Load("textures/adventurer.png");
 	
 	//Player HitBox
 	if (playerHitbox == nullptr)
