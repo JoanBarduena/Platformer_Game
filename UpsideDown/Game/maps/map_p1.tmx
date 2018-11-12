@@ -15,11 +15,8 @@
   <tile id="49" terrain="0,0,,"/>
   <tile id="50" terrain="0,,,"/>
  </tileset>
- <imagelayer name="sky" offsetx="-252" offsety="40">
-  <image source="long_sky.png" width="7680" height="1080"/>
- </imagelayer>
- <imagelayer name="clouds" offsetx="-324" offsety="152">
-  <image source="long_clouds_1.png" width="15360" height="1080"/>
+ <imagelayer name="clouds" offsetx="9" offsety="2">
+  <image source="clouds_map1.png" width="10316" height="1140"/>
   <properties>
    <property name="speed" type="float" value="1.2"/>
   </properties>
