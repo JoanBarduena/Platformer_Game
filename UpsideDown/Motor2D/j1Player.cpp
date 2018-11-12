@@ -16,6 +16,15 @@
 
 j1Player::j1Player() : j1Module()
 {
+	idle.LoadAnimations("idle"); 
+	running.LoadAnimations("running"); 
+	jumping.LoadAnimations("jumping"); 
+	idle_turned.LoadAnimations("idle_turned");
+	run_turned.LoadAnimations("run_turned");
+	jump_turned.LoadAnimations("jump_turned");
+	falling.LoadAnimations("falling"); 
+	falling_turned.LoadAnimations("falling_turned"); 
+
 	name.create("player");	
 }
 
@@ -51,174 +60,7 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Player.player_limit_left = config.child("player_limit").attribute("left").as_int();
 	Player.player_limit_right = config.child("player_limit").attribute("right").as_int();
 
-	//Idle Animation------------------------------------------------
-	Player.idle_width = config.child("animations").child("idle").attribute("width").as_int();
-	Player.idle_height = config.child("animations").child("idle").attribute("height").as_int();
-
-	Player.idle1.x = config.child("animations").child("idle").child("idle1").attribute("x").as_int();
-	Player.idle1.y = config.child("animations").child("idle").child("idle1").attribute("y").as_int();
-
-	Player.idle2.x = config.child("animations").child("idle").child("idle2").attribute("x").as_int();
-	Player.idle2.y = config.child("animations").child("idle").child("idle2").attribute("y").as_int();
-
-	Player.idle3.x = config.child("animations").child("idle").child("idle3").attribute("x").as_int();
-	Player.idle3.y = config.child("animations").child("idle").child("idle3").attribute("y").as_int();
-
-	Player.idle4.x = config.child("animations").child("idle").child("idle4").attribute("x").as_int();
-	Player.idle4.y = config.child("animations").child("idle").child("idle4").attribute("y").as_int();
-
-	//Jumping Animation------------------------------------------------
-	Player.jump_width = config.child("animations").child("jumping").attribute("width").as_int();
-	Player.jump_height = config.child("animations").child("jumping").attribute("height").as_int();
-
-	Player.jump1.x = config.child("animations").child("jumping").child("jumping1").attribute("x").as_int();
-	Player.jump1.y = config.child("animations").child("jumping").child("jumping1").attribute("y").as_int();
-
-	Player.jump2.x = config.child("animations").child("jumping").child("jumping2").attribute("x").as_int();
-	Player.jump2.y = config.child("animations").child("jumping").child("jumping2").attribute("y").as_int();
-
-	Player.jump3.x = config.child("animations").child("jumping").child("jumping3").attribute("x").as_int();
-	Player.jump3.y = config.child("animations").child("jumping").child("jumping3").attribute("y").as_int();
-
-	Player.jump4.x = config.child("animations").child("jumping").child("jumping4").attribute("x").as_int();
-	Player.jump4.y = config.child("animations").child("jumping").child("jumping4").attribute("y").as_int();
-
-	Player.jump5.x = config.child("animations").child("jumping").child("jumping5").attribute("x").as_int();
-	Player.jump5.y = config.child("animations").child("jumping").child("jumping5").attribute("y").as_int();
-
-	Player.jump6.x = config.child("animations").child("jumping").child("jumping6").attribute("x").as_int();
-	Player.jump6.y = config.child("animations").child("jumping").child("jumping6").attribute("y").as_int();
-
-	Player.jump7.x = config.child("animations").child("jumping").child("jumping7").attribute("x").as_int();
-	Player.jump7.y = config.child("animations").child("jumping").child("jumping7").attribute("y").as_int();
-
-	Player.jump8.x = config.child("animations").child("jumping").child("jumping8").attribute("x").as_int();
-	Player.jump8.y = config.child("animations").child("jumping").child("jumping8").attribute("y").as_int();
-
-	Player.jump9.x = config.child("animations").child("jumping").child("jumping9").attribute("x").as_int();
-	Player.jump9.y = config.child("animations").child("jumping").child("jumping9").attribute("y").as_int();
-
-	Player.jump10.x = config.child("animations").child("jumping").child("jumping10").attribute("x").as_int();
-	Player.jump10.y = config.child("animations").child("jumping").child("jumping10").attribute("y").as_int();
-
-	Player.jump_speed = config.child("animations").child("jumping").child("jumping_speed").attribute("value").as_float();
-
-	//Running animation ------------------------------------------------
-	Player.run_width = config.child("animations").child("running").attribute("width").as_int();
-	Player.run_height = config.child("animations").child("running").attribute("height").as_int();
-
-	Player.run1.x = config.child("animations").child("running").child("run1").attribute("x").as_int();
-	Player.run1.y = config.child("animations").child("running").child("run1").attribute("y").as_int();
-
-	Player.run2.x = config.child("animations").child("running").child("run2").attribute("x").as_int();
-	Player.run2.y = config.child("animations").child("running").child("run2").attribute("y").as_uint();
-
-	Player.run3.x = config.child("animations").child("running").child("run3").attribute("x").as_int();
-	Player.run3.y = config.child("animations").child("running").child("run3").attribute("y").as_int();
-
-	Player.run4.x = config.child("animations").child("running").child("run4").attribute("x").as_int();
-	Player.run4.y = config.child("animations").child("running").child("run4").attribute("y").as_int();
-
-	Player.run5.x = config.child("animations").child("running").child("run5").attribute("x").as_int();
-	Player.run5.y = config.child("animations").child("running").child("run5").attribute("y").as_int();
-
-	Player.run6.x = config.child("animations").child("running").child("run6").attribute("x").as_int();
-	Player.run6.y = config.child("animations").child("running").child("run6").attribute("y").as_int();
-
-	//Idle animation turned ------------------------------------------------
-	Player.idle_turned_width = config.child("animations").child("idle_turned").attribute("width").as_int();
-	Player.idle_turned_height = config.child("animations").child("idle_turned").attribute("height").as_int();
-
-	Player.idle_turned1.x = config.child("animations").child("idle_turned").child("idle_turned1").attribute("x").as_int();
-	Player.idle_turned1.y = config.child("animations").child("idle_turned").child("idle_turned1").attribute("y").as_int();
-
-	Player.idle_turned2.x = config.child("animations").child("idle_turned").child("idle_turned2").attribute("x").as_int();
-	Player.idle_turned2.y = config.child("animations").child("idle_turned").child("idle_turned2").attribute("y").as_int();
-
-	Player.idle_turned3.x = config.child("animations").child("idle_turned").child("idle_turned3").attribute("x").as_int();
-	Player.idle_turned3.y = config.child("animations").child("idle_turned").child("idle_turned3").attribute("y").as_int();
-
-	Player.idle_turned4.x = config.child("animations").child("idle_turned").child("idle_turned4").attribute("x").as_int();
-	Player.idle_turned4.y = config.child("animations").child("idle_turned").child("idle_turned4").attribute("y").as_int();
-
-	//Run animation turned ------------------------------------------------
-	Player.run_turned_width = config.child("animations").child("run_turned").attribute("width").as_int();
-	Player.run_turned_height = config.child("animations").child("run_turned").attribute("height").as_int();
-
-	Player.run_turned1.x = config.child("animations").child("run_turned").child("run_turned1").attribute("x").as_int();
-	Player.run_turned1.y = config.child("animations").child("run_turned").child("run_turned1").attribute("y").as_int();
-
-	Player.run_turned2.x = config.child("animations").child("run_turned").child("run_turned2").attribute("x").as_int();
-	Player.run_turned2.y = config.child("animations").child("run_turned").child("run_turned2").attribute("y").as_int();
-
-	Player.run_turned3.x = config.child("animations").child("run_turned").child("run_turned3").attribute("x").as_int();
-	Player.run_turned3.y = config.child("animations").child("run_turned").child("run_turned3").attribute("y").as_int();
-
-	Player.run_turned4.x = config.child("animations").child("run_turned").child("run_turned4").attribute("x").as_int();
-	Player.run_turned4.y = config.child("animations").child("run_turned").child("run_turned4").attribute("y").as_int();
-
-	Player.run_turned5.x = config.child("animations").child("run_turned").child("run_turned5").attribute("x").as_int();
-	Player.run_turned5.y = config.child("animations").child("run_turned").child("run_turned5").attribute("y").as_int();
-
-	Player.run_turned6.x = config.child("animations").child("run_turned").child("run_turned6").attribute("x").as_int();
-	Player.run_turned6.y = config.child("animations").child("run_turned").child("run_turned6").attribute("y").as_int();
-
-	//Jump animation turned ------------------------------------------------
-	Player.jump_turned_width = config.child("animation").child("jump_turned").attribute("width").as_int();
-	Player.jump_turned_height = config.child("animation").child("jump_turned").attribute("height").as_int();
-
-	Player.jump_turned1.x = config.child("animations").child("jump_turned").child("jump_turned1").attribute("x").as_int();
-	Player.jump_turned1.y = config.child("animations").child("jump_turned").child("jump_turned1").attribute("y").as_int();
-
-	Player.jump_turned2.x = config.child("animations").child("jump_turned").child("jump_turned2").attribute("x").as_int();
-	Player.jump_turned2.y = config.child("animations").child("jump_turned").child("jump_turned2").attribute("y").as_int();
-
-	Player.jump_turned3.x = config.child("animations").child("jump_turned").child("jump_turned3").attribute("x").as_int();
-	Player.jump_turned3.y = config.child("animations").child("jump_turned").child("jump_turned3").attribute("y").as_int();
-
-	Player.jump_turned4.x = config.child("animations").child("jump_turned").child("jump_turned4").attribute("x").as_int();
-	Player.jump_turned4.y = config.child("animations").child("jump_turned").child("jump_turned4").attribute("y").as_int();
-
-	Player.jump_turned5.x = config.child("animations").child("jump_turned").child("jump_turned5").attribute("x").as_int();
-	Player.jump_turned5.y = config.child("animations").child("jump_turned").child("jump_turned5").attribute("y").as_int();
-
-	Player.jump_turned6.x = config.child("animations").child("jump_turned").child("jump_turned6").attribute("x").as_int();
-	Player.jump_turned6.y = config.child("animations").child("jump_turned").child("jump_turned6").attribute("y").as_int();
-
-	Player.jump_turned7.x = config.child("animations").child("jump_turned").child("jump_turned7").attribute("x").as_int();
-	Player.jump_turned7.y = config.child("animations").child("jump_turned").child("jump_turned7").attribute("y").as_int();
-
-	Player.jump_turned8.x = config.child("animations").child("jump_turned").child("jump_turned8").attribute("x").as_int();
-	Player.jump_turned8.y = config.child("animations").child("jump_turned").child("jump_turned8").attribute("y").as_int();
-
-	Player.jump_turned9.x = config.child("animations").child("jump_turned").child("jump_turned9").attribute("x").as_int();
-	Player.jump_turned9.y = config.child("animations").child("jump_turned").child("jump_turned9").attribute("y").as_int();
-
-	Player.jump_turned10.x = config.child("animations").child("jump_turned").child("jump_turned10").attribute("x").as_int();
-	Player.jump_turned10.y = config.child("animations").child("jump_turned").child("jump_turned10").attribute("y").as_int();
-
-	Player.jump_turned_speed = config.child("animations").child("jump_turned").child("jump_turned_speed").attribute("value").as_float();
-
-	//Falling animation ------------------------------------------------
-	Player.falling_width = config.child("animations").child("falling").attribute("width").as_int();
-	Player.falling_height = config.child("animations").child("falling").attribute("height").as_int();
-
-	Player.falling1.x = config.child("animations").child("falling").child("falling1").attribute("x").as_int();
-	Player.falling1.y = config.child("animations").child("falling").child("falling1").attribute("y").as_int();
-
-	Player.falling2.x = config.child("animations").child("falling").child("falling2").attribute("x").as_int();
-	Player.falling2.y = config.child("animations").child("falling").child("falling2").attribute("y").as_int();
-
-	//Falling animation turned ------------------------------------------------
-	Player.falling_turned_width = config.child("animations").child("falling_turned").attribute("width").as_int();
-	Player.falling_turned_height = config.child("animations").child("falling_turned").attribute("height").as_int();
-
-	Player.falling_turned1.x = config.child("animations").child("falling_turned").child("falling_turned1").attribute("x").as_int();
-	Player.falling_turned1.y = config.child("animations").child("falling_turned").child("falling_turned1").attribute("y").as_int();
-
-	Player.falling_turned2.x = config.child("animations").child("falling_turned").child("falling_turned2").attribute("x").as_int();
-	Player.falling_turned2.y = config.child("animations").child("falling_turned").child("falling_turned2").attribute("y").as_int();
-
+	//Cooldown value
 	Player.cooldown = config.child("cooldown").attribute("value").as_int();
 
 	return true;
@@ -228,7 +70,6 @@ bool j1Player::Start()
 {
 	if (counter <= 0)
 	{
-		LoadAnimations();
 
 		limit_up = Player.limit_up;
 		limit_down = Player.limit_down;
@@ -252,7 +93,6 @@ bool j1Player::Start()
 	App->render->camera.x = Player.camera_position.x; 
 	App->render->camera.y = Player.camera_position.y;
 
-	if (graphics == nullptr)
 	graphics = App->tex->Load("textures/adventurer.png");
 	
 	//Player HitBox
@@ -260,10 +100,8 @@ bool j1Player::Start()
 		playerHitbox = App->collision->AddCollider({ position.x, position.y, player_width, player_height }, COLLIDER_PLAYER, this);
 
 	//Loading Sounds FX
-	if (jump == 0)
-		jump = App->audio->LoadFx("audio/fx/Jump.wav");
-	if (run == 0)
-		run = App->audio->LoadFx("audio/fx/Run.wav"); 
+	jump = App->audio->LoadFx("audio/fx/Jump.wav");
+	run = App->audio->LoadFx("audio/fx/Run.wav"); 
 
 	cooldown = Player.cooldown; 
 
@@ -590,10 +428,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN1)
 	{
 		win1 = true;
+		App->fade->FadeToBlack(App->scene, App->scene); 
 	}
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN2)
 	{
 		win2 = true;
+		App->fade->FadeToBlack(App->scene, App->scene);
 	}
 }
 
@@ -733,73 +573,4 @@ bool j1Player::Load(pugi::xml_node& data)
 	invert_gravity = data.child("state").attribute("invert_gravity").as_bool();
 
 	return true; 
-}
-
-void j1Player::LoadAnimations()
-{
-	//Idle Animation
-	idle.PushBack({ Player.idle1.x, Player.idle1.y, Player.idle_width, Player.idle_height });
-	idle.PushBack({ Player.idle2.x, Player.idle2.y, Player.idle_width, Player.idle_height });
-	idle.PushBack({ Player.idle3.x, Player.idle3.y, Player.idle_width, Player.idle_height });
-	idle.PushBack({ Player.idle4.x, Player.idle4.y, Player.idle_width, Player.idle_height });
-
-	//Running Animation
-	running.PushBack({ Player.run1.x, Player.run1.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run2.x, Player.run2.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run3.x, Player.run3.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run4.x, Player.run4.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run5.x, Player.run5.y, Player.run_width, Player.run_height });
-	running.PushBack({ Player.run6.x, Player.run6.y, Player.run_width, Player.run_height });
-
-	//Jumping Animation
-	jumping.PushBack({ Player.jump1.x, Player.jump1.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump2.x, Player.jump2.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump3.x, Player.jump3.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump4.x, Player.jump4.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump5.x, Player.jump5.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump6.x, Player.jump6.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump7.x, Player.jump7.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump8.x, Player.jump8.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump9.x, Player.jump9.y, Player.jump_width, Player.jump_height });
-	jumping.PushBack({ Player.jump10.x, Player.jump10.y, Player.jump_width, Player.jump_height });
-	jumping.loop = false;
-	jumping.speed = Player.jump_speed;
-
-	//Idle Animation Turned
-	idle_turned.PushBack({ Player.idle_turned1.x, Player.idle_turned1.y, Player.idle_turned_width, Player.idle_turned_height });
-	idle_turned.PushBack({ Player.idle_turned2.x, Player.idle_turned2.y, Player.idle_turned_width, Player.idle_turned_height });
-	idle_turned.PushBack({ Player.idle_turned3.x, Player.idle_turned3.y, Player.idle_turned_width, Player.idle_turned_height });
-	idle_turned.PushBack({ Player.idle_turned4.x, Player.idle_turned4.y, Player.idle_turned_width, Player.idle_turned_height });
-
-	//Running Animation Turned
-	run_turned.PushBack({ Player.run_turned1.x, Player.run_turned1.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned2.x, Player.run_turned2.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned3.x, Player.run_turned3.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned4.x, Player.run_turned4.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned5.x, Player.run_turned5.y, Player.run_turned_width, Player.run_turned_height });
-	run_turned.PushBack({ Player.run_turned6.x, Player.run_turned6.y, Player.run_turned_width, Player.run_turned_height });
-
-	//Jumping Animation Turned 
-	jump_turned.PushBack({ Player.jump_turned1.x, Player.jump_turned1.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned2.x, Player.jump_turned2.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned3.x, Player.jump_turned3.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned4.x, Player.jump_turned4.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned5.x, Player.jump_turned5.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned6.x, Player.jump_turned6.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned7.x, Player.jump_turned7.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned8.x, Player.jump_turned8.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned9.x, Player.jump_turned9.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.PushBack({ Player.jump_turned10.x, Player.jump_turned10.y, Player.jump_turned_width, Player.jump_turned_height });
-	jump_turned.loop = false;
-	jump_turned.speed = Player.jump_turned_speed;
-
-	//Falling Animation
-	falling.PushBack({ Player.falling1.x, Player.falling1.y, Player.falling_width, Player.falling_height });
-	falling.PushBack({ Player.falling2.x, Player.falling2.y, Player.falling_width, Player.falling_height });
-	falling.loop = true;
-
-	//Falling Animation Turned 
-	falling_turned.PushBack({ Player.falling_turned1.x, Player.falling_turned1.y, Player.falling_turned_width, Player.falling_turned_height });
-	falling_turned.PushBack({ Player.falling_turned2.x, Player.falling_turned2.y, Player.falling_turned_width, Player.falling_turned_height });
-	falling_turned.loop = true;
 }

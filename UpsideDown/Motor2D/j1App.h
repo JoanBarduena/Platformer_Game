@@ -88,7 +88,7 @@ public:
 	j1Map*				map;
 	j1Player*			player;
 	j1Collision*		collision;
-	j1Fadetoblack*		fadetoblack; 
+	j1Fadetoblack*		fade; 
 
 private:
 

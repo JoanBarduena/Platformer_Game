@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "j1Collision.h"
 #include "j1Player.h"
+#include "j1Fadetoblack.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -82,15 +83,23 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
 		if (actual_level->data->lvl == 2)
+		{
 			Level_Load(2);
+			//App->fade->FadeToBlack(App->scene, App->scene);
+		}
 		else
+		{
 			Level_Load(1);
+			//App->fade->FadeToBlack(App->scene, App->scene);
+		}
 	}
+
 
 	//F3 Starts the second level  
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		Level_Load(2);
+		//App->fade->FadeToBlack(App->scene, App->scene);
 	}
 
 	//App->render->Blit(img, 0, 0);

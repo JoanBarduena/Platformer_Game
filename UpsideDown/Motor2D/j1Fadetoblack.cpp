@@ -2,16 +2,22 @@
 #include "p2Defs.h"
 #include "p2Log.h"
 #include "j1App.h"
-#include "j1Input.h"
-#include "j1Render.h"
 #include "j1Fadetoblack.h"
-#include "j1Window.h"
+#include "j1Render.h"
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
 
 j1Fadetoblack::j1Fadetoblack()
-{ 
-	screen = { 0, 0, 640, 480 };
+{
+	pugi::xml_document file;
+	pugi::xml_parse_result result = file.load_file("config.xml");
+
+	int width = file.child("config").child("window").child("resolution").attribute("width").as_int();
+	int height = file.child("config").child("window").child("resolution").attribute("height").as_int();
+	int scale = file.child("config").child("window").child("resolution").attribute("scale").as_int();
+
+	screen = { 0, 0, width * scale, height * scale };
+	name.create("fade");
 }
 
 j1Fadetoblack::~j1Fadetoblack()
@@ -26,12 +32,10 @@ bool j1Fadetoblack::Start()
 }
 
 // Update: draw background
-bool j1Fadetoblack::Update()
+bool j1Fadetoblack::Update(float dt)
 {
-	bool ret = true; 
-
 	if (current_step == fade_step::none)
-		ret = false;
+		return true;
 
 	Uint32 now = SDL_GetTicks() - start_time;
 	float normalized = MIN(1.0f, (float)now / (float)total_time);
@@ -42,8 +46,6 @@ bool j1Fadetoblack::Update()
 	{
 		if (now >= total_time)
 		{
-			to_disable->Disable();
-			to_enable->Enable();
 			total_time += total_time;
 			start_time = SDL_GetTicks();
 			current_step = fade_step::fade_from_black;
@@ -63,28 +65,27 @@ bool j1Fadetoblack::Update()
 	SDL_SetRenderDrawColor(App->render->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
 	SDL_RenderFillRect(App->render->renderer, &screen);
 
-	return ret;
+	return true;
 }
 
- //Fade to black. At mid point deactivate one module, then activate the other
-bool j1Fadetoblack::Fadetoblack(j1Module* module_off, j1Module* module_on, float time)
+// Fade to black. At mid point deactivate one module, then activate the other
+bool j1Fadetoblack::FadeToBlack(j1Module* module_off, j1Module* module_on, float time)
 {
 	bool ret = false;
+	ModuleOff = module_off;
+	ModuleOn = module_on;
 
 	if (current_step == fade_step::none)
 	{
 		current_step = fade_step::fade_to_black;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
-		to_enable = module_on;
-		to_disable = module_off;
 		ret = true;
 	}
-
 	return ret;
 }
 
 bool j1Fadetoblack::IsFading() const
 {
-	return current_step != fade_step::none;
+	return current_step == fade_step::fade_to_black;
 }

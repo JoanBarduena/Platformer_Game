@@ -16,6 +16,8 @@ private:
 	int last_frame = 0;
 	int loops = 0;
 
+	pugi::xml_document config_xml; 
+
 public:
 
 	Animation()
@@ -42,6 +44,22 @@ public:
 
 		return frames[(int)current_frame];
 	}
+
+	void LoadAnimations(p2SString name)
+	{
+		pugi::xml_parse_result result = config_xml.load_file("config.xml");
+		if (result != NULL)
+		{
+			pugi::xml_node animation_name = config_xml.child("config").child("player").child("animations").child(name.GetString());
+			speed = animation_name.attribute("speed").as_float();
+			loop = animation_name.attribute("loop").as_bool();
+			for (pugi::xml_node animation = animation_name.child("animation"); animation; animation = animation.next_sibling("animation"))
+			{
+				PushBack({ animation.attribute("x").as_int(), animation.attribute("y").as_int(), animation.attribute("width").as_int(), animation.attribute("height").as_int() });
+			}
+		}
+	}
+
 
 	bool Finished() const
 	{
