@@ -45,41 +45,87 @@ void j1Map::Draw()
 		App->render->Blit(tex, image->data->position.x, image->data->position.y, &rect);
 	}
 
-	p2List_item<TileSet*>* item = nullptr;
-	item = data.tilesets.start;
 
-	p2List_item<MapLayer*>* layer = nullptr;
-	layer = data.map_layers.start;
 
-	// TODO 5: Prepare the loop to draw all tilesets + Blit
-	for (uint i = 0; i < data.height; ++i)
+	p2List_item<MapLayer*>* item = nullptr;
+	item = data.map_layers.start;
+	for (; item != NULL; item = item->next)
 	{
-		for (uint j = 0; j < data.width; ++j)
+		MapLayer* layer = item->data;
+
+		if (layer->properties.Get("Draw") != 1)
+			continue;
+
+		for (uint i = 0; i < data.height; ++i)
 		{
-			uint id = layer->data->Get(j,i);
-			id = layer->data->data[id];
+			for (uint j = 0; j < data.width; ++j)
+			{
+				uint id = layer->Get(j, i);
+				id = layer->data[id];
 
-			if (id != 0) {
-				SDL_Rect *rect = &item->data->GetTileRect(id);
-				iPoint pos = MapToWorld(j, i);
-				App->render->Blit(item->data->texture, pos.x, pos.y, rect);
+				if (id != 0) {
+					TileSet* tileset = GetTilesetFromTileId(id);
+
+					SDL_Rect rect = tileset->GetTileRect(id);
+					iPoint pos = MapToWorld(j, i);
+					App->render->Blit(tileset->texture, pos.x, pos.y, &rect);
+				}
 			}
+
 		}
-
-
-		// TODO 9: Complete the draw function
-
 	}
-	
+
+		
 }
 
+TileSet* j1Map::GetTilesetFromTileId(int id) const
+{
+	p2List_item<TileSet*>* item = data.tilesets.start;
+	TileSet* set = item->data;
+
+	while (item != NULL)
+	{
+		if (id < item->data->firstgid)
+		{
+			set = item->prev->data;
+			break;
+		}
+		set = item->data;
+		item = item->next;
+	}
+
+	return set;
+}
+
+int Properties::Get(const char* name) const
+{
+	p2List_item<Property*>* item = list.start;
+
+	while (item)
+	{
+		if (item->data->name == name)
+			return item->data->value;
+		item = item->next;
+	}
+	return 1;
+}
 
 iPoint j1Map::MapToWorld(int x, int y) const
 {
-	iPoint ret;
+	iPoint ret(0,0);
 
 	ret.x = x * data.tile_width;
 	ret.y = y * data.tile_height;
+
+	return ret;
+}
+
+iPoint j1Map::WorldToMap(int x, int y) const
+{
+	iPoint ret(0, 0);
+
+	ret.x = x / data.tile_width;
+	ret.y = y / data.tile_height;
 
 	return ret;
 }
@@ -390,6 +436,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer->name = node.attribute("name").as_string();
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
+	LoadProperties(node, layer->properties);
 	pugi::xml_node layer_data = node.child("data");
 
 	if (layer_data == NULL)
@@ -402,15 +449,17 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	{
 		layer->data = new uint[(layer->width)*(layer->height)];
 		memset(layer->data, 0, sizeof(uint)*(layer->width)*(layer->height));
+
+		int i = 0;
+
+		for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
+		{
+			layer->data[i++] = tile.attribute("gid").as_int(0);
+		}
 	}
 
 
-	int i = 0;
 
-	for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
-	{
-		layer->data[i++] = tile.attribute("gid").as_int(0);
-	}
 
 
 	return ret;
@@ -450,6 +499,30 @@ bool j1Map::LoadLayerImage(pugi::xml_node& node, ImageLayer* img)
 			{
 				img->speed = property.attribute("value").as_float();
 			}
+		}
+	}
+
+	return ret;
+}
+
+bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
+{
+	bool ret = false;
+
+	pugi::xml_node data = node.child("properties");
+
+	if (data != NULL)
+	{
+		pugi::xml_node propert;
+
+		for (propert = data.child("property"); propert; propert = propert.next_sibling("property"))
+		{
+			Properties::Property* prop = new Properties::Property();
+
+			prop->name = propert.attribute("name").as_string();
+			prop->value = propert.attribute("value").as_int();
+
+			properties.list.add(prop);
 		}
 	}
 
@@ -508,6 +581,9 @@ bool j1Map::LoadColliders(pugi::xml_node& node)
 
 	return ret;
 }
+
+
+
 
 
 

@@ -7,12 +7,12 @@
 	<map />
 	<scene />
 	<player>
-		<position x="8" y="930" />
+		<position x="1163" y="772" />
 		<state invert_gravity="false" />
 	</player>
 	<:anonymous />
-	<:anonymous />
+	<fade />
 	<renderer>
-		<camera x="-5" y="-347" />
+		<camera x="-523" y="-347" />
 	</renderer>
 </game_state>

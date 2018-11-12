@@ -10,6 +10,33 @@
 
 // TODO 1: Create a struct for the map layer
 
+
+
+struct Properties
+{
+	struct Property
+	{
+		p2SString name;
+		int value;
+	};
+
+	~Properties()
+	{
+		p2List_item<Property*>* item;
+		item = list.start;
+
+		while (item != NULL)
+		{
+			RELEASE(item->data);
+			item = item->next;
+		}
+		list.clear();
+	}
+
+	int Get(const char* name) const;
+	p2List<Property*>	list;
+};
+
 struct MapLayer
 {
 
@@ -17,6 +44,7 @@ struct MapLayer
 	uint				width;
 	uint				height;
 	uint*               data;
+	Properties			properties;
 	float				parallaxSpeed;
 
 	~MapLayer()
@@ -24,12 +52,12 @@ struct MapLayer
 		RELEASE(data);
 	}
 
-	
+
 	//TODO 6 HERE
 	inline uint Get(uint x, uint y) const
 	{
-		return x + width*y ;
-	}	
+		return x + width * y;
+	}
 
 };
 
@@ -129,6 +157,10 @@ public:
 
 	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
 	iPoint MapToWorld(int x, int y) const;
+	iPoint WorldToMap(int x, int y) const;
+
+	TileSet* GetTilesetFromTileId(int id) const;
+
 
 private:
 
@@ -137,6 +169,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadLayerImage(pugi::xml_node& node, ImageLayer* img);
+	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	bool LoadColliders(pugi::xml_node& node);
 
 public:
