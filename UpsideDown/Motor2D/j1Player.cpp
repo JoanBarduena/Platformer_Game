@@ -58,6 +58,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Player.camera_position.y = config.child("camera").attribute("y").as_int();
 
 	//Player limits 
+	Player.player_limit_up = config.child("player_limit").attribute("up").as_int();
+	Player.player_limit_down = config.child("player_limit").attribute("down").as_int();
 	Player.player_limit_left = config.child("player_limit").attribute("left").as_int();
 	Player.player_limit_right = config.child("player_limit").attribute("right").as_int();
 
@@ -136,67 +138,58 @@ bool j1Player::Update(float dt)
 	camera_goes_left = false;
 	win1 = false;
 	win2 = false;
-
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	
+	//Normal Game Mode
+	if (god_mode == false)
 	{
-		speed.x = -player_speed;
-		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
+		GameMode();
+
+		maxSpeed_y = Player.maxSpeed_y;
+
+		//When player speed.y != 0  setting if the player is FALLING or JUMPING
+		if (invert_gravity == false)
+		{
+			if (speed.y > 0) //falling
+			{
+				is_falling = true;
+				is_jumping = false;
+			}
+			if (speed.y < 0) //jumping
+			{
+				is_jumping = true;
+				is_falling = false;
+				App->audio->PlayFx(jump, 0);
+			}
+		}
+		else if (invert_gravity == true)
+		{
+			if (speed.y > 0) //jumping
+			{
+				is_falling = false;
+				is_jumping = true;
+				App->audio->PlayFx(jump, 0);
+			}
+			if (speed.y < 0) //falling
+			{
+				is_jumping = false;
+				is_falling = true;
+			}
+		}
+
+		// if the player is falling set falling animation
+		if (is_falling == true && current_animation != &jumping && current_animation != &jump_turned)
 		{
 			if (invert_gravity == false)
-			{
-				current_animation = &running;
-			}
+				current_animation = &falling;
+			else if (invert_gravity == true && flip == false)
+				current_animation = &falling;
 			else if (invert_gravity == true && flip == true)
-			{
-				current_animation = &run_turned;
-			}
-		}
-		
+				current_animation = &falling_turned;
+		}	
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	else //if not Normal Mode --> God mode
 	{
-		speed.x = player_speed;
-		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
-		{
-			current_animation = &running;
-
-		}
-		
-	}
-	else // if not clicking anything
-	{
-		speed.x = 0;
-		if (current_animation != &jumping && current_animation != &jump_turned)
-		{
-			SetIdleAnimation();
-		}
-		
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && is_falling == false && is_jumping == false)
-	{
-		if (invert_gravity == true && flip == true)
-		{
-			current_animation = &jump_turned;
-			speed.y = jump_force;
-		}
-		else if (invert_gravity == true && flip == false)
-		{
-			current_animation = &jumping;
-			speed.y = jump_force;
-		}
-		else
-		{
-			current_animation = &jumping;
-			speed.y = -jump_force; 
-		}
-		App->audio->PlayFx(run, 0);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && cooldown == 80)
-	{
-		invert_gravity = !invert_gravity;
-		cooldown = 0;
+		GodMode();
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
@@ -209,48 +202,7 @@ bool j1Player::Update(float dt)
 
 	//Set playerhitbox position
 	playerHitbox->SetPos(position.x + (player_width/2), position.y);
-
-	//When player speed.y != 0  setting if the player is FALLING or JUMPING
-	if (invert_gravity == false)
-	{
-		if (speed.y > 0) //falling
-		{
-			is_falling = true;
-			is_jumping = false;
-		}
-		if (speed.y < 0) //jumping
-		{
-			is_jumping = true;
-			is_falling = false;
-			App->audio->PlayFx(jump, 0);
-		}
-	}
-	else if (invert_gravity == true)
-	{
-		if (speed.y > 0) //jumping
-		{
-			is_falling = false;
-			is_jumping = true;
-			App->audio->PlayFx(jump, 0);
-		}
-		if (speed.y < 0) //falling
-		{
-			is_jumping = false;
-			is_falling = true;
-		}
-	}
-
-	// if the player is falling set falling animation
-	if(is_falling == true && current_animation != &jumping && current_animation != &jump_turned)
-	{ 
-		if (invert_gravity == false)
-			current_animation = &falling;
-		else if (invert_gravity == true && flip == false)
-			current_animation = &falling;
-		else if (invert_gravity == true && flip == true)
-			current_animation = &falling_turned;
-	}
-
+	
 	return true;
 }
 
@@ -319,13 +271,14 @@ bool j1Player::PostUpdate()
 	if (position.x > Player.player_limit_right)
 		position.x = Player.player_limit_right;
 
-
-	if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
+	if (god_mode == false)
 	{
-		App->audio->PlayFx(run, 0);
-		run_time = SDL_GetTicks() + (1 / player_speed) + 450;
+		if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
+		{
+			App->audio->PlayFx(run, 0);
+			run_time = SDL_GetTicks() + (1 / player_speed) + 450;
+		}
 	}
-
 	// Parallax if the camera moves
 	p2List_item<ImageLayer*>* image = nullptr;
 	for (image = App->map->data.image_layers.start; image; image = image->next)
@@ -402,9 +355,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				App->render->camera.x = Player.camera_position.x;
 				App->render->camera.y = Player.camera_position.y;
 			}
-			else 
-				touching_above = true;
-
 		}
 		else if ((c2->rect.y + c2->rect.h) < (c1->rect.y + 15) && invert_gravity == true)
 		{
@@ -416,8 +366,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				App->render->camera.x = Player.camera_position.x;
 				App->render->camera.y = Player.camera_position.y;
 			}
-			else 
-				touching_above = true;
 		}
 	}
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN1)
@@ -571,4 +519,102 @@ bool j1Player::Load(pugi::xml_node& data)
 	App->scene->Level_Load(data.child("level").attribute("current").as_int());
 
 	return true; 
+}
+
+void j1Player::GameMode()
+{
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		speed.x = -player_speed;
+		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
+		{
+			if (invert_gravity == false)
+			{
+				current_animation = &running;
+			}
+			else if (invert_gravity == true && flip == true)
+			{
+				current_animation = &run_turned;
+			}
+		}
+
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		speed.x = player_speed;
+		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
+		{
+			current_animation = &running;
+
+		}
+
+	}
+	else // if not clicking anything
+	{
+		speed.x = 0;
+		if (current_animation != &jumping && current_animation != &jump_turned)
+		{
+			SetIdleAnimation();
+		}
+
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && is_falling == false && is_jumping == false)
+	{
+		if (invert_gravity == true && flip == true)
+		{
+			current_animation = &jump_turned;
+			speed.y = jump_force;
+		}
+		else if (invert_gravity == true && flip == false)
+		{
+			current_animation = &jumping;
+			speed.y = jump_force;
+		}
+		else
+		{
+			current_animation = &jumping;
+			speed.y = -jump_force;
+		}
+		App->audio->PlayFx(run, 0);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && cooldown == 80)
+	{
+		invert_gravity = !invert_gravity;
+		cooldown = 0;
+	}
+}
+
+void j1Player::GodMode() 
+{
+	maxSpeed_y = 0;
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		speed.x = -player_speed; 
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		speed.x = player_speed;
+	}
+	else
+	{
+		speed.x = 0; 
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		speed.y = -player_speed;
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		speed.y = player_speed;
+		maxSpeed_y = 10;
+	}
+	//Player Limits 
+	if (position.y < Player.player_limit_up)
+		position.y = Player.player_limit_up;
+	if (position.y > Player.player_limit_down)
+		position.y = Player.player_limit_down;
 }

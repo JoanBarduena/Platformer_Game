@@ -15,7 +15,7 @@ struct player_config
 	int			 limit_up, limit_down, limit_left, limit_right;
 	int			 maxSpeed_y, player_speed, jump_force;
 	int			 player_width, player_height;
-	int			 player_limit_left, player_limit_right;
+	int			 player_limit_left, player_limit_right, player_limit_up, player_limit_down;
 	int			 cooldown;
 
 	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned; 
@@ -38,6 +38,8 @@ public:
 	void Check_Collision();
 	void CameraOnPlayer();
 	void SetIdleAnimation(); 
+	void GameMode(); 
+	void GodMode(); 
 
 	//Save and Load
 	bool Save(pugi::xml_node&) const;
