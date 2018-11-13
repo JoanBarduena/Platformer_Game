@@ -150,7 +150,6 @@ void j1Scene::Level_Load(uint number)
 	{
 		////Starting the level & player
 		App->map->Load(actual_level->data->mapPath.GetString());
-		App->player->playerHitbox->to_delete = true;
 		App->player->playerHitbox = nullptr;
 		App->player->Start();
 	}

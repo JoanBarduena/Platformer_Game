@@ -6,11 +6,15 @@
 	<audio />
 	<map />
 	<scene />
-	<player />
+	<player>
+		<position x="2311" y="795" />
+		<state invert_gravity="false" />
+		<level current="1" />
+	</player>
 	<:anonymous />
 	<fade />
 	<pathfinding />
 	<renderer>
-		<camera x="-530" y="-347" />
+		<camera x="-1671" y="-347" />
 	</renderer>
 </game_state>

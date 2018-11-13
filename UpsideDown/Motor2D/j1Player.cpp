@@ -83,6 +83,14 @@ bool j1Player::Start()
 		player_width = Player.player_width;
 		player_height = Player.player_height;
 
+		graphics = App->tex->Load("textures/adventurer.png");
+
+		//Loading Sounds FX
+		jump = App->audio->LoadFx("audio/fx/Jump.wav");
+		run = App->audio->LoadFx("audio/fx/Run.wav");
+
+		cooldown = Player.cooldown;
+
 		counter++;
 	}
 
@@ -96,29 +104,20 @@ bool j1Player::Start()
 		level_change++;
 	}
 
-	App->render->camera.x = Player.camera_position.x; 
+	App->render->camera.x = Player.camera_position.x;
 	App->render->camera.y = Player.camera_position.y;
 
-	graphics = App->tex->Load("textures/adventurer.png");
-	
 	//Player HitBox
 	if (playerHitbox == nullptr)
 	{
 		playerHitbox = App->collision->AddCollider({ position.x, position.y, player_width, player_height }, COLLIDER_PLAYER, this);
 	}
-
-	//Loading Sounds FX
-	jump = App->audio->LoadFx("audio/fx/Jump.wav");
-	run = App->audio->LoadFx("audio/fx/Run.wav"); 
-
-	cooldown = Player.cooldown; 
-
 	return true;
 }
 
 bool j1Player::CleanUp()
 {
-	App->tex->UnLoad(graphics);
+	App->tex->UnLoad(graphics); 
 	if (playerHitbox != nullptr)
 	{
 		playerHitbox->to_delete = true;
