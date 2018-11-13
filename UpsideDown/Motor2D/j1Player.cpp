@@ -86,6 +86,16 @@ bool j1Player::Start()
 		counter++;
 	}
 
+	if (level_change <= 0)
+	{
+		position.x = Player.position.x;
+		position.y = Player.position.y;
+		
+		invert_gravity = false; 
+
+		level_change++;
+	}
+
 	App->render->camera.x = Player.camera_position.x; 
 	App->render->camera.y = Player.camera_position.y;
 
@@ -94,8 +104,6 @@ bool j1Player::Start()
 	//Player HitBox
 	if (playerHitbox == nullptr)
 	{
-		position.x = Player.position.x;
-		position.y = Player.position.y;
 		playerHitbox = App->collision->AddCollider({ position.x, position.y, player_width, player_height }, COLLIDER_PLAYER, this);
 	}
 
@@ -490,10 +498,12 @@ void j1Player::Check_Collision()
 
 	if (win1 == true)
 	{
+		level_change = 0; 
 		App->scene->Level_Load(2);
 	}
 	if (win2 == true)
 	{
+		level_change = 0;
 		App->scene->Level_Load(1);
 	}
 }

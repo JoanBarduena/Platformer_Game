@@ -74,6 +74,7 @@ bool j1Scene::Update(float dt)
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
+		App->player->level_change = 0;
 		Level_Load(1); 
 	}
 
@@ -82,11 +83,13 @@ bool j1Scene::Update(float dt)
 	{
 		if (actual_level->data->lvl == 2)
 		{
+			App->player->level_change = 0;
 			Level_Load(2);
 			//App->fade->FadeToBlack(App->scene, App->scene);
 		}
 		else
 		{
+			App->player->level_change = 0;
 			Level_Load(1);
 			//App->fade->FadeToBlack(App->scene, App->scene);
 		}
@@ -96,6 +99,7 @@ bool j1Scene::Update(float dt)
 	//F3 Starts the second level  
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
+		App->player->level_change = 0;
 		Level_Load(2);
 		//App->fade->FadeToBlack(App->scene, App->scene);
 	}
