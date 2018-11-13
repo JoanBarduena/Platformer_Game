@@ -17,7 +17,7 @@ struct player_config
 	int			 player_width, player_height;
 	int			 player_limit_left, player_limit_right;
 	int			 cooldown;
-	//Animations
+
 	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned; 
 };
 
@@ -43,9 +43,8 @@ public:
 	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
 
-	void LoadAnimations(); 
-
 public:
+
 	SDL_Texture* graphics = nullptr;
 
 	iPoint		 position;
@@ -58,26 +57,25 @@ public:
 
 	Animation*   current_animation;
 	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned;
-	//Sounds FX ------
+
+	//Sounds FX 
 	uint		 jump; 
 	uint		 run; 
 	float		 run_time = 0;
-	//---------------
 
 	player_config Player;
-
 
 	//camera limits values
 	int limit_left, limit_right, limit_up, limit_down;
 	int player_limit_right, player_limit_left; 
 
-	bool flip;
-	bool touching_above;//if player is touching from above
-	bool touching_bottom;
-	bool touching_right; //if player is touching from right
-	bool touching_left; //if player is touching from left
-	bool is_jumping; //if player is jumping (speed.y < 0)
-	bool is_falling; //if player is falling (speed.y > 0)
+	bool flip;				//if player is going left (-speed.x)
+	bool touching_above;	//if player is touching from above
+	bool touching_bottom;	//if player is touching from bottom
+	bool touching_right;	//if player is touching from right
+	bool touching_left;		//if player is touching from left
+	bool is_jumping;		//if player is jumping (speed.y < 0)
+	bool is_falling;		//if player is falling (speed.y > 0)
 
 	bool win1;
 	bool win2;
@@ -95,8 +93,6 @@ public:
 	int counter = 0; 
 
 	p2SString folder;
-
-	
 };
 
 #endif // __j1PLAYER_H__

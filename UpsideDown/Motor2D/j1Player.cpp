@@ -16,6 +16,7 @@
 
 j1Player::j1Player() : j1Module()
 {
+	//Loading Animations
 	idle.LoadAnimations("idle"); 
 	running.LoadAnimations("running"); 
 	jumping.LoadAnimations("jumping"); 
@@ -70,7 +71,6 @@ bool j1Player::Start()
 {
 	if (counter <= 0)
 	{
-
 		limit_up = Player.limit_up;
 		limit_down = Player.limit_down;
 		limit_right = Player.limit_right;
@@ -84,8 +84,8 @@ bool j1Player::Start()
 		player_height = Player.player_height;
 
 		counter++;
-		LOG("counter %d", counter); 
 	}
+
 	//Initial Values 
 	position.x = Player.position.x;
 	position.y = Player.position.y;
@@ -121,7 +121,6 @@ bool j1Player::CleanUp()
 
 bool j1Player::Update(float dt)
 {
-
 	touching_above = false;
 	touching_right = false;
 	touching_left = false;
@@ -198,13 +197,12 @@ bool j1Player::Update(float dt)
 		god_mode = !god_mode;
 	}
 	
-	//flip texture in case speed.x is negative
+	//Flip texture in case speed.x is negative
 	Flip();
 
 	//Set playerhitbox position
 	playerHitbox->SetPos(position.x + (player_width/2), position.y);
 
-	//----------------------------------------------------------------------------------
 	//When player speed.y != 0  setting if the player is FALLING or JUMPING
 	if (invert_gravity == false)
 	{
@@ -232,14 +230,11 @@ bool j1Player::Update(float dt)
 		{
 			is_jumping = false;
 			is_falling = true;
-			
 		}
 	}
-	
-	//----------------------------------------------------------------------------------
 
 	// if the player is falling set falling animation
-	if(is_falling == true && current_animation /*!= &jumping && current_animation != &jump_turned*/)
+	if(is_falling == true && current_animation != &jumping && current_animation != &jump_turned)
 	{ 
 		if (invert_gravity == false)
 			current_animation = &falling;
@@ -248,8 +243,6 @@ bool j1Player::Update(float dt)
 		else if (invert_gravity == true && flip == true)
 			current_animation = &falling_turned;
 	}
-
-	/*LOG("camera.y %d", App->render->camera.y); */
 
 	return true;
 }
@@ -267,7 +260,7 @@ bool j1Player::PostUpdate()
 			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_NONE);
 		}
 	}
-	else if (flip == true)
+	else 
 	{
 		if (invert_gravity == false)
 		{
@@ -285,75 +278,70 @@ bool j1Player::PostUpdate()
 
 	Check_Collision();
 	
-//applaying movement to the player
-position.x += speed.x;
-position.y += speed.y;
+	//applaying movement to the player
+	position.x += speed.x;
+	position.y += speed.y;
 
-CameraOnPlayer();
+	CameraOnPlayer();
 
-//Camera limits
-if (App->render->camera.x*-1 < limit_left)
-{
-	App->render->camera.x = -limit_left;
-}
-
-if (App->render->camera.y < -limit_down)
-{
-	App->render->camera.y = -limit_down;
-}
-
-if (App->render->camera.y > -limit_up)
-{
-	App->render->camera.y = -limit_up;
-}
-
-if (App->render->camera.x* -1 > limit_right)
-{
-	App->render->camera.x = -limit_right; 
-}
-
-
-//Player limits	
-if (position.x < Player.player_limit_left)
-	position.x = Player.player_limit_left;
-
-if (position.x > Player.player_limit_right)
-	position.x = Player.player_limit_right;
-
-
-if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
-{
-	App->audio->PlayFx(run, 0);
-	run_time = SDL_GetTicks() + (1 / player_speed) + 450;
-}
-
-// Parallax if the camera moves
-p2List_item<ImageLayer*>* image = nullptr;
-for (image = App->map->data.image_layers.start; image; image = image->next)
-{
-	if (image->data->speed > 0)
+	//Camera limits
+	if (App->render->camera.x * (-1) < limit_left)
 	{
-		if (camera_goes_left && App->render->camera.x > 200)
-		{
-			image->data->position.x += image->data->speed;
-		}
-		else if (camera_goes_right)
-		{
-			image->data->position.x -= image->data->speed;
-		}
-
+		App->render->camera.x = -limit_left;
 	}
-}
+
+	if (App->render->camera.y < -limit_down)
+	{
+	App->render->camera.y = -limit_down;
+	}
+
+	if (App->render->camera.y > -limit_up)
+	{
+		App->render->camera.y = -limit_up;
+	}
+
+	if (App->render->camera.x * (-1) > limit_right)
+	{
+		App->render->camera.x = -limit_right; 
+	}
+
+	//Player limits	
+	if (position.x < Player.player_limit_left)
+		position.x = Player.player_limit_left;
+
+	if (position.x > Player.player_limit_right)
+		position.x = Player.player_limit_right;
 
 
-return true;
+	if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
+	{
+		App->audio->PlayFx(run, 0);
+		run_time = SDL_GetTicks() + (1 / player_speed) + 450;
+	}
+
+	// Parallax if the camera moves
+	p2List_item<ImageLayer*>* image = nullptr;
+	for (image = App->map->data.image_layers.start; image; image = image->next)
+	{
+		if (image->data->speed > 0)
+		{
+			if (camera_goes_left && App->render->camera.x > 200)
+			{
+				image->data->position.x += image->data->speed;
+			}
+			else if (camera_goes_right)
+			{
+				image->data->position.x -= image->data->speed;
+			}
+		}
+	}
+	return true;
 }
 
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
 	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR) //Standard Floor
 	{
-
 		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)))) //if player touches ground from above 
 		{
 			if (invert_gravity == false)
@@ -536,8 +524,6 @@ void j1Player::CameraOnPlayer()
 	{
 		App->render->camera.y += 6;
 	}
-
-
 }
 
 void j1Player::SetIdleAnimation()

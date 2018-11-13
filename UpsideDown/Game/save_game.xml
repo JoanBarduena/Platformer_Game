@@ -7,12 +7,13 @@
 	<map />
 	<scene />
 	<player>
-		<position x="1163" y="772" />
-		<state invert_gravity="false" />
+		<position x="1436" y="777" />
+		<state invert_gravity="true" />
 	</player>
 	<:anonymous />
 	<fade />
+	<pathfinding />
 	<renderer>
-		<camera x="-523" y="-347" />
+		<camera x="-1006" y="-347" />
 	</renderer>
 </game_state>
