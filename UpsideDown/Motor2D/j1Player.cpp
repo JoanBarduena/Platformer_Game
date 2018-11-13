@@ -86,10 +86,6 @@ bool j1Player::Start()
 		counter++;
 	}
 
-	//Initial Values 
-	position.x = Player.position.x;
-	position.y = Player.position.y;
-
 	App->render->camera.x = Player.camera_position.x; 
 	App->render->camera.y = Player.camera_position.y;
 
@@ -97,7 +93,11 @@ bool j1Player::Start()
 	
 	//Player HitBox
 	if (playerHitbox == nullptr)
+	{
+		position.x = Player.position.x;
+		position.y = Player.position.y;
 		playerHitbox = App->collision->AddCollider({ position.x, position.y, player_width, player_height }, COLLIDER_PLAYER, this);
+	}
 
 	//Loading Sounds FX
 	jump = App->audio->LoadFx("audio/fx/Jump.wav");
@@ -395,7 +395,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				App->render->camera.x = Player.camera_position.x;
 				App->render->camera.y = Player.camera_position.y;
 			}
-			else
+			else 
 				touching_above = true;
 
 		}
@@ -409,7 +409,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				App->render->camera.x = Player.camera_position.x;
 				App->render->camera.y = Player.camera_position.y;
 			}
-			else
+			else 
 				touching_above = true;
 		}
 	}
@@ -543,10 +543,12 @@ bool j1Player::Save(pugi::xml_node& data) const
 {
 	pugi::xml_node position_ = data.append_child("position");
 	pugi::xml_node state = data.append_child("state");
+	pugi::xml_node level = data.append_child("level"); 
 
 	position_.append_attribute("x") = position.x;
 	position_.append_attribute("y") = position.y;
 	state.append_attribute("invert_gravity") = invert_gravity; 
+	level.append_attribute("current") = App->scene->actual_level->data->lvl;
 
 	return true;
 }
@@ -557,6 +559,7 @@ bool j1Player::Load(pugi::xml_node& data)
 	position.x = data.child("position").attribute("x").as_int();
 	position.y = data.child("position").attribute("y").as_int();
 	invert_gravity = data.child("state").attribute("invert_gravity").as_bool();
+	App->scene->Level_Load(data.child("level").attribute("current").as_int());
 
 	return true; 
 }

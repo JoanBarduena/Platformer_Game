@@ -10,7 +10,7 @@ struct SDL_Texture;
 struct player_config
 {
 	iPoint		 position;
-	iPoint		camera_position;
+	iPoint		 camera_position;
 
 	int			 limit_up, limit_down, limit_left, limit_right;
 	int			 maxSpeed_y, player_speed, jump_force;
@@ -37,7 +37,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	void Check_Collision();
 	void CameraOnPlayer();
-	void SetIdleAnimation();
+	void SetIdleAnimation(); 
 
 	//Save and Load
 	bool Save(pugi::xml_node&) const;
@@ -90,6 +90,7 @@ public:
 	int player_width, player_height;
 	int jump_force;
 	int cooldown;
+	int level;
 	int counter = 0; 
 
 	p2SString folder;
