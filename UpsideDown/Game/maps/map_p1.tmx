@@ -7260,7 +7260,8 @@
  </objectgroup>
  <layer name="NoneWalkableTiles" width="200" height="36" visible="0">
   <properties>
-   <property name="Draw" type="int" value="0"/>
+   <property name="Navigation" type="int" value="1"/>
+   <property name="NotDraw" type="int" value="1"/>
   </properties>
   <data>
    <tile gid="0"/>

@@ -42,12 +42,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(map);
+	AddModule(pathfinding);
 	AddModule(scene);
 	AddModule(player);
-	AddModule(collision);
 	AddModule(fade);
-	AddModule(pathfinding);
-
+	AddModule(collision);
+	
 	// render last to swap buffer
 	AddModule(render);
 

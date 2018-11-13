@@ -51,6 +51,9 @@ public:
 
 	p2List<level*> levels_list;
 	p2List_item<level*>* actual_level;
+
+private:
+	SDL_Texture * debug_tex;
 };
 
 #endif // __j1SCENE_H__

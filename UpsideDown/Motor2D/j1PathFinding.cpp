@@ -170,6 +170,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	// TODO 1: if origin or destination are not walkable, return -1
 	if (IsWalkable(origin) == false || IsWalkable(destination) == false)
 	{
+		LOG("Creatingpath NOPE");
 		return -1;
 	}
 
@@ -188,6 +189,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 	while (open.list.count() > 0)
 	{
+		LOG("Creatingpath %d", last_path.Count());
 		// TODO 3: Move the lowest score cell from open list to the closed list
 		Path_Node = open.GetNodeLowestScore();
 		p2List_item<PathNode>* lowest_Path_Node = closed.list.add(Path_Node->data);
@@ -195,6 +197,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 		// TODO 4: If we just added the destination, we are done!
 		// Backtrack to create the final path
+		
 		// Use the Pathnode::parent and Flip() the path when you are finish
 		if (lowest_Path_Node->data.pos == destination)
 		{
