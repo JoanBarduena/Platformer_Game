@@ -56,7 +56,7 @@ struct MapLayer
 	//TODO 6 HERE
 	inline uint Get(uint x, uint y) const
 	{
-		return x + width * y;
+		return data[y*width + x];
 	}
 
 };

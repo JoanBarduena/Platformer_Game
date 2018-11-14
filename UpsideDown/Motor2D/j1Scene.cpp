@@ -47,7 +47,6 @@ bool j1Scene::Start()
 	if (App->map->CreateWalkabilityMap(w, h, &data))
 	{
 		App->pathfinding->SetMap(w, h, data);
-		LOG("Create walkability");
 	}
 		
 
@@ -170,7 +169,6 @@ bool j1Scene::Update(float dt)
 	{
 		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 		App->render->Blit(debug_tex, pos.x, pos.y);
-		LOG("EEEEEEEYYYYYYY");
 	}
 
 	return true;

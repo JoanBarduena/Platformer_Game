@@ -47,31 +47,30 @@ void j1Map::Draw()
 
 
 
-	p2List_item<MapLayer*>* item = nullptr;
-	item = data.map_layers.start;
+	p2List_item<MapLayer*>* item = data.map_layers.start;
+
 	for (; item != NULL; item = item->next)
 	{
 		MapLayer* layer = item->data;
 
-		if (layer->properties.Get("NotDraw") == 1)
-			continue;
+		if(layer->properties.Get("NotDraw") == 1)
+		continue;
 
-		for (uint i = 0; i < data.height; ++i)
+		for (int y = 0; y < data.height; ++y)
 		{
-			for (uint j = 0; j < data.width; ++j)
+			for (int x = 0; x < data.width; ++x)
 			{
-				uint id = layer->Get(j, i);
-				id = layer->data[id];
+				int tile_id = layer->Get(x, y);
+				if (tile_id > 0)
+				{
+					TileSet* tileset = GetTilesetFromTileId(tile_id);
 
-				if (id != 0) {
-					TileSet* tileset = GetTilesetFromTileId(id);
+					SDL_Rect r = tileset->GetTileRect(tile_id);
+					iPoint pos = MapToWorld(x, y);
 
-					SDL_Rect rect = tileset->GetTileRect(id);
-					iPoint pos = MapToWorld(j, i);
-					App->render->Blit(tileset->texture, pos.x, pos.y, &rect);
+					App->render->Blit(tileset->texture, pos.x, pos.y, &r);
 				}
 			}
-
 		}
 	}
 
@@ -83,7 +82,7 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 	p2List_item<TileSet*>* item = data.tilesets.start;
 	TileSet* set = item->data;
 
-	while (item != NULL)
+	while (item)
 	{
 		if (id < item->data->firstgid)
 		{
@@ -477,7 +476,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	else
 	{
 		layer->data = new uint[(layer->width)*(layer->height)];
-		memset(layer->data, 0, sizeof(uint)*(layer->width)*(layer->height));
+		memset(layer->data, 0, layer->width*layer->height);
 
 		int i = 0;
 
