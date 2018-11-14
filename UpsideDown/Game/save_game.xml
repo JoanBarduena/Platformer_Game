@@ -5,16 +5,12 @@
 	<textures />
 	<audio />
 	<map />
-	<scene />
-	<player>
-		<position x="2311" y="795" />
-		<state invert_gravity="false" />
-		<level current="1" />
-	</player>
-	<:anonymous />
-	<fade />
 	<pathfinding />
+	<scene />
+	<player position_x="694" position_y="620" invert_gravity="false" current_level="1" god_mode="true" />
+	<fade />
+	<:anonymous />
 	<renderer>
-		<camera x="-1671" y="-347" />
+		<camera x="-54" y="-347" />
 	</renderer>
 </game_state>

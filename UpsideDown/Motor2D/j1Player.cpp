@@ -499,14 +499,11 @@ void j1Player::SetIdleAnimation()
 //Save player position
 bool j1Player::Save(pugi::xml_node& data) const
 {
-	pugi::xml_node position_ = data.append_child("position");
-	pugi::xml_node state = data.append_child("state");
-	pugi::xml_node level = data.append_child("level"); 
-
-	position_.append_attribute("x") = position.x;
-	position_.append_attribute("y") = position.y;
-	state.append_attribute("invert_gravity") = invert_gravity; 
-	level.append_attribute("current") = App->scene->actual_level->data->lvl;
+	data.append_attribute("position_x") = position.x;
+	data.append_attribute("position_y") = position.y;
+	data.append_attribute("invert_gravity") = invert_gravity; 
+	data.append_attribute("current_level") = App->scene->actual_level->data->lvl;
+	data.append_attribute("god_mode") = god_mode; 
 
 	return true;
 }
@@ -514,10 +511,11 @@ bool j1Player::Save(pugi::xml_node& data) const
 //Load player position
 bool j1Player::Load(pugi::xml_node& data)
 {
-	position.x = data.child("position").attribute("x").as_int();
-	position.y = data.child("position").attribute("y").as_int();
-	invert_gravity = data.child("state").attribute("invert_gravity").as_bool();
-	App->scene->Level_Load(data.child("level").attribute("current").as_int());
+	position.x = data.attribute("position_x").as_int();
+	position.y = data.attribute("position_y").as_int();
+	invert_gravity = data.attribute("invert_gravity").as_bool();
+	App->scene->Level_Load(data.attribute("current_level").as_int());
+	god_mode = data.attribute("god_mode").as_bool(); 
 
 	return true; 
 }
