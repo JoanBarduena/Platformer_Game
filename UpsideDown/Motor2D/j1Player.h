@@ -58,7 +58,7 @@ public:
 	Collider*	 playerHitbox; 
 
 	Animation*   current_animation;
-	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned;
+	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned, god_mode_anim;
 
 	//Sounds FX 
 	uint		 jump; 

@@ -97,6 +97,13 @@
         <animation x="973" y="405" width="60" height="71"/>
         <animation x="863" y="405" width="60" height="71"/>
       </falling_turned>
+      <god_mode_anim speed="0.1f" loop="true">
+        <animation x="515" y="1000" width="63" height="53"/>
+        <animation x="625" y="1000" width="63" height="53"/>
+        <animation x="730" y="1000" width="63" height="53"/>
+        <animation x="76" y="1081" width="63" height="53"/>
+        <animation x="182" y="1081" width="63" height="53"/>
+      </god_mode_anim>
     </animations>
   </player>
 </config>

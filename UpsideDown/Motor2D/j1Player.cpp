@@ -25,6 +25,7 @@ j1Player::j1Player() : j1Module()
 	jump_turned.LoadAnimations("jump_turned");
 	falling.LoadAnimations("falling"); 
 	falling_turned.LoadAnimations("falling_turned"); 
+	god_mode_anim.LoadAnimations("god_mode_anim"); 
 
 	name.create("player");	
 }
@@ -589,6 +590,8 @@ void j1Player::GameMode()
 void j1Player::GodMode() 
 {
 	maxSpeed_y = 0;
+
+	current_animation = &god_mode_anim;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
