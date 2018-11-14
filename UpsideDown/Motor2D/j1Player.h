@@ -55,9 +55,9 @@ public:
 	int			 maxSpeed_y;
 
 	//HitBox
-	Collider*	 playerHitbox; 
+	Collider*	 playerHitbox = nullptr; 
 
-	Animation*   current_animation;
+	Animation*   current_animation = nullptr;
 	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned, god_mode_anim;
 
 	//Sounds FX 

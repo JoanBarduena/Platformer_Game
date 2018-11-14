@@ -303,7 +303,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
 	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR) //Standard Floor
 	{
-		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)))) //if player touches ground from above 
+		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 25)))) //if player touches ground from above 
 		{
 			if (invert_gravity == false)
 				touching_above = true;
@@ -319,7 +319,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		{
 			touching_left = true;
 		}
-		else if ((c2->rect.y + (c2->rect.h)) < (c1->rect.y + 15)) //if player touches ground from bottom
+		else if ((c2->rect.y + (c2->rect.h)) < (c1->rect.y + 25)) //if player touches ground from bottom
 		{
 			if (invert_gravity == false)
 				touching_bottom = true;
@@ -425,7 +425,7 @@ void j1Player::Check_Collision()
 		}
 		else
 		{
-			speed.y = -1;
+			speed.y = -1; 
 		}
 
 		is_falling == true;
@@ -522,6 +522,8 @@ bool j1Player::Load(pugi::xml_node& data)
 
 void j1Player::GameMode()
 {
+	playerHitbox->rect.h = player_height;
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		speed.x = -player_speed;
@@ -588,6 +590,7 @@ void j1Player::GameMode()
 void j1Player::GodMode() 
 {
 	maxSpeed_y = 0;
+	playerHitbox->rect.h = 56; 
 
 	current_animation = &god_mode_anim;
 
@@ -610,6 +613,7 @@ void j1Player::GodMode()
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
+		is_falling = true; 
 		speed.y = player_speed;
 		maxSpeed_y = 10;
 	}

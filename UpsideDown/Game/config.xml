@@ -34,7 +34,7 @@
     <player_size width="25" height="67" />
     <jump_force value="25" />
     <camera x="0" y="-347"/>
-    <player_limit up="50" down="1050" left="8" right="6350"/>
+    <player_limit up="50" down="1060" left="8" right="6350"/>
     <cooldown value="80" />
     <animations>
       <idle speed="0.1f" loop ="true">
