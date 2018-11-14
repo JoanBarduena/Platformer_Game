@@ -213,4 +213,13 @@ void j1Scene::Level_Load(uint number)
 	{
 		LOG("Actual Level (%u) is nullptr", number);
 	}
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+	{
+		App->pathfinding->SetMap(w, h, data);
+	}
+
+
+	RELEASE_ARRAY(data);
 }
