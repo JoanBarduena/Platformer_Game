@@ -102,19 +102,19 @@ private:
 
 	p2List<j1Module*>	modules;
 	uint				frames;
-	float				dt;
 	int					argc;
 	char**				args;
 
 	p2SString			title;
 	p2SString			organization;
+	int					framerate_cap; 
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
 	p2SString			load_game;
 	mutable p2SString	save_game;
 
-	j1PerfTimer			ptimer;
+	j1PerfTimer			perf_timer;
 	uint64				frame_count = 0;
 	j1Timer				startup_time;
 	j1Timer				frame_time;
@@ -123,6 +123,8 @@ private:
 	uint32				last_sec_frame_count = 0;
 	uint32				prev_last_sec_frame_count = 0;
 	int					frame_cap;
+	int					capped_ms = -1;
+	float				dt = 0.0f;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S
