@@ -206,8 +206,6 @@ void j1App::FinishUpdate()
 	if(want_to_load == true)
 		LoadGameNow();
 
-	// Framerate calculations --
-
 	if (last_sec_frame_time.Read() > 1000)
 	{
 		last_sec_frame_time.Start();
@@ -225,12 +223,18 @@ void j1App::FinishUpdate()
 		avg_fps, last_frame_ms, frames_on_last_update, dt, seconds_since_startup, frame_count);
 	App->win->SetTitle(title);
 
-	if (capped_ms > 0 && last_frame_ms < capped_ms)
+	/*if (capped_ms > 0 && last_frame_ms < capped_ms)
 	{
 		j1PerfTimer t;
 		SDL_Delay(capped_ms - last_frame_ms);
 		LOG("We waited for %d milliseconds and got back in %f", capped_ms - last_frame_ms, t.ReadMs());
+	}*/
+	if (capped_ms > 0 && last_frame_ms < capped_ms && caped_frames == true)
+	{
+		float waiting_time = (1000 / framerate_cap) - last_frame_ms;
+		SDL_Delay(waiting_time);
 	}
+	
 }
 
 // Call modules before each loop iteration

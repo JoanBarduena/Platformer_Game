@@ -2,12 +2,13 @@
 
 <config>
   <app>
+    <framerate_cap value="30"></framerate_cap>
     <title>Game Development Testbed</title>
     <organization>UPC</organization>
   </app>
 	
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
   </renderer>
 
   <window>

@@ -98,6 +98,8 @@ public:
 	j1EntityManager*	entityManager;
 	j1PathFinding*		pathfinding;
 
+	bool caped_frames = true;
+
 private:
 
 	p2List<j1Module*>	modules;

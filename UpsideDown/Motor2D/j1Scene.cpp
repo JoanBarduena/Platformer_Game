@@ -118,6 +118,11 @@ bool j1Scene::Update(float dt)
 		Level_Load(1); 
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+	{
+		App->caped_frames = !App->caped_frames;
+	}
+
 	//F2 Starts from the beginning of the current level
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
