@@ -52,7 +52,7 @@ public:
 	Animation		idle, run; 
 	
 	//Fx Sounds 
-	uint			run; 
+	uint			run_fx; 
 
 };
 #endif // __MODULE_ENTITY_H__

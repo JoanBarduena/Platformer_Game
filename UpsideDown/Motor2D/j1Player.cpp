@@ -131,6 +131,8 @@ bool j1Player::CleanUp()
 
 bool j1Player::Update(float dt)
 {
+	BROFILER_CATEGORY("Player Update", Profiler::Color::Green);
+
 	touching_above = false;
 	touching_right = false;
 	touching_left = false;
@@ -209,6 +211,8 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
+	BROFILER_CATEGORY("Player PostUpdate", Profiler::Color::Red);
+
 	if (flip == false)
 	{
 		if (invert_gravity == true)
