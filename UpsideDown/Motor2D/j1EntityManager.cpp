@@ -14,56 +14,92 @@
 j1EntityManager::j1EntityManager()
 {
 	name.create("entity");
+	player = (j1Player*)CreateEntity(EntityType::PLAYER);
 }
 
-j1EntityManager::~j1EntityManager() {}
+j1EntityManager::~j1EntityManager() 
+{
+	p2List_item<j1Entity*>* item = entities.start;
+
+	while (item != NULL)
+	{
+		RELEASE(item->data);
+		item = item->next;
+	}
+
+	entities.clear();
+}
+
+bool j1EntityManager::Awake(pugi::xml_node& config)
+{
+	return true;
+}
 
 bool j1EntityManager::Start()
 {
-	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next)
+	bool ret = true;
+
+	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
 	{
-		iterator->data->Start();
+		ret = iterator->data->Start();
+	}
+
+	return ret;
+}
+
+bool j1EntityManager::PreUpdate()
+{
+	bool ret = true;
+
+	p2List_item<j1Entity*>* iterator;
+	for (iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	{
+		ret = iterator->data->PreUpdate();
 	}
 
 	return true;
 }
 
-bool j1EntityManager::PreUpdate()
+bool j1EntityManager::UpdateFrame(float dt)
 {
-	BROFILER_CATEGORY("EntityManagerPreUpdate", Profiler::Color::Orange)
+	accumulated_time += dt;
 
-		for (uint i = 0; i < MAX_ENEMIES; ++i)
-		{
-			if (queue[i].type != ENTITY_TYPE::UNKNOWN)
-			{
-				SpawnEnemy(queue[i]);
-				queue[i].type = ENTITY_TYPE::UNKNOWN;
-			}
-		}
+	float update_ms_cycle = 0.0f;
 
-	return true;
+	if (accumulated_time >= update_ms_cycle)
+		do_logic = true;	UpdateAll(dt, do_logic);	if (do_logic == true) {
+		accumulated_time = 0.0f;
+		do_logic = false;
+	}
+	return true;
 }
 
-bool j1EntityManager::Update(float dt)
+bool j1EntityManager::UpdateAll(float dt, bool do_logic)
 {
-	BROFILER_CATEGORY("EntityManagerUpdate", Profiler::Color::LightSeaGreen)
+	bool ret = true;
 
-		for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next)
-		{
-			iterator->data->Update(dt);
+	p2List_item<j1Entity*>* item;
+	for (item = entities.start; item != NULL && ret == true; item = item->next)
+	{
+		if (do_logic == true) {
+			ret = item->data->UpdateFrame(dt);
 		}
 
-	return true;
+		if (ret == true)
+			ret = item->data->Update();
+	}
+
+	return ret;
 }
 
 bool j1EntityManager::PostUpdate()
 {
-	BROFILER_CATEGORY("EntityManagerPostUpdate", Profiler::Color::Yellow)
-
-		for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next)
-		{
-			iterator->data->PostUpdate();
-		}
+	bool ret = true;
+		
+	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	{
+		ret = iterator->data->PostUpdate();
+	}
 
 	return true;
 }
@@ -71,84 +107,41 @@ bool j1EntityManager::PostUpdate()
 bool j1EntityManager::CleanUp()
 {
 	LOG("Freeing all enemies");
-
-	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next)
+	bool ret = true;
+	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
 	{
-		iterator->data->CleanUp();
-		int index = entities.find(iterator->data);
-		RELEASE(entities.At(index)->data);
-		entities.del(entities.At(index));
+		ret = iterator->data->CleanUp();
 	}
 
-	player = nullptr;
-
-	return true;
-}
-
-j1Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type, int x, int y)
-{
-	j1Entity* ret = nullptr;
-	switch (type)
-	{
-	case PLAYER:
-		ret = new j1Player(x, y, type);
-		if (ret != nullptr) entities.add(ret); break;
-	}
 	return ret;
 }
 
-void j1EntityManager::AddEnemy(int x, int y, ENTITY_TYPE type)
+j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
 {
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
+	static_assert((int)EntityType::UNKNOWN == 3, "code needs update");
+
+	j1Entity* ret = nullptr;
+	switch (type)
 	{
-		if (queue[i].type == ENTITY_TYPE::UNKNOWN)
-		{
-			queue[i].type = type;
-			queue[i].position.x = x;
-			queue[i].position.y = y;
-			break;
-		}
+	//Player is not an entity yet
+	/*case EntityType::PLAYER:
+		ret = new j1Player();
+		break;*/
 	}
 }
 
-void j1EntityManager::SpawnEnemy(const EnemyInfo& info)
+void j1EntityManager::DestroyEntity(j1Entity* entity)
 {
-
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
-	{
-		if (queue[i].type != ENTITY_TYPE::UNKNOWN)
-		{
-			j1Entity* entity;
-			
-			entities.add(entity);
-			entity->Start();
-		}
-	}
-}
-
-void j1EntityManager::CreatePlayer()
-{
-	player = (j1Player*)CreateEntity(PLAYER);
-}
-
-void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
-{
-	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != NULL; iterator = iterator->next)
-	{
-		if (iterator->data->collider == c1)
-		{
-			iterator->data->OnCollision(c1, c2);
-			break;
-		}
-	}
+	LOG("entity destroyed");
+	RELEASE(entity);
 }
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
-
+	return true;
 }
 
 bool j1EntityManager::Save(pugi::xml_node& data) const
 {
-
+	return true;
 }

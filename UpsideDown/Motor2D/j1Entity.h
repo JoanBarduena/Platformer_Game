@@ -1,4 +1,4 @@
-#ifndef __MODULE_ENTITY_H__
+#ifndef __MODULE_ENTITY_H
 #define __MODULE_ENTITY_H__
 
 #include "j1EntityManager.h"
@@ -13,7 +13,7 @@ struct SDL_Texture;
 struct Collider; 
 struct Animation;
 
-enum ENTITY_TYPE
+enum class EntityType
 {
 	PLAYER,
 	BAT,
@@ -25,11 +25,14 @@ class j1Entity : public j1Module
 {
 public:
 
-	j1Entity(int x, int y, ENTITY_TYPE type);
+	j1Entity(int x, int y, EntityType type);
 
 	virtual ~j1Entity();
 
-	bool Update(float dt);
+	bool UpdateFrame(float dt);
+
+	bool Update();
+
 
 	bool Calculate_Path();
 
@@ -43,7 +46,7 @@ private:
 
 public:
 		
-	ENTITY_TYPE		type; 
+	EntityType		type; 
 
 	iPoint			position; 
 	iPoint			speed; 

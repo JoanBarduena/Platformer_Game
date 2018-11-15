@@ -7,48 +7,42 @@
 #include "p2Point.h"
 #include "j1Entity.h"
 
-#define MAX_ENEMIES 20
 
 class j1Entity; 
 class j1Player; 
-
-struct EnemyInfo
-{
-	ENTITY_TYPE type = ENTITY_TYPE::UNKNOWN;
-	iPoint position;
-};
+enum class EntityType;
 
 class j1EntityManager : public j1Module
 {
 public:
 
 	j1EntityManager();
-	~j1EntityManager();
+	virtual ~j1EntityManager();
 
-	//bool Awake(pugi::xml_node&);
+	bool Awake(pugi::xml_node&);
 	bool Start();
 	bool PreUpdate(); 
-	bool Update(float dt);
+	bool UpdateFrame(float dt);
 	bool PostUpdate();
 	bool CleanUp();
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
-	j1Entity* CreateEntity(ENTITY_TYPE type, int x = 0, int y = 0);
-
-	void OnCollision(Collider* c1, Collider* c2);
-	void CreatePlayer();
-	void AddEnemy(int x, int y, ENTITY_TYPE type);
-
-	p2List<j1Entity*>	entities;
-
-	j1Player*			player = nullptr;
+	j1Entity* CreateEntity(EntityType type, int x = 0, int y = 0);
+	void DestroyEntity(j1Entity* entity);
 
 private:
+	bool UpdateAll(float dt, bool check_logic);
 
-	void SpawnEnemy(const EnemyInfo& info);
-	EnemyInfo			queue[MAX_ENEMIES];
+public:
+
+	p2List<j1Entity*> entities;
+	j1Player* player;
+
+private:
+	float accumulated_time;
+	bool do_logic = false;
 };
 #endif // !__ENTITY_MANAGER_H__
 
