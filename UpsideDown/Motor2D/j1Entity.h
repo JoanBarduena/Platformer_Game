@@ -1,6 +1,7 @@
 #ifndef __MODULE_ENTITY_H__
 #define __MODULE_ENTITY_H__
 
+#include "j1EntityManager.h"
 #include "j1Module.h"
 #include "Animation.h"
 #include "p2Point.h"
@@ -9,19 +10,22 @@
 #include "PugiXml/src/pugixml.hpp"
 
 struct SDL_Texture;
+struct Collider; 
+struct Animation;
 
-enum class EntityType
+enum ENTITY_TYPE
 {
-	player,
-	bat,
-	smasher
+	PLAYER,
+	BAT,
+	SMASHER,
+	UNKNOWN
 };
 
 class j1Entity : public j1Module
 {
 public:
 
-	j1Entity(EntityType type);
+	j1Entity(int x, int y, ENTITY_TYPE type);
 
 	virtual ~j1Entity();
 
@@ -39,7 +43,7 @@ private:
 
 public:
 		
-	EntityType		type; 
+	ENTITY_TYPE		type; 
 
 	iPoint			position; 
 	iPoint			speed; 

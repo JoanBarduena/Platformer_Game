@@ -11,9 +11,8 @@
 #include "j1PathFinding.h"
 #include "j1Player.h"
 
-j1Entity::j1Entity(EntityType type):type(type)
-{	
-	
+j1Entity::j1Entity(int x, int y, ENTITY_TYPE type) : position(x, y), type(type)
+{
 }
 
 j1Entity::~j1Entity()
