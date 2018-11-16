@@ -185,7 +185,7 @@ bool j1Player::Update(float dt)
 		}
 
 		// if the player is falling set falling animation
-		if (is_falling == true && current_animation != &jumping && current_animation != &jump_turned)
+		if (is_falling == true && current_animation != &jumping && current_animation != &jump_turned )
 		{
 			if (invert_gravity == false)
 				current_animation = &falling;
@@ -425,6 +425,11 @@ void j1Player::Check_Collision()
 		SetIdleAnimation(); //set animation to idle when player lands
 		jumping.Reset(); //jumping frame reset to frame number 1
 	}
+	else if (touching_above == true && is_falling == true && god_mode == true)
+	{
+		speed.y = 0;
+		is_falling = false; 
+	}
 	
 	if (touching_bottom == true)
 	{
@@ -495,14 +500,12 @@ void j1Player::CameraOnPlayer()
 
 void j1Player::SetIdleAnimation()
 {
-	
-	if (invert_gravity == false)
-		current_animation = &idle;
-	else if (invert_gravity == true && flip == true)
-		current_animation = &idle_turned;
-	else if (invert_gravity == true && flip == false)
-		current_animation = &idle;
-
+		if (invert_gravity == false)
+			current_animation = &idle;
+		else if (invert_gravity == true && flip == true)
+			current_animation = &idle_turned;
+		else if (invert_gravity == true && flip == false)
+			current_animation = &idle;
 }
 
 //Save player position
@@ -599,8 +602,8 @@ void j1Player::GameMode()
 void j1Player::GodMode() 
 {
 	maxSpeed_y = 0;
-	playerHitbox->rect.h = Player.godmode_hitbox;
-	current_animation = &god_mode_anim; 
+	playerHitbox->rect.h = Player.godmode_hitbox; 
+	current_animation = &god_mode_anim;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
@@ -618,19 +621,23 @@ void j1Player::GodMode()
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		speed.y = -player_speed;
-		maxSpeed_y = 10;
+		maxSpeed_y = Player.maxSpeed_y;
 		
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		is_falling = true; 
 		speed.y = player_speed;
-		maxSpeed_y = 10;
-		
+		maxSpeed_y = Player.maxSpeed_y;
 	}
 	//Player Limits 
 	if (position.y < Player.player_limit_up)
 		position.y = Player.player_limit_up;
 	if (position.y > Player.player_limit_down)
 		position.y = Player.player_limit_down;
+
+	if (flip == true && invert_gravity == true)
+		current_animation = &god_mode_turned; 
+
 }
+

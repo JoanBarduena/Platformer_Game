@@ -77,7 +77,7 @@ public:
 	bool touching_right;	//if player is touching from right
 	bool touching_left;		//if player is touching from left
 	bool is_jumping;		//if player is jumping (speed.y < 0)
-	bool is_falling;		//if player is falling (speed.y > 0)
+	bool is_falling;		//if player is falling (speed.y > 0)		
 
 	bool win1;
 	bool win2;
