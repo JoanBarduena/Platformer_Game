@@ -25,7 +25,9 @@ j1Player::j1Player() : j1Module()
 	jump_turned.LoadAnimations("jump_turned");
 	falling.LoadAnimations("falling"); 
 	falling_turned.LoadAnimations("falling_turned"); 
+
 	god_mode_anim.LoadAnimations("god_mode_anim"); 
+	god_mode_turned.LoadAnimations("god_mode_turned"); 
 
 	name.create("player");	
 }
@@ -66,6 +68,9 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 	//Cooldown value
 	Player.cooldown = config.child("cooldown").attribute("value").as_int();
+
+	//GodMode Hitbox value
+	Player.godmode_hitbox = config.child("godmode_hitbox").attribute("value").as_int(); 
 
 	return true;
 }
@@ -413,7 +418,7 @@ void j1Player::Check_Collision()
 		}
 		
 	}
-	else if (touching_above == true && is_falling == true)
+	else if (touching_above == true && is_falling == true && god_mode == false)
 	{
 		speed.y = 0;
 		is_falling = false;
@@ -594,13 +599,12 @@ void j1Player::GameMode()
 void j1Player::GodMode() 
 {
 	maxSpeed_y = 0;
-	playerHitbox->rect.h = 56; 
-
-	current_animation = &god_mode_anim;
+	playerHitbox->rect.h = Player.godmode_hitbox;
+	current_animation = &god_mode_anim; 
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		speed.x = -player_speed; 
+		speed.x = -player_speed;
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
@@ -614,12 +618,15 @@ void j1Player::GodMode()
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		speed.y = -player_speed;
+		maxSpeed_y = 10;
+		
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		is_falling = true; 
 		speed.y = player_speed;
 		maxSpeed_y = 10;
+		
 	}
 	//Player Limits 
 	if (position.y < Player.player_limit_up)

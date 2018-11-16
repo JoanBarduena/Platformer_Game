@@ -17,8 +17,7 @@ struct player_config
 	int			 player_width, player_height;
 	int			 player_limit_left, player_limit_right, player_limit_up, player_limit_down;
 	int			 cooldown;
-
-	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned; 
+	int			 godmode_hitbox; 
 };
 
 class j1Player : public j1Module
@@ -58,7 +57,8 @@ public:
 	Collider*	 playerHitbox = nullptr; 
 
 	Animation*   current_animation = nullptr;
-	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned, god_mode_anim;
+	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned;
+	Animation	 god_mode_anim, god_mode_turned; 
 
 	//Sounds FX 
 	uint		 jump; 

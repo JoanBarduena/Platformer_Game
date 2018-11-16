@@ -67,11 +67,16 @@ bool j1EntityManager::UpdateFrame(float dt)
 	float update_ms_cycle = 0.0f;
 
 	if (accumulated_time >= update_ms_cycle)
-		do_logic = true;	UpdateAll(dt, do_logic);	if (do_logic == true) {
+		do_logic = true;
+
+	UpdateAll(dt, do_logic);
+
+	if (do_logic == true) {
 		accumulated_time = 0.0f;
 		do_logic = false;
 	}*/
-	return true;
+	return true;
+
 }
 
 bool j1EntityManager::UpdateAll(float dt, bool do_logic)

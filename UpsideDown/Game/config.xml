@@ -2,13 +2,13 @@
 
 <config>
   <app>
-    <framerate_cap value="30"></framerate_cap>
+    <framerate_cap value="60"></framerate_cap>
     <title>Game Development Testbed</title>
     <organization>UPC</organization>
   </app>
 	
   <renderer>
-    <vsync value="false"/>
+    <vsync value="true"/>
   </renderer>
 
   <window>
@@ -37,6 +37,7 @@
     <camera x="0" y="-347"/>
     <player_limit up="50" down="1060" left="8" right="6350"/>
     <cooldown value="80" />
+    <godmode_hitbox value="56"/>
     <animations>
       <idle speed="0.1f" loop ="true">
        <animation x="70" y="11" width="50" height="67"/>
@@ -105,6 +106,13 @@
         <animation x="76" y="1081" width="63" height="53"/>
         <animation x="182" y="1081" width="63" height="53"/>
       </god_mode_anim>
+      <god_mode_turned speed="0.1f" loop="true">
+        <animation x="1082" y="508" width="63" height="53"/>
+        <animation x="972" y="508" width="63" height="53"/>
+        <animation x="863" y="508" width="63" height="53"/>
+        <animation x="1300" y="508" width="63" height="53"/>
+        <animation x="1190" y="508" width="63" height="53"/>
+      </god_mode_turned>
     </animations>
   </player>
 </config>
