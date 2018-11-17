@@ -75,39 +75,42 @@ bool j1Player::Awake(pugi::xml_node& config)
 bool j1Player::Start()
 {
 	
-	limit_up = Player.limit_up;
-	limit_down = Player.limit_down;
-	limit_right = Player.limit_right;
-	limit_left = Player.limit_left;
+	if (counter == 0)
+	{
+		limit_up = Player.limit_up;
+		limit_down = Player.limit_down;
+		limit_right = Player.limit_right;
+		limit_left = Player.limit_left;
 
-	player_speed = Player.player_speed;
-	maxSpeed_y = Player.maxSpeed_y;
-	jump_force = Player.jump_force;
+		player_speed = Player.player_speed;
+		maxSpeed_y = Player.maxSpeed_y;
+		jump_force = Player.jump_force;
 
-	player_width = Player.player_width;
-	player_height = Player.player_height;
+		player_width = Player.player_width;
+		player_height = Player.player_height;
 
-	App->render->camera.x = Player.camera_position.x;
-	App->render->camera.y = Player.camera_position.y;
+		App->render->camera.x = Player.camera_position.x;
+		App->render->camera.y = Player.camera_position.y;
 
-	graphics = App->tex->Load("textures/adventurer.png");
+		graphics = App->tex->Load("textures/adventurer.png");
 
-	//Loading Sounds FX
-	jump = App->audio->LoadFx("audio/fx/Jump.wav");
-	run = App->audio->LoadFx("audio/fx/Run.wav");
+		//Loading Sounds FX
+		jump = App->audio->LoadFx("audio/fx/Jump.wav");
+		run = App->audio->LoadFx("audio/fx/Run.wav");
 
-	//Set initial animation speeds---------------
-	idle_speed = idle.speed;
-	running_speed = running.speed;
-	jumping_speed = jumping.speed;
-	idle_turned_speed = idle_turned.speed;
-	run_turned_speed = run_turned.speed;
-	jump_turned_speed = jump_turned.speed;
-	falling_speed = falling.speed;
-	falling_turned_speed = falling_turned.speed;
+		//Set initial animation speeds---------------
+		idle_speed = idle.speed;
+		running_speed = running.speed;
+		jumping_speed = jumping.speed;
+		idle_turned_speed = idle_turned.speed;
+		run_turned_speed = run_turned.speed;
+		jump_turned_speed = jump_turned.speed;
+		falling_speed = falling.speed;
+		falling_turned_speed = falling_turned.speed;
 
-	god_mode_anim_speed = god_mode_anim.speed;
-	god_mode_turned_speed = god_mode_turned.speed; 
+		god_mode_anim_speed = god_mode_anim.speed;
+		god_mode_turned_speed = god_mode_turned.speed;
+	}
 	//-----------------------------------------------
 
 	if (level_change <= 0)
@@ -153,23 +156,19 @@ bool j1Player::Update(float dt)
 	win2 = false;
 
 	dt_player = dt;
+	
+	idle.speed = idle_speed * dt;
+	running.speed = running_speed*dt;
+	jumping.speed = jumping_speed * dt;
+	idle_turned.speed = idle_turned_speed * dt;
+	run_turned.speed = idle_turned_speed * dt;
+	jump_turned.speed = jump_turned_speed * dt;
+	falling.speed = falling_speed * dt;
+	falling_turned.speed = falling_turned_speed * dt;
 
-	if (i < 5)
-	{
-		idle.speed = idle_speed * dt;
-		running.speed = running_speed*dt;
-		jumping.speed = jumping_speed * dt;
-		idle_turned.speed = idle_turned_speed * dt;
-		run_turned.speed = idle_turned_speed * dt;
-		jump_turned.speed = jump_turned_speed * dt;
-		falling.speed = falling_speed * dt;
-		falling_turned.speed = falling_turned_speed * dt;
+	god_mode_anim.speed = god_mode_anim_speed * dt; 
+	god_mode_turned.speed = god_mode_turned_speed * dt; 
 
-		god_mode_anim.speed = god_mode_anim_speed * dt; 
-		god_mode_turned.speed = god_mode_turned_speed * dt; 
-
-		i++;
-	}
 	LOG("%f", running.speed);
 	
 	
