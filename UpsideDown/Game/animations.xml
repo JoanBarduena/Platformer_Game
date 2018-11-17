@@ -76,4 +76,18 @@
       <animation x="1190" y="508" width="63" height="53"/>
     </god_mode_turned>
   </player>
+  
+  <bat>
+    <flying speed="0.1f" loop="true">
+      <animation x="41" y="74" width="53" height="45"/>
+      <animation x="104" y="74" width="53" height="45"/>
+      <animation x="174" y="74" width="53" height="45"/>
+      <animation x="241" y="74" width="53" height="45"/>
+      <animation x="305" y="74" width="53" height="45"/>
+      <animation x="371" y="74" width="53" height="45"/>
+      <animation x="436" y="74" width="53" height="45"/>
+      <animation x="505" y="74" width="53" height="45"/>
+    </flying>
+  </bat>
+  
 </animations>

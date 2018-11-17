@@ -17,17 +17,17 @@
 j1Player::j1Player() : j1Module()
 {
 	//Loading Animations
-	idle.LoadAnimations("idle"); 
-	running.LoadAnimations("running"); 
-	jumping.LoadAnimations("jumping"); 
-	idle_turned.LoadAnimations("idle_turned");
-	run_turned.LoadAnimations("run_turned");
-	jump_turned.LoadAnimations("jump_turned");
-	falling.LoadAnimations("falling"); 
-	falling_turned.LoadAnimations("falling_turned"); 
+	idle.LoadAnimations("player", "idle");
+	running.LoadAnimations("player", "running");
+	jumping.LoadAnimations("player", "jumping");
+	idle_turned.LoadAnimations("player", "idle_turned");
+	run_turned.LoadAnimations("player", "run_turned");
+	jump_turned.LoadAnimations("player", "jump_turned");
+	falling.LoadAnimations("player", "falling");
+	falling_turned.LoadAnimations("player", "falling_turned");
 
-	god_mode_anim.LoadAnimations("god_mode_anim"); 
-	god_mode_turned.LoadAnimations("god_mode_turned"); 
+	god_mode_anim.LoadAnimations("player", "god_mode_anim");
+	god_mode_turned.LoadAnimations("player", "god_mode_turned");
 
 	name.create("player");	
 }
@@ -98,19 +98,6 @@ bool j1Player::Start()
 		jump = App->audio->LoadFx("audio/fx/Jump.wav");
 		run = App->audio->LoadFx("audio/fx/Run.wav");
 
-		//Set initial animation speeds---------------
-		idle_speed = idle.speed;
-		running_speed = running.speed;
-		jumping_speed = jumping.speed;
-		idle_turned_speed = idle_turned.speed;
-		run_turned_speed = run_turned.speed;
-		jump_turned_speed = jump_turned.speed;
-		falling_speed = falling.speed;
-		falling_turned_speed = falling_turned.speed;
-
-		god_mode_anim_speed = god_mode_anim.speed;
-		god_mode_turned_speed = god_mode_turned.speed;
-
 		counter++;
 	}
 	//-----------------------------------------------
@@ -162,21 +149,6 @@ bool j1Player::Update(float dt)
 	win2 = false;
 
 	dt_player = dt;
-	
-	idle.speed = idle_speed * dt;
-	running.speed = running_speed*dt;
-	jumping.speed = jumping_speed * dt;
-	idle_turned.speed = idle_turned_speed * dt;
-	run_turned.speed = idle_turned_speed * dt;
-	jump_turned.speed = jump_turned_speed * dt;
-	falling.speed = falling_speed * dt;
-	falling_turned.speed = falling_turned_speed * dt;
-
-	god_mode_anim.speed = god_mode_anim_speed * dt; 
-	god_mode_turned.speed = god_mode_turned_speed * dt; 
-
-	LOG("%f", running.speed);
-	
 	
 	//Normal Game Mode
 	if (god_mode == false)
@@ -253,22 +225,22 @@ bool j1Player::PostUpdate()
 	{
 		if (invert_gravity == true)
 		{
-			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_VERTICAL);
+			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_VERTICAL);
 		}
 		else
 		{
-			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_NONE);
+			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_NONE);
 		}
 	}
 	else 
 	{
 		if (invert_gravity == false)
 		{
-			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_HORIZONTAL);
+			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_HORIZONTAL);
 		}
 		else
 		{
-			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(), SDL_FLIP_NONE);
+			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_NONE);
 		}
 		
 	}

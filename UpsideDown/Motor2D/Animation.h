@@ -33,9 +33,9 @@ public:
 		frames[last_frame++] = rect;
 	}
 
-	SDL_Rect& GetCurrentFrame()
+	SDL_Rect& GetCurrentFrame(float dt)
 	{
-		current_frame += speed;
+		current_frame += speed*dt;
 		if (current_frame >= last_frame)
 		{
 			current_frame = (loop) ? 0.0f : last_frame - 1;
@@ -45,12 +45,12 @@ public:
 		return frames[(int)current_frame];
 	}
 
-	void LoadAnimations(p2SString name)
+	void LoadAnimations(p2SString name, p2SString animation)
 	{
 		pugi::xml_parse_result result = config_xml.load_file("animations.xml");
 		if (result != NULL)
 		{
-			pugi::xml_node animation_name = config_xml.child("animations").child("player").child(name.GetString());
+			pugi::xml_node animation_name = config_xml.child("animations").child(name.GetString()).child(animation.GetString());
 			speed = animation_name.attribute("speed").as_float();
 			loop = animation_name.attribute("loop").as_bool();
 			for (pugi::xml_node animation = animation_name.child("animation"); animation; animation = animation.next_sibling("animation"))

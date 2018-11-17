@@ -7,6 +7,7 @@
 #include "p2Point.h"
 #include "p2DynArray.h"
 #include "j1Timer.h"
+#include "p2Log.h"
 
 struct SDL_Texture;
 struct Collider; 

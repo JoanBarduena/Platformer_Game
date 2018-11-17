@@ -121,7 +121,6 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
 	{
 		//counter for animation speed
-		App->player->i = 0;
 		App->caped_frames = !App->caped_frames;
 	}
 
