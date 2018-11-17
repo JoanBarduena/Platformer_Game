@@ -92,7 +92,6 @@ bool j1Player::Start()
 		player_width = Player.player_width;
 		player_height = Player.player_height;
 
-		
 		graphics = App->tex->Load("textures/adventurer.png");
 
 		//Loading Sounds FX
@@ -324,15 +323,14 @@ bool j1Player::PostUpdate()
 	{
 		if (image->data->speed > 0)
 		{
-			if (camera_goes_left && App->render->camera.x > 200)
-				if (camera_goes_left && position.x > 450)
-				{
-					image->data->position.x += image->data->speed;
-				}
-				else if (camera_goes_right && position.x < 5900)
-				{
-					image->data->position.x -= image->data->speed;
-				}
+			if (camera_goes_left && position.x > 450)
+			{
+				image->data->position.x += image->data->speed;
+			}
+			else if (camera_goes_right && position.x < 5900)
+			{
+				image->data->position.x -= image->data->speed;
+			}
 		}
 	}
 	return true;
