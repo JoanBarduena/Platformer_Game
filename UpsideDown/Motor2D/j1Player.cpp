@@ -92,9 +92,7 @@ bool j1Player::Start()
 		player_width = Player.player_width;
 		player_height = Player.player_height;
 
-		App->render->camera.x = Player.camera_position.x;
-		App->render->camera.y = Player.camera_position.y;
-
+		
 		graphics = App->tex->Load("textures/adventurer.png");
 
 		//Loading Sounds FX
@@ -117,6 +115,10 @@ bool j1Player::Start()
 		counter++;
 	}
 	//-----------------------------------------------
+
+	App->render->camera.x = Player.camera_position.x;
+	App->render->camera.y = Player.camera_position.y;
+
 
 	if (level_change <= 0)
 	{

@@ -44,6 +44,19 @@ bool j1Entity::Save(pugi::xml_node&) const
 	return true;
 }
 
-void j1Entity::OnCollision(Collider* c1, Collider* c2) {}
+void j1Entity::LoadValues()
+{
 
-void j1Entity::Draw() {}
+}
+
+void j1Entity::OnCollision(Collider* c1, Collider* c2) 
+{
+
+}
+
+void j1Entity::Draw() 
+{
+
+}
+
+

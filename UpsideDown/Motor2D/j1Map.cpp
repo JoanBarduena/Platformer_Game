@@ -586,10 +586,6 @@ bool j1Map::LoadColliders(pugi::xml_node& node)
 		{
 			col_type = COLLIDER_FLOOR;
 		}
-		else if (type == "limit")
-		{
-			col_type = COLLIDER_LIMIT; 
-		}
 		else if (type == "win1")
 		{
 			col_type = COLLIDER_WIN1;

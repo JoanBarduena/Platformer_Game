@@ -7,7 +7,6 @@
 #include "p2Point.h"
 #include "p2DynArray.h"
 #include "j1Timer.h"
-#include "PugiXml/src/pugixml.hpp"
 
 struct SDL_Texture;
 struct Collider; 
@@ -37,6 +36,7 @@ public:
 
 	virtual bool Load(pugi::xml_node&);
 	virtual bool Save(pugi::xml_node&) const;
+	virtual void LoadValues();
 
 	virtual void Draw();
 

@@ -138,9 +138,6 @@ void j1Collision::DebugDraw()
 		case COLLIDER_FLOOR_JUMPABLE: // cyan
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
 			break;
-		case COLLIDER_LIMIT: // red 
-			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
-			break;
 		case COLLIDER_WIN1: // purple 
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
 			break;
