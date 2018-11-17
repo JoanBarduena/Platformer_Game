@@ -16,7 +16,6 @@ struct player_config
 	int			 maxSpeed_y, player_speed, jump_force;
 	int			 player_width, player_height;
 	int			 player_limit_left, player_limit_right, player_limit_up, player_limit_down;
-	int			 cooldown;
 	int			 godmode_hitbox; 
 };
 
@@ -48,10 +47,12 @@ public:
 
 	SDL_Texture* graphics = nullptr;
 
-	iPoint		 position;
-	iPoint		 speed;
+	fPoint		 position;
+	fPoint		 speed;
 	int			 player_speed;
 	int			 maxSpeed_y;
+
+	float dt_player;
 
 	//HitBox
 	Collider*	 playerHitbox = nullptr; 
@@ -83,7 +84,7 @@ public:
 	bool win2;
 	
 	bool invert_gravity;
-
+	bool can_invert = true;
 	bool god_mode = false;
 
 	bool camera_goes_left;
@@ -91,9 +92,12 @@ public:
 
 	int player_width, player_height;
 	int jump_force;
-	int cooldown;
 	int level_change = 0;
-	int counter = 0; 
+	int counter = 0;
+
+	//Animation initial speed values
+	int i = 0;
+	float idle_speed, running_speed, jumping_speed, idle_turned_speed, run_turned_speed, jump_turned_speed, falling_speed, falling_turned_speed;
 
 	p2SString folder;
 };

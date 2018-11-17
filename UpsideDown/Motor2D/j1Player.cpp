@@ -66,9 +66,6 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Player.player_limit_left = config.child("player_limit").attribute("left").as_int();
 	Player.player_limit_right = config.child("player_limit").attribute("right").as_int();
 
-	//Cooldown value
-	Player.cooldown = config.child("cooldown").attribute("value").as_int();
-
 	//GodMode Hitbox value
 	Player.godmode_hitbox = config.child("godmode_hitbox").attribute("value").as_int(); 
 
@@ -77,30 +74,39 @@ bool j1Player::Awake(pugi::xml_node& config)
 
 bool j1Player::Start()
 {
-	if (counter <= 0)
-	{
-		limit_up = Player.limit_up;
-		limit_down = Player.limit_down;
-		limit_right = Player.limit_right;
-		limit_left = Player.limit_left;
+	
+	limit_up = Player.limit_up;
+	limit_down = Player.limit_down;
+	limit_right = Player.limit_right;
+	limit_left = Player.limit_left;
 
-		player_speed = Player.player_speed;
-		maxSpeed_y = Player.maxSpeed_y;
-		jump_force = Player.jump_force;
+	player_speed = Player.player_speed;
+	maxSpeed_y = Player.maxSpeed_y;
+	jump_force = Player.jump_force;
 
-		player_width = Player.player_width;
-		player_height = Player.player_height;
+	player_width = Player.player_width;
+	player_height = Player.player_height;
 
-		graphics = App->tex->Load("textures/adventurer.png");
+	App->render->camera.x = Player.camera_position.x;
+	App->render->camera.y = Player.camera_position.y;
 
-		//Loading Sounds FX
-		jump = App->audio->LoadFx("audio/fx/Jump.wav");
-		run = App->audio->LoadFx("audio/fx/Run.wav");
+	graphics = App->tex->Load("textures/adventurer.png");
 
-		cooldown = Player.cooldown;
+	//Loading Sounds FX
+	jump = App->audio->LoadFx("audio/fx/Jump.wav");
+	run = App->audio->LoadFx("audio/fx/Run.wav");
 
-		counter++;
-	}
+	//Set initial animation speeds---------------
+	idle_speed = idle.speed;
+	running_speed = running.speed;
+	jumping_speed = jumping.speed;
+	idle_turned_speed = idle_turned.speed;
+	run_turned_speed = run_turned.speed;
+	jump_turned_speed = jump_turned.speed;
+	falling_speed = falling.speed;
+	falling_turned_speed = falling_turned.speed;
+	//-----------------------------------------------
+
 
 	if (level_change <= 0)
 	{
@@ -111,14 +117,10 @@ bool j1Player::Start()
 
 		level_change++;
 	}
-
-	App->render->camera.x = Player.camera_position.x;
-	App->render->camera.y = Player.camera_position.y;
-
 	//Player HitBox
 	if (playerHitbox == nullptr)
 	{
-		playerHitbox = App->collision->AddCollider({ position.x, position.y, player_width, player_height }, COLLIDER_PLAYER, this);
+		playerHitbox = App->collision->AddCollider({ (int)position.x, (int)position.y, player_width, player_height }, COLLIDER_PLAYER, this);
 	}
 	return true;
 }
@@ -144,8 +146,27 @@ bool j1Player::Update(float dt)
 	touching_bottom = false;
 	camera_goes_right = false;
 	camera_goes_left = false;
+
 	win1 = false;
 	win2 = false;
+
+	dt_player = dt;
+
+	if (i < 5)
+	{
+		idle.speed = idle_speed * dt;
+		running.speed = running_speed*dt;
+		jumping.speed = jumping_speed * dt;
+		idle_turned.speed = idle_turned_speed * dt;
+		run_turned.speed = idle_turned_speed * dt;
+		jump_turned.speed = jump_turned_speed * dt;
+		falling.speed = falling_speed * dt;
+		falling_turned.speed = falling_turned_speed * dt;
+
+		i++;
+	}
+	LOG("%f", running.speed);
+	
 	
 	//Normal Game Mode
 	if (god_mode == false)
@@ -241,15 +262,12 @@ bool j1Player::PostUpdate()
 		}
 		
 	}
-		
-	if(cooldown < 80)
-		cooldown++;
 
 	Check_Collision();
 	
 	//applaying movement to the player
-	position.x += speed.x;
-	position.y += speed.y;
+	position.x += speed.x*dt_player;
+	position.y += speed.y*dt_player;
 
 	CameraOnPlayer();
 
@@ -406,13 +424,13 @@ void j1Player::Check_Collision()
 	{
 		if (invert_gravity == false)
 		{
-			speed.y += 1; //Aplying "gravity"
+			speed.y +=1*dt_player; //Aplying "gravity"
 			if (speed.y > maxSpeed_y)
 				speed.y = maxSpeed_y;
 		}
 		else
 		{
-			speed.y -= 1; //Aplying "gravity inverted"
+			speed.y -= 1*dt_player; //Aplying "gravity inverted"
 			if (speed.y < -maxSpeed_y)
 				speed.y = -maxSpeed_y;
 		}
@@ -424,6 +442,10 @@ void j1Player::Check_Collision()
 		is_falling = false;
 		SetIdleAnimation(); //set animation to idle when player lands
 		jumping.Reset(); //jumping frame reset to frame number 1
+
+		if (!can_invert)
+			can_invert = true;
+
 	}
 	else if (touching_above == true && is_falling == true && god_mode == true)
 	{
@@ -439,7 +461,7 @@ void j1Player::Check_Collision()
 		}
 		else
 		{
-			speed.y = -1; 
+			speed.y = -1;
 		}
 
 		is_falling == true;
@@ -476,25 +498,25 @@ void j1Player::CameraOnPlayer()
 	App->win->GetWindowSize(window_w, window_h);
 
 	// for X AXIS 
-	if (position.x >(App->render->camera.x * -1) + ((5 * window_w) / 8))
+	if (position.x >((float)App->render->camera.x * -1) + ((5 * window_w) / 8))
 	{
-		App->render->camera.x -= player_speed;
+		App->render->camera.x -= ceilf(player_speed*dt_player);
 		camera_goes_right = true;
 	}
 	else if (position.x < (App->render->camera.x*-1) + ((3 * window_w) / 8))
 	{
-		App->render->camera.x += player_speed;
+		App->render->camera.x += (int)player_speed*dt_player;
 		camera_goes_left = true;
 	}
 
 	// for Y AXIS
 	if (position.y + 67 > (App->render->camera.y*-1) + ((5 * window_h) / 8))
 	{
-		App->render->camera.y -= 6;
+		App->render->camera.y -= 6*dt_player;
 	}
 	else if (position.y < (App->render->camera.y*-1) + ((window_h) / 8))
 	{
-		App->render->camera.y += 6;
+		App->render->camera.y += 6*dt_player;
 	}
 }
 
@@ -592,10 +614,11 @@ void j1Player::GameMode()
 		App->audio->PlayFx(run, 0);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && cooldown == 80)
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && can_invert == true)
 	{
 		invert_gravity = !invert_gravity;
-		cooldown = 0;
+		can_invert = false;
+
 	}
 }
 

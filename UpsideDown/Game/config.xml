@@ -2,13 +2,13 @@
 
 <config>
   <app>
-    <framerate_cap value="60"></framerate_cap>
+    <framerate_cap value="30"></framerate_cap>
     <title>Game Development Testbed</title>
     <organization>UPC</organization>
   </app>
 	
   <renderer>
-    <vsync value="true"/>
+    <vsync value="false"/>
   </renderer>
 
   <window>
@@ -36,7 +36,6 @@
     <jump_force value="25" />
     <camera x="0" y="-347"/>
     <player_limit up="50" down="1060" left="8" right="6350"/>
-    <cooldown value="80" />
     <godmode_hitbox value="56"/>
     <animations>
       <idle speed="0.1f" loop ="true">
