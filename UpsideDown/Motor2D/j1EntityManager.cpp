@@ -5,7 +5,6 @@
 #include "j1Textures.h"
 #include "j1Collision.h"
 #include "j1EntityManager.h"
-#include "j1Entity.h"
 #include "j1Scene.h"
 #include "j1Player.h"
 
@@ -103,14 +102,14 @@ j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
 	static_assert((int)EntityType::UNKNOWN == 3, "code needs update");
 
 	j1Entity* ret = nullptr;
-	switch (type)
-	{
-	case EntityType::PLAYER:
+	//switch (type)
+	//{
+	//case EntityType::PLAYER:
 
-	case EntityType::BAT:
+	//case EntityType::BAT:
 
-	case EntityType::SMASHER:
-	}
+	//case EntityType::SMASHER:
+	//}
 	return ret; 
 }
 

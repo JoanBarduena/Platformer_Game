@@ -1,5 +1,5 @@
-#ifndef __MODULE_ENTITY_H__
-#define __MODULE_ENTITY_H__
+#ifndef __ENTITY_H__
+#define __ENTITY_H__
 
 #include "j1EntityManager.h"
 #include "j1Module.h"
@@ -13,18 +13,12 @@ struct SDL_Texture;
 struct Collider; 
 struct Animation;
 
-enum class EntityType
+enum EntityType
 {
 	PLAYER,
 	BAT,
 	SMASHER,
 	UNKNOWN
-};
-
-struct Info_Enemy
-{
-	EntityType type;
-	iPoint position;
 };
 
 class j1Entity

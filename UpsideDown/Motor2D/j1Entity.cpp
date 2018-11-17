@@ -5,7 +5,6 @@
 #include "j1Input.h"
 #include "j1Audio.h"
 #include "p2Log.h"
-#include "j1EntityManager.h"
 #include "j1Window.h"
 #include "j1Textures.h"
 #include "j1PathFinding.h"

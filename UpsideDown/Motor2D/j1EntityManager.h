@@ -1,5 +1,5 @@
-#ifndef __ENTITY_MANAGER_H__
-#define __ENTITY_MANAGER_H__
+#ifndef __ENTITYMANAGER_H__
+#define __ENTITYMANAGER_H__
 
 #include "j1Module.h"
 #include "p2Defs.h"
@@ -9,8 +9,14 @@
 
 
 class j1Entity; 
-class j1Player; 
-enum class EntityType;
+
+enum EntityType;
+
+struct Info_Enemy
+{
+	EntityType type;
+	iPoint position;
+};
 
 class j1EntityManager : public j1Module
 {
@@ -50,5 +56,5 @@ private:
 	
 };
 
-#endif // !__ENTITYMANAGER_H__
+#endif // __ENTITYMANAGER_H__
 
