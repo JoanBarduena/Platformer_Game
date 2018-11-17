@@ -13,22 +13,10 @@
 
 j1EntityManager::j1EntityManager()
 {
-	name.create("entity");
-	//player = (j1Player*)CreateEntity(EntityType::PLAYER);
+	name.create("entityManager");
 }
 
-j1EntityManager::~j1EntityManager() 
-{
-	p2List_item<j1Entity*>* item = entities.start;
-
-	while (item != NULL)
-	{
-		RELEASE(item->data);
-		item = item->next;
-	}
-
-	entities.clear();
-}
+j1EntityManager::~j1EntityManager() {}
 
 bool j1EntityManager::Awake(pugi::xml_node& config)
 {
@@ -38,8 +26,8 @@ bool j1EntityManager::Awake(pugi::xml_node& config)
 bool j1EntityManager::Start()
 {
 	bool ret = true;
-
-	/*for (p2List_item<j1Entity*>* iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	p2List_item<j1Entity*>* iterator;
+	/*for (iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
 	{
 		ret = iterator->data->Start();
 	}
@@ -49,13 +37,16 @@ bool j1EntityManager::Start()
 
 bool j1EntityManager::PreUpdate()
 {
-	//bool ret = true;
-
-	//p2List_item<j1Entity*>* iterator;
-	//for (iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	//for (uint i = 0; i < Max_Enemies; ++i)
 	//{
-	//	ret = iterator->data->PreUpdate();
+	//	if (queue[i].type != ENTITY_TYPES::UNKNOWN)
+	//	{
+	//		SpawnEnemy(queue[i]);
+	//		queue[i].type = ENTITY_TYPES::UNKNOWN;
+	//	}
 	//}
+
+	//return true;
 
 	return true;
 }

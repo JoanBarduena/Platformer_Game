@@ -7,6 +7,7 @@
 #include "p2Point.h"
 #include "j1Entity.h"
 
+#define Max_Enemies 20;
 
 class j1Entity; 
 class j1Player; 
@@ -38,11 +39,12 @@ private:
 public:
 
 	p2List<j1Entity*> entities;
-	j1Player* player;
+	j1Player* player = nullptr;
 
 private:
 	float accumulated_time;
 	bool do_logic = false;
 };
-#endif // !__ENTITY_MANAGER_H__
+
+#endif // !__ENTITYMANAGER_H__
 

@@ -192,7 +192,7 @@ bool j1Player::Update(float dt)
 			{
 				is_jumping = true;
 				is_falling = false;
-				App->audio->PlayFx(jump, 0);
+				
 			}
 		}
 		else if (invert_gravity == true)
@@ -201,7 +201,7 @@ bool j1Player::Update(float dt)
 			{
 				is_falling = false;
 				is_jumping = true;
-				App->audio->PlayFx(jump, 0);
+				
 			}
 			if (speed.y < 0) //falling
 			{
@@ -616,7 +616,7 @@ void j1Player::GameMode()
 			current_animation = &jumping;
 			speed.y = -jump_force;
 		}
-		App->audio->PlayFx(run, 0);
+		App->audio->PlayFx(jump, 0);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && can_invert == true)
