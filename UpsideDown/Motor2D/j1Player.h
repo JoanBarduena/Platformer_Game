@@ -98,6 +98,7 @@ public:
 	//Animation initial speed values
 	int i = 0;
 	float idle_speed, running_speed, jumping_speed, idle_turned_speed, run_turned_speed, jump_turned_speed, falling_speed, falling_turned_speed;
+	float god_mode_anim_speed, god_mode_turned_speed; 
 
 	p2SString folder;
 };

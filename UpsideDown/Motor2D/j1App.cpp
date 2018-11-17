@@ -222,10 +222,43 @@ void j1App::FinishUpdate()
 	uint32 last_frame_ms = frame_time.Read();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
-	static char title[256];
-	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %lu ",
-		avg_fps, last_frame_ms, frames_on_last_update, dt, seconds_since_startup, frame_count);
-	App->win->SetTitle(title);
+	//Setting titles 
+
+	if (caped_frames == true && App->render->vsync == true)
+	{
+		static char title[256];
+		sprintf_s(title, 256, "FPS: %i | Av.FPS: %.2f | MsLastFrame: %02u ms | FPS_Cap: ON | Vsync: ON",
+			frames_on_last_update, avg_fps, last_frame_ms);
+		App->win->SetTitle(title);
+	}
+	else if (caped_frames == true && App->render->vsync == false)
+	{
+		static char title[256];
+		sprintf_s(title, 256, "FPS: %i | Av.FPS: %.2f | MsLastFrame: %02u ms | FPS_Cap: ON | Vsync: OFF",
+			frames_on_last_update, avg_fps, last_frame_ms);
+		App->win->SetTitle(title);
+	}
+	else if (caped_frames == false && App->render->vsync == true)
+	{
+		static char title[256];
+		sprintf_s(title, 256, "FPS: %i | Av.FPS: %.2f | MsLastFrame: %02u ms | FPS_Cap: OFF | Vsync: ON",
+			frames_on_last_update, avg_fps, last_frame_ms);
+		App->win->SetTitle(title);
+	}
+	else
+	{
+		static char title[256];
+		sprintf_s(title, 256, "FPS: %i | Av.FPS: %.2f | MsLastFrame: %02u ms | FPS_Cap: OFF | Vsync: OFF",
+			frames_on_last_update, avg_fps, last_frame_ms);
+		App->win->SetTitle(title);
+	}
+	
+	if (capped_ms > 0 && last_frame_ms < capped_ms && caped_frames == true)
+	{
+		float waiting_time = (1000 / framerate_cap) - last_frame_ms;
+		SDL_Delay(waiting_time);
+	}
+	
 
 	/*if (capped_ms > 0 && last_frame_ms < capped_ms)
 	{
@@ -233,12 +266,6 @@ void j1App::FinishUpdate()
 		SDL_Delay(capped_ms - last_frame_ms);
 		LOG("We waited for %d milliseconds and got back in %f", capped_ms - last_frame_ms, t.ReadMs());
 	}*/
-	if (capped_ms > 0 && last_frame_ms < capped_ms && caped_frames == true)
-	{
-		float waiting_time = (1000 / framerate_cap) - last_frame_ms;
-		SDL_Delay(waiting_time);
-	}
-	
 }
 
 // Call modules before each loop iteration

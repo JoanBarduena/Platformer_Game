@@ -105,8 +105,10 @@ bool j1Player::Start()
 	jump_turned_speed = jump_turned.speed;
 	falling_speed = falling.speed;
 	falling_turned_speed = falling_turned.speed;
-	//-----------------------------------------------
 
+	god_mode_anim_speed = god_mode_anim.speed;
+	god_mode_turned_speed = god_mode_turned.speed; 
+	//-----------------------------------------------
 
 	if (level_change <= 0)
 	{
@@ -162,6 +164,9 @@ bool j1Player::Update(float dt)
 		jump_turned.speed = jump_turned_speed * dt;
 		falling.speed = falling_speed * dt;
 		falling_turned.speed = falling_turned_speed * dt;
+
+		god_mode_anim.speed = god_mode_anim_speed * dt; 
+		god_mode_turned.speed = god_mode_turned_speed * dt; 
 
 		i++;
 	}
