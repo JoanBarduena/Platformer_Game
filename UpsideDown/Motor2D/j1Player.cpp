@@ -110,6 +110,8 @@ bool j1Player::Start()
 
 		god_mode_anim_speed = god_mode_anim.speed;
 		god_mode_turned_speed = god_mode_turned.speed;
+
+		counter++;
 	}
 	//-----------------------------------------------
 
