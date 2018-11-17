@@ -67,7 +67,8 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Player.player_limit_right = config.child("player_limit").attribute("right").as_int();
 
 	//Player deadzone limit 
-	Player.player_dead_limit = config.child("player_dead_limit").attribute("down").as_int(); 
+	Player.player_dead_limit_down = config.child("player_dead_limit").attribute("down").as_int(); 
+	Player.player_dead_limit_up = config.child("player_dead_limit").attribute("up").as_int();
 
 	//GodMode Hitbox value
 	Player.godmode_hitbox = config.child("godmode_hitbox").attribute("value").as_int(); 
@@ -92,11 +93,15 @@ bool j1Player::Start()
 		player_width = Player.player_width;
 		player_height = Player.player_height;
 
+		dead_limit_down = Player.player_dead_limit_down; 
+		dead_limit_up = Player.player_dead_limit_up; 
+
 		graphics = App->tex->Load("textures/adventurer.png");
 
 		//Loading Sounds FX
 		jump = App->audio->LoadFx("audio/fx/Jump.wav");
 		run = App->audio->LoadFx("audio/fx/Run.wav");
+		invert_gravity_fx = App->audio->LoadFx("audio/fx/invert_gravity.wav");
 
 		counter++;
 	}
@@ -297,11 +302,11 @@ bool j1Player::PostUpdate()
 		{
 			if (camera_goes_left && position.x > 450)
 			{
-				image->data->position.x += image->data->speed;
+				image->data->position.x += image->data->speed*(dt_player);
 			}
 			else if (camera_goes_right && position.x < 5900)
 			{
-				image->data->position.x -= image->data->speed;
+				image->data->position.x -= image->data->speed*(dt_player);
 			}
 		}
 	}
@@ -572,12 +577,13 @@ void j1Player::GameMode()
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && can_invert == true)
 	{
 		invert_gravity = !invert_gravity;
+		App->audio->PlayFx(invert_gravity_fx);
 		can_invert = false;
 
 	}
 
 	image = App->map->data.image_layers.start;
-	if (position.y < 0 || position.y > Player.player_dead_limit)//Player dies if he falls
+	if (position.y < dead_limit_up || position.y > dead_limit_down)//Player dies if he falls
 	{
 		position.x = Player.position.x;
 		position.y = Player.position.y;

@@ -16,7 +16,7 @@ struct player_config
 	int			 limit_up, limit_down, limit_left, limit_right;
 	int			 maxSpeed_y, player_speed, jump_force;
 	int			 player_width, player_height;
-	int			 player_dead_limit; 
+	int			 player_dead_limit_down, player_dead_limit_up;
 	int			 player_limit_left, player_limit_right, player_limit_up, player_limit_down;
 	int			 godmode_hitbox; 
 };
@@ -53,6 +53,7 @@ public:
 	fPoint		 speed;
 	int			 player_speed;
 	int			 maxSpeed_y;
+	int			dead_limit_up, dead_limit_down;
 
 	float dt_player;
 
@@ -66,6 +67,7 @@ public:
 	//Sounds FX 
 	uint		 jump; 
 	uint		 run; 
+	uint		 invert_gravity_fx; 
 	float		 run_time = 0;
 
 	player_config Player;
