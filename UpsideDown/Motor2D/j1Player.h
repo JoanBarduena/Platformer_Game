@@ -16,6 +16,7 @@ struct player_config
 	int			 limit_up, limit_down, limit_left, limit_right;
 	int			 maxSpeed_y, player_speed, jump_force;
 	int			 player_width, player_height;
+	int			 player_dead_limit; 
 	int			 player_limit_left, player_limit_right, player_limit_up, player_limit_down;
 	int			 godmode_hitbox; 
 };

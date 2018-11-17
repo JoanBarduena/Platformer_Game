@@ -7249,8 +7249,6 @@
   <object id="103" type="floor" x="2911" y="930" width="127" height="28"/>
   <object id="104" type="floor" x="3201" y="963" width="161" height="27"/>
   <object id="105" type="floor" x="3041" y="258" width="93" height="90"/>
-  <object id="161" type="limit" x="-6" y="1152" width="6552" height="100"/>
-  <object id="162" type="limit" x="6" y="-84" width="6516" height="100"/>
   <object id="163" type="win2" x="6338" y="450" width="28" height="28"/>
   <object id="165" type="floor" x="321" y="802" width="413" height="352"/>
   <object id="166" type="floor" x="-4" y="996" width="324" height="157"/>

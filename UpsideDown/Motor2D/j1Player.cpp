@@ -66,6 +66,9 @@ bool j1Player::Awake(pugi::xml_node& config)
 	Player.player_limit_left = config.child("player_limit").attribute("left").as_int();
 	Player.player_limit_right = config.child("player_limit").attribute("right").as_int();
 
+	//Player deadzone limit 
+	Player.player_dead_limit = config.child("player_dead_limit").attribute("down").as_int(); 
+
 	//GodMode Hitbox value
 	Player.godmode_hitbox = config.child("godmode_hitbox").attribute("value").as_int(); 
 
@@ -361,7 +364,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				touching_above = true;
 		}
 	}
-
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR_JUMPABLE) //Floor that you can pass through
 	{
 		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 19)))) //if player touches ground from above 
@@ -375,36 +377,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				touching_above = true;
 			else if (invert_gravity == true && is_falling == false)
 				touching_bottom = true;
-		}
-	}
-
-	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_LIMIT)
-	{
-		image = App->map->data.image_layers.start;
-
-		if ((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)) && invert_gravity == false) //if player touches ground from above 
-		{
-			if (god_mode == false)
-			{
-				position.x = Player.position.x;
-				position.y = Player.position.y;
-				invert_gravity = false;
-				App->render->camera.x = Player.camera_position.x;
-				App->render->camera.y = Player.camera_position.y;
-				image->data->position.x = 0; 
-			}
-		}
-		else if ((c2->rect.y + c2->rect.h) < (c1->rect.y + 15) && invert_gravity == true)
-		{
-			if (god_mode == false)
-			{
-				position.x = Player.position.x;
-				position.y = Player.position.y;
-				invert_gravity = false;
-				App->render->camera.x = Player.camera_position.x;
-				App->render->camera.y = Player.camera_position.y;
-				image->data->position.x = 0; 
-			}
 		}
 	}
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN1)
@@ -630,6 +602,17 @@ void j1Player::GameMode()
 		invert_gravity = !invert_gravity;
 		can_invert = false;
 
+	}
+
+	image = App->map->data.image_layers.start;
+	if (position.y < 0 || position.y > Player.player_dead_limit)//Player dies if he falls
+	{
+		position.x = Player.position.x;
+		position.y = Player.position.y;
+		invert_gravity = false;
+		App->render->camera.x = Player.camera_position.x;
+		App->render->camera.y = Player.camera_position.y;
+		image->data->position.x = 0;
 	}
 }
 
