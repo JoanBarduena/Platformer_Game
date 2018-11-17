@@ -313,20 +313,21 @@ bool j1Player::PostUpdate()
 			run_time = SDL_GetTicks() + (1 / player_speed) + 450;
 		}
 	}
-	// Parallax if the camera moves
-	p2List_item<ImageLayer*>* image = nullptr;
+	
+	//Parallax if the camera moves
 	for (image = App->map->data.image_layers.start; image; image = image->next)
 	{
 		if (image->data->speed > 0)
 		{
 			if (camera_goes_left && App->render->camera.x > 200)
-			{
-				image->data->position.x += image->data->speed;
-			}
-			else if (camera_goes_right)
-			{
-				image->data->position.x -= image->data->speed;
-			}
+				if (camera_goes_left && position.x > 450)
+				{
+					image->data->position.x += image->data->speed;
+				}
+				else if (camera_goes_right && position.x < 5900)
+				{
+					image->data->position.x -= image->data->speed;
+				}
 		}
 	}
 	return true;
@@ -379,6 +380,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_LIMIT)
 	{
+		image = App->map->data.image_layers.start;
+
 		if ((c2->rect.y) > (c1->rect.y + (c1->rect.h - 15)) && invert_gravity == false) //if player touches ground from above 
 		{
 			if (god_mode == false)
@@ -388,6 +391,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				invert_gravity = false;
 				App->render->camera.x = Player.camera_position.x;
 				App->render->camera.y = Player.camera_position.y;
+				image->data->position.x = 0; 
 			}
 		}
 		else if ((c2->rect.y + c2->rect.h) < (c1->rect.y + 15) && invert_gravity == true)
@@ -399,6 +403,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				invert_gravity = false;
 				App->render->camera.x = Player.camera_position.x;
 				App->render->camera.y = Player.camera_position.y;
+				image->data->position.x = 0; 
 			}
 		}
 	}

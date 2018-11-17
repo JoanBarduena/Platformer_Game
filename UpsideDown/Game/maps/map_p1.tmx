@@ -18,8 +18,8 @@
  <tileset firstgid="257" name="meta" tilewidth="32" tileheight="32" tilecount="2" columns="2">
   <image source="meta.png" width="64" height="32"/>
  </tileset>
- <imagelayer name="clouds" offsetx="0" offsety="100">
-  <image source="clouds_map1.png" width="1920" height="1200"/>
+ <imagelayer name="clouds" offsetx="-6.06061" offsety="-57.5758">
+  <image source="clouds_map1.png" width="1920" height="1352"/>
   <properties>
    <property name="speed" type="float" value="1.5"/>
   </properties>
