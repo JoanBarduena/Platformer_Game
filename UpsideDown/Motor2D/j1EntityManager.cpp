@@ -27,63 +27,45 @@ bool j1EntityManager::Start()
 {
 	bool ret = true;
 	p2List_item<j1Entity*>* iterator;
-	/*for (iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	for (iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
 	{
 		ret = iterator->data->Start();
 	}
-	*/
+	
 	return ret;
 }
 
 bool j1EntityManager::PreUpdate()
 {
-	//for (uint i = 0; i < Max_Enemies; ++i)
-	//{
-	//	if (queue[i].type != ENTITY_TYPES::UNKNOWN)
-	//	{
-	//		SpawnEnemy(queue[i]);
-	//		queue[i].type = ENTITY_TYPES::UNKNOWN;
-	//	}
-	//}
+	for (uint i = 0; i < 20; ++i)
+	{
+		if (Array_Info[i].type != EntityType::UNKNOWN)
+		{
+			Spawn(Array_Info[i]);
+			LOG("Spawning Enemy");
+			Array_Info[i].type = EntityType::UNKNOWN;
+		}
+	}
 
-	//return true;
 
 	return true;
 }
 
-bool j1EntityManager::UpdateFrame(float dt)
-{
-	/*accumulated_time += dt;
 
-	float update_ms_cycle = 0.0f;
-
-	if (accumulated_time >= update_ms_cycle)
-		do_logic = true;
-
-	UpdateAll(dt, do_logic);
-
-	if (do_logic == true) {
-		accumulated_time = 0.0f;
-		do_logic = false;
-	}*/
-	return true;
-
-}
-
-bool j1EntityManager::UpdateAll(float dt, bool do_logic)
+bool j1EntityManager::Update(float dt)
 {
 	bool ret = true;
 
-	/*p2List_item<j1Entity*>* item;
-	for (item = entities.start; item != NULL && ret == true; item = item->next)
-	{
-		if (do_logic == true) {
-			ret = item->data->UpdateFrame(dt);
-		}
+	accumulated_time += dt;
+	if (accumulated_time >= UpdateCycle)
+		do_logic = true;
 
-		if (ret == true)
-			ret = item->data->Update();
-	}*/
+	p2List_item<j1Entity*>* iterator;
+
+	for( iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	{
+		ret = iterator->data->Update(dt, do_logic);
+	}
 
 	return ret;
 }
@@ -91,46 +73,67 @@ bool j1EntityManager::UpdateAll(float dt, bool do_logic)
 bool j1EntityManager::PostUpdate()
 {
 	bool ret = true;
+
+	p2List_item<j1Entity*>* iterator;
 		
-	/*for (p2List_item<j1Entity*>* iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	for ( iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
 	{
 		ret = iterator->data->PostUpdate();
-	}*/
+	}
 
 	return true;
 }
 
 bool j1EntityManager::CleanUp()
 {
-	LOG("Freeing all enemies");
 	bool ret = true;
-	/*for (p2List_item<j1Entity*>* iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+
+	p2List_item<j1Entity*>* iterator;
+
+	for ( iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
 	{
 		ret = iterator->data->CleanUp();
-	}*/
+	}
 
 	return ret;
 }
 
 j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
 {
-	//static_assert((int)EntityType::UNKNOWN == 3, "code needs update");
+	static_assert((int)EntityType::UNKNOWN == 3, "code needs update");
 
 	j1Entity* ret = nullptr;
-	//switch (type)
-	//{
-	////Player is not an entity yet
-	///*case EntityType::PLAYER:
-	//	ret = new j1Player();
-	//	break;*/
-	//}
+	switch (type)
+	{
+	case EntityType::PLAYER:
+
+	case EntityType::BAT:
+
+	case EntityType::SMASHER:
+	}
 	return ret; 
 }
 
 void j1EntityManager::DestroyEntity(j1Entity* entity)
 {
-	/*LOG("entity destroyed");
-	RELEASE(entity);*/
+	LOG("entity destroyed");
+	RELEASE(entity);
+}
+
+void j1EntityManager::Spawn(const Info_Enemy& info)
+{
+	for (int i = 0; i < 20; ++i)
+	{
+		if (Array_Info[i].type != EntityType::UNKNOWN)
+		{
+			j1Entity* entity;
+			if (Array_Info[i].type == EntityType::BAT)
+			{
+				//entity = new j1Bat(info.pos.x, info.pos.y, info.type)  --> constructor of entity
+			}
+				
+		}
+	}
 }
 
 bool j1EntityManager::Load(pugi::xml_node& data)

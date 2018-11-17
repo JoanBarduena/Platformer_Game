@@ -7,7 +7,6 @@
 #include "p2Point.h"
 #include "j1Entity.h"
 
-#define Max_Enemies 20;
 
 class j1Entity; 
 class j1Player; 
@@ -22,28 +21,33 @@ public:
 
 	bool Awake(pugi::xml_node&);
 	bool Start();
-	bool PreUpdate(); 
-	bool UpdateFrame(float dt);
+
+	bool PreUpdate();
+	bool Update(float dt);
 	bool PostUpdate();
+
 	bool CleanUp();
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
-	j1Entity* CreateEntity(EntityType type, int x = 0, int y = 0);
+	j1Entity* CreateEntity(EntityType type, int x, int y);
 	void DestroyEntity(j1Entity* entity);
 
-private:
-	bool UpdateAll(float dt, bool check_logic);
+	void Spawn(const Info_Enemy& info);
 
 public:
 
 	p2List<j1Entity*> entities;
-	j1Player* player = nullptr;
+	Info_Enemy		Array_Info[20];
 
 private:
+
 	float accumulated_time;
+	float UpdateCycle = 0.1f;
+
 	bool do_logic = false;
+	
 };
 
 #endif // !__ENTITYMANAGER_H__
