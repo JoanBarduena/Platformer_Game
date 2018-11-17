@@ -1,0 +1,79 @@
+<!-- Animations for the game -->
+<animations>
+  <player>
+    <idle speed="0.1f" loop ="true">
+      <animation x="70" y="11" width="50" height="67"/>
+      <animation x="184" y="11" width="50" height="67"/>
+      <animation x="292" y="13" width="50" height="67"/>
+      <animation x="398" y="13" width="50" height="67"/>
+    </idle>
+    <jumping speed="0.3f" loop="false">
+      <animation x="72" y="172" width ="60" height ="71"/>
+      <animation x="181" y="172" width ="60" height ="71"/>
+      <animation x="296" y="172" width ="60" height ="71"/>
+      <animation x="399" y="172" width ="60" height ="71"/>
+      <animation x="517" y="172" width ="60" height ="71"/>
+      <animation x="619" y="172" width ="60" height ="71"/>
+      <animation x="740" y="172" width ="60" height ="71"/>
+      <animation x="65" y="260" width ="60" height ="71"/>
+      <animation x="191" y="244" width ="60" height ="71"/>
+      <animation x="299" y="244" width ="60" height ="71"/>
+    </jumping>
+    <running speed="0.1f" loop="true">
+      <animation x="188" y="97" width="53" height="66"/>
+      <animation x="294" y="97" width="53" height="66"/>
+      <animation x="406" y="97" width="53" height="66"/>
+      <animation x="518" y="97" width="53" height="66"/>
+      <animation x="624" y="97" width="53" height="66"/>
+      <animation x="733" y="97" width="53" height="66"/>
+    </running>
+    <idle_turned speed="0.1f" loop="true">
+      <animation x="1192" y="118" width="50" height="69"/>
+      <animation x="1082" y="118" width="50" height="69"/>
+      <animation x="970" y="118" width="50" height="69"/>
+      <animation x="862" y="118" width="50" height="69"/>
+    </idle_turned>
+    <run_turned speed="0.1f" loop="true" >
+      <animation x="1409" y="213" width="53" height="66"/>
+      <animation x="1302" y="213" width="53" height="66"/>
+      <animation x="1192" y="213" width="53" height="66"/>
+      <animation x="1073" y="213" width="53" height="66"/>
+      <animation x="972" y="213" width="53" height="66"/>
+      <animation x="863" y="213" width="53" height="66"/>
+    </run_turned>
+    <jump_turned speed="0.2f" loop ="false">
+      <animation x="1528" y="304" width="60" height="71"/>
+      <animation x="1418" y="304" width="60" height="71"/>
+      <animation x="1307" y="308" width="60" height="71"/>
+      <animation x="1199" y="322" width="60" height="71"/>
+      <animation x="1094" y="322" width="60" height="71"/>
+      <animation x="973" y="324" width="60" height="71"/>
+      <animation x="863" y="316" width="60" height="71"/>
+      <animation x="1078" y="410" width="60" height="71"/>
+      <animation x="973" y="405" width="60" height="71"/>
+      <animation x="863" y="405" width="60" height="71"/>
+    </jump_turned>
+    <falling speed="0.1f" loop="true">
+      <animation x="191" y="244" width="60" height="71"/>
+      <animation x="299" y="244" width="60" height="71"/>
+    </falling>
+    <falling_turned speed="0.1f" loop="true">
+      <animation x="973" y="405" width="60" height="71"/>
+      <animation x="863" y="405" width="60" height="71"/>
+    </falling_turned>
+    <god_mode_anim speed="0.1f" loop="true">
+      <animation x="515" y="1000" width="63" height="53"/>
+      <animation x="625" y="1000" width="63" height="53"/>
+      <animation x="730" y="1000" width="63" height="53"/>
+      <animation x="76" y="1081" width="63" height="53"/>
+      <animation x="182" y="1081" width="63" height="53"/>
+    </god_mode_anim>
+    <god_mode_turned speed="0.1f" loop="true">
+      <animation x="1082" y="508" width="63" height="53"/>
+      <animation x="972" y="508" width="63" height="53"/>
+      <animation x="863" y="508" width="63" height="53"/>
+      <animation x="1300" y="508" width="63" height="53"/>
+      <animation x="1190" y="508" width="63" height="53"/>
+    </god_mode_turned>
+  </player>
+</animations>
