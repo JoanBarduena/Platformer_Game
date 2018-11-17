@@ -18,10 +18,10 @@
  <tileset firstgid="257" name="meta" tilewidth="32" tileheight="32" tilecount="2" columns="2">
   <image source="meta.png" width="64" height="32"/>
  </tileset>
- <imagelayer name="clouds" offsetx="-70" offsety="20.1818">
-  <image source="clouds_map1.png" width="2838" height="1140"/>
+ <imagelayer name="clouds" offsetx="0" offsety="100">
+  <image source="clouds_map1.png" width="1920" height="1200"/>
   <properties>
-   <property name="speed" type="float" value="1.2"/>
+   <property name="speed" type="float" value="1.5"/>
   </properties>
  </imagelayer>
  <layer name="Capa de Patrones 1" width="200" height="36">
@@ -7254,8 +7254,8 @@
   <object id="25" type="floor" x="4930" y="13" width="317" height="50"/>
   <object id="26" type="floor" x="5758" y="0" width="479" height="95"/>
   <object id="27" type="floor_jumpable" x="6049" y="-1" width="388" height="224"/>
-  <object id="30" type="limit" x="0" y="1156" width="6448" height="40"/>
-  <object id="31" type="limit" x="0" y="-27" width="6444" height="52"/>
+  <object id="30" type="limit" x="0" y="1156" width="6448" height="100"/>
+  <object id="31" type="limit" x="0" y="-75" width="6444" height="100"/>
   <object id="32" type="win1" x="6337" y="447" width="30" height="33"/>
  </objectgroup>
  <layer name="NoneWalkableTiles" width="200" height="36">

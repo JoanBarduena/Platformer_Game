@@ -4,6 +4,7 @@
 #include "j1Module.h"
 #include "Animation.h"
 #include "p2Point.h"
+#include "j1Map.h"
 
 struct SDL_Texture;
 
@@ -101,6 +102,7 @@ public:
 	float god_mode_anim_speed, god_mode_turned_speed; 
 
 	p2SString folder;
+	p2List_item<ImageLayer*>* image = nullptr;
 };
 
 #endif // __j1PLAYER_H__
