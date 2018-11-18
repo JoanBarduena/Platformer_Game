@@ -51,9 +51,10 @@ public:
 
 	p2List<level*> levels_list;
 	p2List_item<level*>* actual_level;
+	SDL_Texture * debug_tex;
 
 private:
-	SDL_Texture * debug_tex;
+	
 	bool player_added = false;
 };
 

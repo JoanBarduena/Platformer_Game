@@ -59,7 +59,7 @@ public:
 	uchar GetTileAt(const iPoint& pos) const;
 
 	//Utility: return the direction that the enemies must have
-	Direction SetDirection(p2DynArray<iPoint>& path) const;
+	Direction SetDirection(const p2DynArray<iPoint>& path) const;
 
 private:
 

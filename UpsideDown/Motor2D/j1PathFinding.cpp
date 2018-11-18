@@ -58,11 +58,11 @@ uchar j1PathFinding::GetTileAt(const iPoint& pos) const
 	return INVALID_WALK_CODE;
 }
 
-Direction j1PathFinding::SetDirection(p2DynArray<iPoint>& path) const
+Direction j1PathFinding::SetDirection(const p2DynArray<iPoint>& path) const
 {
 	Direction ret = NONE;
 
-	if (path.Count() > 1)
+	if (path.Count() >= 2)
 	{
 		iPoint actual_tile, next_tile;
 		actual_tile = path[0];
@@ -83,10 +83,15 @@ Direction j1PathFinding::SetDirection(p2DynArray<iPoint>& path) const
 			ret = NORTH;
 		else if (dy == 1)
 			ret = SOUTH;
+		else if (dx == -1)
+		{
+			LOG("WEST");
+			ret = WEST;
+		}
 		else if (dx == 1)
 			ret = EAST;
-		else if (dx == -1)
-			ret = WEST;
+		
+			
 	}
 	return ret;
 }

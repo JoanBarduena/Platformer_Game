@@ -25,16 +25,23 @@ public:
 	bool Save(pugi::xml_node&) const;
 
 	void LoadValues();
-	void Move(p2DynArray<iPoint>& path, float dt);
+	void Move(const p2DynArray<iPoint>& path, float dt);
 
 	void Draw();
 
 public:
 
-	p2DynArray<iPoint>* path;
+	const p2DynArray<iPoint>* path;
+	bool created_path = false;
+	Direction bat_direction;
+	
+	iPoint Bat_center;
+	iPoint Bat_dest;
 
 	Animation idle, flying;
 
+	int Bat_range = 400;
+	
 	float dt_bat;
 
 };
