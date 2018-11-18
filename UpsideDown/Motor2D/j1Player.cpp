@@ -103,9 +103,10 @@ bool j1Player::Start()
 		
 
 		//Loading Sounds FX
-		jump = App->audio->LoadFx("audio/fx/Jump.wav");
-		run = App->audio->LoadFx("audio/fx/Run.wav");
+		jump_fx = App->audio->LoadFx("audio/fx/Jump.wav");
+		run_fx = App->audio->LoadFx("audio/fx/Run.wav");
 		invert_gravity_fx = App->audio->LoadFx("audio/fx/invert_gravity.wav");
+		death_fx = App->audio->LoadFx("audio/fx/death.wav"); 
 
 		counter++;
 	}
@@ -304,7 +305,7 @@ bool j1Player::PostUpdate()
 	{
 		if (speed.x != 0 && touching_above && SDL_GetTicks() > run_time)
 		{
-			App->audio->PlayFx(run, 0);
+			App->audio->PlayFx(run_fx, 0);
 			run_time = SDL_GetTicks() + (1 / player_speed) + 450;
 		}
 	}
@@ -383,6 +384,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				App->render->camera.x = Player.camera_position.x;
 				App->render->camera.y = Player.camera_position.y;
 				image->data->position.x = 0;
+				App->audio->PlayFx(death_fx); 
 			}
 		}
 	}
@@ -601,7 +603,7 @@ void j1Player::GameMode()
 			current_animation = &jumping;
 			speed.y = -jump_force;
 		}
-		App->audio->PlayFx(jump, 0);
+		App->audio->PlayFx(jump_fx, 0);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && can_invert == true)
@@ -615,6 +617,7 @@ void j1Player::GameMode()
 	image = App->map->data.image_layers.start;
 	if (position.y < dead_limit_up || position.y > dead_limit_down)//Player dies if he falls
 	{
+		App->audio->PlayFx(death_fx);
 		position.x = Player.position.x;
 		position.y = Player.position.y;
 		invert_gravity = false;

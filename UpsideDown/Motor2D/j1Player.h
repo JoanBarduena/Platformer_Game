@@ -63,9 +63,8 @@ public:
 	Animation	 god_mode_anim, god_mode_turned; 
 
 	//Sounds FX 
-	uint		 jump; 
-	uint		 run; 
-	uint		 invert_gravity_fx; 
+	uint		 jump_fx, run_fx, invert_gravity_fx, death_fx; 
+
 	float		 run_time = 0;
 
 	player_config Player;
