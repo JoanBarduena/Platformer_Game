@@ -15,6 +15,19 @@
 // Details: http://theory.stanford.edu/~amitp/GameProgramming/
 // --------------------------------------------------
 
+enum Direction
+{
+	NONE = -1,
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST,
+	NORTH_EAST,
+	NORTH_WEST,
+	SOUTH_EAST,
+	SOUTH_WEST
+};
+
 class j1PathFinding : public j1Module
 {
 public:
@@ -44,6 +57,9 @@ public:
 
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
+
+	//Utility: return the direction that the enemies must have
+	Direction SetDirection(p2DynArray<iPoint>& path) const;
 
 private:
 

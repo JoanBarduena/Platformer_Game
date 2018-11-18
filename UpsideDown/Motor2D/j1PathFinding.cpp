@@ -58,6 +58,39 @@ uchar j1PathFinding::GetTileAt(const iPoint& pos) const
 	return INVALID_WALK_CODE;
 }
 
+Direction j1PathFinding::SetDirection(p2DynArray<iPoint>& path) const
+{
+	Direction ret = NONE;
+
+	if (path.Count() > 1)
+	{
+		iPoint actual_tile, next_tile;
+		actual_tile = path[0];
+		next_tile = path[1];
+
+		int dx = next_tile.x - actual_tile.x;
+		int dy = next_tile.y - actual_tile.y;
+
+		if (dx == 1 && dy == -1)
+			ret = NORTH_EAST;
+		else if (dx == -1 && dy == -1)
+			ret = NORTH_WEST;
+		else if (dx == 1 && dy == 1) 
+			ret = SOUTH_EAST;
+		else if (dx == -1 && dy == 1)
+			ret = SOUTH_WEST;
+		else if (dy == -1)
+			ret = NORTH;
+		else if (dy == 1)
+			ret = SOUTH;
+		else if (dx == 1)
+			ret = EAST;
+		else if (dx == -1)
+			ret = WEST;
+	}
+	return ret;
+}
+
 // To request all tiles involved in the last generated path
 const p2DynArray<iPoint>* j1PathFinding::GetLastPath() const
 {
@@ -137,6 +170,26 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 
 	// west
 	cell.create(pos.x - 1, pos.y);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	//north-east
+	cell.create(pos.x + 1, pos.y + 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	//north-west
+	cell.create(pos.x - 1, pos.y + 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	// south-east
+	cell.create(pos.x + 1, pos.y - 1);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	// south-west
+	cell.create(pos.x - 1, pos.y - 1);
 	if (App->pathfinding->IsWalkable(cell))
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
