@@ -72,7 +72,7 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-	BROFILER_CATEGORY("Scene PreUpdate", Profiler::Color::Yellow);
+	BROFILER_CATEGORY("Scene PreUpdate", Profiler::Color::Blue);
 
 	// debug pathfing ------------------
 	static iPoint origin;

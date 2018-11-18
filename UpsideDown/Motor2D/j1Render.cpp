@@ -64,7 +64,7 @@ bool j1Render::Start()
 // Called each loop iteration
 bool j1Render::PreUpdate()
 {
-	BROFILER_CATEGORY("Render PreUpdate", Profiler::Color::Yellow);
+	BROFILER_CATEGORY("Render PreUpdate", Profiler::Color::Blue);
 
 	SDL_RenderClear(renderer);
 	return true;

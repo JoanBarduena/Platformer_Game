@@ -40,6 +40,8 @@ bool j1EntityManager::Start()
 
 bool j1EntityManager::PreUpdate()
 {
+	BROFILER_CATEGORY("EntityManager PreUpdate", Profiler::Color::Blue);
+
 	for (uint i = 0; i < 20; ++i)
 	{
 		if (Entity_Array[i].type != EntityType::UNKNOWN)
@@ -55,6 +57,8 @@ bool j1EntityManager::PreUpdate()
 
 bool j1EntityManager::Update(float dt)
 {
+	BROFILER_CATEGORY("EntityManager Update", Profiler::Color::Green);
+
 	bool ret = true;
 
 	accumulated_time += dt;
@@ -78,7 +82,8 @@ bool j1EntityManager::Update(float dt)
 
 bool j1EntityManager::PostUpdate()
 {
-	
+	BROFILER_CATEGORY("EntityManager PostUpdate", Profiler::Color::Red);
+
 	p2List_item<j1Entity*>* iterator;
 		
 	for ( iterator = entities.start; iterator != nullptr; iterator = iterator->next)

@@ -48,7 +48,7 @@ bool j1Input::Start()
 // Called each loop iteration
 bool j1Input::PreUpdate()
 {
-	BROFILER_CATEGORY("Input PreUpdate", Profiler::Color::Yellow);
+	BROFILER_CATEGORY("Input PreUpdate", Profiler::Color::Blue);
 
 	static SDL_Event event;
 	

@@ -45,6 +45,8 @@ bool j1Smasher::Start()
 
 bool j1Smasher::Update(float dt, bool do_logic)
 {
+	BROFILER_CATEGORY("Smasher Update", Profiler::Color::Green);
+
 	touching_above = false;
 	touching_right = false;
 	touching_left = false;
@@ -72,7 +74,7 @@ bool j1Smasher::Update(float dt, bool do_logic)
 
 bool j1Smasher::PostUpdate()
 {
-	
+	BROFILER_CATEGORY("Smasher PostUpdate", Profiler::Color::Red);
 
 	if (touching_above == false)
 	{

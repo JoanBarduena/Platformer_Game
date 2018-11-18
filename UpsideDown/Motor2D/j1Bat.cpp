@@ -46,6 +46,8 @@ bool j1Bat::Start()
 
 bool j1Bat::Update(float dt, bool do_logic)
 {
+	BROFILER_CATEGORY("Bat Update", Profiler::Color::Green);
+
 	dt_bat = dt;
 	collider->SetPos(position.x, position.y);
 
