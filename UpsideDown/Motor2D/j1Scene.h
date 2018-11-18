@@ -56,6 +56,7 @@ public:
 private:
 	
 	bool player_added = false;
+
 };
 
 #endif // __j1SCENE_H__

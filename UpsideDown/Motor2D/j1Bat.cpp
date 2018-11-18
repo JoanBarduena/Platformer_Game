@@ -39,7 +39,7 @@ bool j1Bat::Start()
 	position.x = start_pos.x;
 	position.y = start_pos.y;
 
-	speed.x = speed.y = 5;
+	speed.x = speed.y = 3;
 	current_animation = &idle;
 	return true;
 }
@@ -60,11 +60,8 @@ bool j1Bat::Update(float dt, bool do_logic)
 			int ret = App->pathfinding->CreatePath(Bat_center, Bat_dest);
 			path = App->pathfinding->GetLastPath();
 			Move(*path, dt);
-
 		}
 	}
-	
-
 	return true;
 }
 

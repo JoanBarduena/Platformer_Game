@@ -137,10 +137,22 @@ j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
 	return ret; 
 }
 
-void j1EntityManager::DestroyEntity(j1Entity* entity)
+void j1EntityManager::DestroyEnemies()
 {
-	LOG("entity destroyed");
-	RELEASE(entity);
+	for (int i = 0; i < 20; i++)
+	{
+		Entity_Array[i].type = EntityType::UNKNOWN;
+	}
+
+	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next) {
+		if (iterator->data->type != EntityType::PLAYER)
+		{
+			iterator->data->CleanUp();
+			int num = entities.find(iterator->data);
+			RELEASE(entities.At(num)->data);
+			entities.del(entities.At(num));
+		}
+	}
 }
 
 void j1EntityManager::AddEnemy(int x, int y, EntityType type)

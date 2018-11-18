@@ -385,6 +385,14 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				App->render->camera.y = Player.camera_position.y;
 				image->data->position.x = 0;
 				App->audio->PlayFx(death_fx); 
+				if (App->scene->actual_level->data->lvl == 1)
+				{
+					App->scene->Level_Load(1);
+				}
+				else if (App->scene->actual_level->data->lvl == 2)
+				{
+					App->scene->Level_Load(2);
+				}
 			}
 		}
 	}
@@ -635,6 +643,14 @@ void j1Player::GameMode()
 		App->render->camera.x = Player.camera_position.x;
 		App->render->camera.y = Player.camera_position.y;
 		image->data->position.x = 0;
+		if (App->scene->actual_level->data->lvl == 1)
+		{
+			App->scene->Level_Load(1); 
+		}
+		else if (App->scene->actual_level->data->lvl == 2)
+		{
+			App->scene->Level_Load(2);
+		}
 	}
 }
 

@@ -49,7 +49,7 @@ public:
 
 	j1Entity* CreateEntity(EntityType type, int x, int y);
 
-	void DestroyEntity(j1Entity* entity);
+	void DestroyEnemies();
 	void AddEnemy(int x, int y, EntityType type);
 	void AddPlayer();
 	void Spawn(const Info_Enemy& info);

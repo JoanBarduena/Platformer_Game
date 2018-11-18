@@ -58,12 +58,14 @@ bool j1Scene::Start()
 	
 		player_added = true;
 	}
-	/*App->entityManager->AddEnemy(401, 700, BAT);
-	App->entityManager->AddEnemy(500, 700, BAT);*/
-	App->entityManager->AddEnemy(700, 500, SMASHER);
-	App->entityManager->AddEnemy(500, 500, BAT);
-	
 
+	App->entityManager->AddEnemy(2700, 700, SMASHER);
+	App->entityManager->AddEnemy(6020, 700, SMASHER);
+	App->entityManager->AddEnemy(5200, 600, SMASHER);
+	App->entityManager->AddEnemy(500, 500, BAT);
+	App->entityManager->AddEnemy(2600, 500, BAT);
+	App->entityManager->AddEnemy(6000, 500, BAT);
+	
 	return true;
 }
 
@@ -228,8 +230,8 @@ void j1Scene::Level_Load(uint number)
 	{
 		////Starting the level & player
 		App->entityManager->CleanUp();
+		App->entityManager->DestroyEnemies(); 
 		App->entityManager->player->CleanUp();
-		App->entityManager->reset_pos = true; 
 		App->map->Load(actual_level->data->mapPath.GetString());
 		App->entityManager->Start();
 		App->entityManager->player->Start();
