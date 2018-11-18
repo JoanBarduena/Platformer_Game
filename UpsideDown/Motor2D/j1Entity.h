@@ -13,33 +13,27 @@ struct SDL_Texture;
 struct Collider; 
 struct Animation;
 
-enum EntityType
-{
-	PLAYER,
-	BAT,
-	SMASHER,
-	UNKNOWN
-};
+enum EntityType;
 
 class j1Entity
 {
 public:
 
 	j1Entity(int x, int y, EntityType type);
-	virtual ~j1Entity();
+	virtual ~j1Entity() {};
 
-	virtual bool Start();
-	virtual bool Update(float dt, bool do_logic);
-	virtual bool PostUpdate();
-	virtual bool CleanUp();
+	virtual bool Start() { return true; };
+	virtual bool Update(float dt, bool do_logic) { return true; };
+	virtual bool PostUpdate() { return true;};
+	virtual bool CleanUp() { return true; };
 
-	virtual void OnCollision(Collider* c1, Collider* c2);
+	virtual void OnCollision(Collider* c1, Collider* c2) {}
 
-	virtual bool Load(pugi::xml_node&);
-	virtual bool Save(pugi::xml_node&) const;
-	virtual void LoadValues();
+	virtual bool Load(pugi::xml_node&) { return true; }
+	virtual bool Save(pugi::xml_node&) const { return true; }
+	virtual void LoadValues() {}
 
-	virtual void Draw();
+	void Draw(SDL_Rect rect);
 
 public:
 		
@@ -51,8 +45,6 @@ public:
 
 	SDL_Texture*	graphics = nullptr;
 	Collider*		collider = nullptr;
-
-
 	Animation*		current_animation = nullptr;
 
 	//Fx Sounds 

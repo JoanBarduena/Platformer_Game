@@ -9,14 +9,20 @@
 
 
 class j1Entity; 
-
-enum EntityType;
+enum EntityType
+{
+	PLAYER,
+	BAT,
+	SMASHER,
+	UNKNOWN
+};
 
 struct Info_Enemy
 {
-	EntityType type;
-	iPoint position;
+	EntityType type = EntityType::UNKNOWN;
+	fPoint position;
 };
+
 
 class j1EntityManager : public j1Module
 {
@@ -39,15 +45,16 @@ public:
 
 	j1Entity* CreateEntity(EntityType type, int x, int y);
 	void DestroyEntity(j1Entity* entity);
-
+	void AddEnemy(int x, int y, EntityType type);
 	void Spawn(const Info_Enemy& info);
 
 public:
 
 	p2List<j1Entity*> entities;
-	Info_Enemy		Array_Info[20];
 
 private:
+
+	Info_Enemy		Entity_Array[20];
 
 	float accumulated_time;
 	float UpdateCycle = 0.1f;

@@ -10,6 +10,7 @@
 #include "j1Player.h"
 #include "j1Fadetoblack.h"
 #include "j1PathFinding.h"
+#include "j1EntityManager.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -48,11 +49,11 @@ bool j1Scene::Start()
 	{
 		App->pathfinding->SetMap(w, h, data);
 	}
-		
-
 	RELEASE_ARRAY(data);
 
 	debug_tex = App->tex->Load("maps/pathfinding_debug.png");
+
+	App->entityManager->AddEnemy(200, 700, BAT);
 
 	return true;
 }
@@ -201,7 +202,7 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-
+	/*App->entityManager->CleanUp();*/
 	return true;
 }
 
@@ -217,9 +218,11 @@ void j1Scene::Level_Load(uint number)
 	if (actual_level != nullptr)
 	{
 		////Starting the level & player
+		App->entityManager->CleanUp();
 		App->map->Load(actual_level->data->mapPath.GetString());
 		App->player->playerHitbox = nullptr;
 		App->player->Start();
+		App->entityManager->Start();
 	}
 	else
 	{

@@ -12,51 +12,9 @@
 
 j1Entity::j1Entity(int x, int y, EntityType type){}
 
-j1Entity::~j1Entity(){}
-
-bool j1Entity::Start()
+void j1Entity::Draw(SDL_Rect rect)
 {
-	return true;
-}
-
-bool j1Entity::Update(float dt, bool do_logic)
-{
-	return true;
-}
-
-bool j1Entity::PostUpdate()
-{
-	return true;
-}
-
-bool j1Entity::CleanUp() 
-{
-	return true;
-}
-
-bool j1Entity::Load(pugi::xml_node&)
-{
-	return true;
-}
-
-bool j1Entity::Save(pugi::xml_node&) const
-{
-	return true;
-}
-
-void j1Entity::LoadValues()
-{
-
-}
-
-void j1Entity::OnCollision(Collider* c1, Collider* c2) 
-{
-
-}
-
-void j1Entity::Draw() 
-{
-
+	App->render->Blit(graphics, (int)position.x, (int)position.y, &rect, SDL_FLIP_NONE);
 }
 
 

@@ -7,6 +7,7 @@
 #include "j1EntityManager.h"
 #include "j1Scene.h"
 #include "j1Player.h"
+#include "j1Bat.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -19,6 +20,8 @@ j1EntityManager::~j1EntityManager() {}
 
 bool j1EntityManager::Awake(pugi::xml_node& config)
 {
+	LOG("Awaking Entity manager");
+
 	return true;
 }
 
@@ -26,9 +29,9 @@ bool j1EntityManager::Start()
 {
 	bool ret = true;
 	p2List_item<j1Entity*>* iterator;
-	for (iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	for (iterator = entities.start; iterator != nullptr; iterator = iterator->next)
 	{
-		ret = iterator->data->Start();
+		iterator->data->Start();
 	}
 	
 	return ret;
@@ -38,11 +41,11 @@ bool j1EntityManager::PreUpdate()
 {
 	for (uint i = 0; i < 20; ++i)
 	{
-		if (Array_Info[i].type != EntityType::UNKNOWN)
+		if (Entity_Array[i].type != EntityType::UNKNOWN)
 		{
-			Spawn(Array_Info[i]);
+			Spawn(Entity_Array[i]);
 			LOG("Spawning Enemy");
-			Array_Info[i].type = EntityType::UNKNOWN;
+			Entity_Array[i].type = EntityType::UNKNOWN;
 		}
 	}
 
@@ -61,9 +64,14 @@ bool j1EntityManager::Update(float dt)
 
 	p2List_item<j1Entity*>* iterator;
 
-	for( iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	for( iterator = entities.start; iterator != nullptr; iterator = iterator->next)
 	{
-		ret = iterator->data->Update(dt, do_logic);
+		iterator->data->Update(dt, do_logic);
+	}
+
+	if (do_logic) {
+		accumulated_time = 0.0f;
+		do_logic = false;
 	}
 
 	return ret;
@@ -71,13 +79,12 @@ bool j1EntityManager::Update(float dt)
 
 bool j1EntityManager::PostUpdate()
 {
-	bool ret = true;
-
+	
 	p2List_item<j1Entity*>* iterator;
 		
-	for ( iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	for ( iterator = entities.start; iterator != nullptr; iterator = iterator->next)
 	{
-		ret = iterator->data->PostUpdate();
+		iterator->data->PostUpdate();
 	}
 
 	return true;
@@ -89,9 +96,9 @@ bool j1EntityManager::CleanUp()
 
 	p2List_item<j1Entity*>* iterator;
 
-	for ( iterator = entities.start; iterator != NULL && ret == true; iterator = iterator->next)
+	for ( iterator = entities.start; iterator != nullptr && ret == true; iterator = iterator->next)
 	{
-		ret = iterator->data->CleanUp();
+		iterator->data->CleanUp();
 	}
 
 	return ret;
@@ -99,17 +106,15 @@ bool j1EntityManager::CleanUp()
 
 j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
 {
-	static_assert((int)EntityType::UNKNOWN == 3, "code needs update");
-
 	j1Entity* ret = nullptr;
-	//switch (type)
-	//{
-	//case EntityType::PLAYER:
-
-	//case EntityType::BAT:
-
-	//case EntityType::SMASHER:
-	//}
+	switch (type)
+	{
+	case EntityType::BAT:
+		ret = new j1Bat(x, y, type);
+		break;
+	}
+	if (ret != nullptr)
+		entities.add(ret);
 	return ret; 
 }
 
@@ -119,24 +124,41 @@ void j1EntityManager::DestroyEntity(j1Entity* entity)
 	RELEASE(entity);
 }
 
+void j1EntityManager::AddEnemy(int x, int y, EntityType type)
+{
+	for (uint i = 0; i < 20; ++i)
+	{
+		if (Entity_Array[i].type == EntityType::UNKNOWN)
+		{
+			Entity_Array[i].type = type;
+			Entity_Array[i].position.x = x;
+			Entity_Array[i].position.y = y;
+			break;
+		}
+	}
+}
+
 void j1EntityManager::Spawn(const Info_Enemy& info)
 {
-	for (int i = 0; i < 20; ++i)
+	for (uint i = 0; i < 20; ++i)
 	{
-		if (Array_Info[i].type != EntityType::UNKNOWN)
+		if (Entity_Array[i].type != EntityType::UNKNOWN)
 		{
 			j1Entity* entity;
-			if (Array_Info[i].type == EntityType::BAT)
-			{
-				//entity = new j1Bat(info.pos.x, info.pos.y, info.type)  --> constructor of entity
-			}
-				
+			if (Entity_Array[i].type == BAT)
+				entity = new j1Bat(info.position.x, info.position.y, info.type);
+
+			entities.add(entity);
+			entity->Start();
 		}
 	}
 }
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
+
+	AddEnemy(0, 920, BAT);
+
 	return true;
 }
 

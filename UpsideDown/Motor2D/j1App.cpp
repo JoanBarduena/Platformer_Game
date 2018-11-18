@@ -46,9 +46,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(map);
-	AddModule(entityManager);
 	AddModule(pathfinding);
 	AddModule(scene);
+	AddModule(entityManager);
 	AddModule(player);
 	AddModule(fade);
 	AddModule(collision);
@@ -194,10 +194,10 @@ void j1App::PrepareUpdate()
 	last_sec_frame_count++;
 
 	dt = frame_time.ReadSec() * 58.82f;
-	if (dt > (float)framerate_cap / 1000 * 58.82f)
+	/*if (dt > (float)framerate_cap / 1000 * 58.82f)
 	{
 		dt = (float)framerate_cap / 1000 * 58.82f;
-	}
+	}*/
 	frame_time.Start();
 }
 

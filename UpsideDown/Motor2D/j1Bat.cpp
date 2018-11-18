@@ -7,34 +7,43 @@
 
 j1Bat::j1Bat(int x, int y, EntityType type) : j1Entity(x, y, EntityType::BAT)
 {
-	
+	current_animation = NULL;
+
+	idle.LoadAnimations("bat", "flying");
+	position.x = x;
+	position.y = y;
 }
 
 j1Bat::~j1Bat(){}
 
 bool j1Bat::Start()
 {
-	graphics = App->tex->Load("textures/bat_sprite.png");
+	graphics = App->tex->Load("textures/skull_monster.png");
 	if (graphics == NULL)
 	{
 		LOG("bat sprite not loaded");
 		return false;
 	}
-	collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 53, 45 }, COLLIDER_NONE, App->entityManager);
-
+	collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 53, 45 }, COLLIDER_PLAYER, App->entityManager);
+	current_animation = &idle;
 	return true;
 }
 
 bool j1Bat::Update(float dt, bool do_logic)
 {
-
 	collider->SetPos(position.x, position.y);
-
+	LOG("%i", collider->type);
+	SDL_Rect rect = current_animation->GetCurrentFrame(dt);
+	Draw(rect);
+	
 	return true;
 }
 
 bool j1Bat::CleanUp()
 {
+	App->tex->UnLoad(graphics);
+	if (collider != nullptr)
+		collider->to_delete = true;
 	return true;
 }
 

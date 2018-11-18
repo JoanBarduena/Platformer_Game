@@ -28,7 +28,7 @@
   </map>
 
   <player>
-    <position x="0" y="920" />
+    <position x="0" y="800" />
     <limits up="47" down="347" left="5" right="5370" />
     <speed_x value="7" />
     <maxSpeed_y value="10"/>

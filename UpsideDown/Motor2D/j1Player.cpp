@@ -317,7 +317,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
 	if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_FLOOR) //Standard Floor
 	{
-		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 25)))) //if player touches ground from above 
+		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 50*dt_player)))) //if player touches ground from above 
 		{
 			if (invert_gravity == false)
 				touching_above = true;
@@ -325,15 +325,15 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				touching_bottom = true;
 
 		}
-		else if ((c2->rect.x) > (c1->rect.x + c1->rect.w - 15)) //if player touches wall from right
+		else if ((c2->rect.x) > (c1->rect.x + c1->rect.w - 15* dt_player)) //if player touches wall from right
 		{
 			touching_right = true;
 		}
-		else if ((c2->rect.x + (c2->rect.w)) < (c1->rect.x + 15)) //if player touches wall from left
+		else if ((c2->rect.x + (c2->rect.w)) < (c1->rect.x + 15*dt_player)) //if player touches wall from left
 		{
 			touching_left = true;
 		}
-		else if ((c2->rect.y + (c2->rect.h)) < (c1->rect.y + 25)) //if player touches ground from bottom
+		else if ((c2->rect.y + (c2->rect.h)) < (c1->rect.y + 50* dt_player)) //if player touches ground from bottom
 		{
 			if (invert_gravity == false)
 				touching_bottom = true;
