@@ -370,6 +370,22 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				touching_bottom = true;
 		}
 	}
+	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_ENEMY) //if player touches an enemy. 
+	{
+		image = App->map->data.image_layers.start;
+		if (c2->rect.x > c1->rect.x || c2->rect.x < c1->rect.x || c2->rect.y > c1->rect.y || c2->rect.y < c1->rect.y)
+		{
+			if (god_mode == false)
+			{
+				position.x = Player.position.x;
+				position.y = Player.position.y;
+				invert_gravity = false;
+				App->render->camera.x = Player.camera_position.x;
+				App->render->camera.y = Player.camera_position.y;
+				image->data->position.x = 0;
+			}
+		}
+	}
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN1)
 	{
 		win1 = true;
