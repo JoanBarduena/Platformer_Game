@@ -41,10 +41,10 @@ https://github.com/JosepLleal/Platformer_Game
 - Joan Barduena Reyes
 	-[Joan's GitHub Link](https://github.com/JoanBarduena)
 
-##Innovation:
--Level_load: Instead of creating 2 scenes, we develop a Stuct Level with an Int (level) and a Sting (MapPath.tmx). So if the int is "1" the map loaded will be "map1.tmx". 
+## Innovation:
+- Level_load: Instead of creating 2 scenes, we develop a Stuct Level with an Int (level) and a Sting (MapPath.tmx). So if the int is "1" the map loaded will be "map1.tmx". 
 
-##Tasklist: 
+## Tasklist: 
 - Josep Lleal:
 	- Pathfinding.
 	- Entities (smasher, bat).
@@ -57,7 +57,7 @@ https://github.com/JosepLleal/Platformer_Game
 	- Map improvements.
 	- Animations. 
 
-- Both members
+- Both members:
 	- Brofiler. 
 	- Dt and Framerate Cap. 
 	- Solving memory leaks.
@@ -65,8 +65,8 @@ https://github.com/JosepLleal/Platformer_Game
 	- Collisions. 
 	- Entities(player). 
 
-##Music: 
-Name:"Galway" 
-By:Kevin MacLeod (incompetech.com)
+## Music: 
+Name: "Galway" 
+By: Kevin MacLeod (incompetech.com)
 Licensed under Creative Commons: By Attribution 3.0 License
 
