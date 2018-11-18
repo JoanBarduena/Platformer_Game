@@ -45,9 +45,12 @@ bool j1Smasher::Start()
 
 bool j1Smasher::Update(float dt, bool do_logic)
 {
-	dt_smasher = dt;
-	collider->SetPos(position.x, position.y);
+	touching_above = false;
+	touching_right = false;
+	touching_left = false;
+	touching_bottom = false;
 
+	dt_smasher = dt;
 	if (do_logic == true)
 	{
 		if ((App->entityManager->player->position.x - position.x) <= Smasher_range && (App->entityManager->player->position.x - position.x) >= -Smasher_range)
@@ -62,13 +65,28 @@ bool j1Smasher::Update(float dt, bool do_logic)
 
 		}
 	}
-	
-
+	position.y += speed.y*dt_smasher;
+	collider->SetPos(position.x, position.y);
 	return true;
 }
 
 bool j1Smasher::PostUpdate()
 {
+	
+
+	if (touching_above == false)
+	{
+		speed.y += GRAVITY * dt_smasher; //Aplying "gravity"
+		if (speed.y > max_speed_y)
+			speed.y = max_speed_y;
+		LOG("not touching above");
+	}
+	else if (touching_above == true)
+	{
+		speed.y = 0;
+	}
+
+	
 	Draw();
 	return true;
 }
@@ -90,52 +108,48 @@ void j1Smasher::Draw()
 
 void j1Smasher::OnCollision(Collider* c1, Collider* c2)
 {
-
+	if (c1->type == COLLIDER_ENEMY && c2->type == COLLIDER_FLOOR) //Standard Floor
+	{
+		if (((c2->rect.y) > (c1->rect.y + (c1->rect.h - 50)))) //if touches ground from above 
+		{
+			touching_above = true;
+		}
+		else if ((c2->rect.x) > (c1->rect.x + c1->rect.w - 15)) //if touches wall from right
+		{
+			touching_right = true;
+		}
+		else if ((c2->rect.x + (c2->rect.w)) < (c1->rect.x + 15)) //if touches wall from left
+		{
+			touching_left = true;
+		}
+		else if ((c2->rect.y + (c2->rect.h)) < (c1->rect.y + 50)) //if touches ground from bottom
+		{
+			touching_bottom = true;
+		}
+	}
 }
 
 void j1Smasher::Move(const p2DynArray<iPoint>& path, float dt)
 {
-	smasher_direction = App->pathfinding->SetDirection(path);
+	smasher_direction = App->pathfinding->SetDirection(path,"smasher");
 
-	if (smasher_direction == Direction::NORTH)
+	/*if (smasher_direction == Direction::NORTH)
 	{
 		position.y -= speed.y * dt;
-	}
-	else if (smasher_direction == Direction::EAST)
+	}*/
+	if (smasher_direction == Direction::EAST)
 	{
 		position.x += speed.x * dt;
 	}
-	else if (smasher_direction == Direction::SOUTH)
+	/*else if (smasher_direction == Direction::SOUTH)
 	{
 		position.y += speed.y * dt;
-	}
+	}*/
 	else if (smasher_direction == Direction::WEST)
 	{
 		position.x -= speed.x * dt;
 	}
-	else if (smasher_direction == Direction::SOUTH_EAST)
-	{
-		position.x += speed.x * dt;
-		position.y += speed.y * dt;
-	}
-	else if (smasher_direction == Direction::SOUTH_WEST)
-	{
-		position.x -= speed.x * dt;
-		position.y += speed.y * dt;
-	}
-	else if (smasher_direction == Direction::NORTH_EAST)
-	{
-		position.x += speed.x * dt;
-		position.y -= speed.y * dt;
-
-	}
-	else if (smasher_direction == Direction::NORTH_WEST)
-	{
-		position.x -= speed.x * dt;
-		position.y -= speed.y * dt;
-	}
-
-
+	
 }
 
 bool j1Smasher::Load(pugi::xml_node&)

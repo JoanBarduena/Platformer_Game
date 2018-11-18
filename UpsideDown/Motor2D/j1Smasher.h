@@ -6,6 +6,8 @@
 #include "j1Render.h"
 #include "PugiXml/src/pugixml.hpp"
 
+#define GRAVITY 1
+
 class j1Smasher : public j1Entity
 {
 public:
@@ -34,15 +36,18 @@ public:
 	const p2DynArray<iPoint>* path;
 	bool created_path = false;
 	Direction smasher_direction;
-
 	iPoint Smasher_center;
 	iPoint Smasher_dest;
 
 	Animation idle, running;
 
 	int Smasher_range = 400;
+	int max_speed_y = 10;
 
 	float dt_smasher;
+
+	bool touching_above, touching_bottom, touching_right, touching_left;
+	
 
 };
 

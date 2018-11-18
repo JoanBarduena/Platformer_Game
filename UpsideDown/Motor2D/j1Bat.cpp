@@ -96,7 +96,7 @@ void j1Bat::OnCollision(Collider* c1, Collider* c2)
 
 void j1Bat::Move(const p2DynArray<iPoint>& path, float dt)
 {
-	bat_direction = App->pathfinding->SetDirection(path);
+	bat_direction = App->pathfinding->SetDirection(path, "bat");
 	
 	if (bat_direction == Direction::NORTH)
 	{

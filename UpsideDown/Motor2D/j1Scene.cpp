@@ -60,7 +60,7 @@ bool j1Scene::Start()
 	}
 	/*App->entityManager->AddEnemy(401, 700, BAT);
 	App->entityManager->AddEnemy(500, 700, BAT);*/
-	App->entityManager->AddEnemy(600, 500, SMASHER);
+	App->entityManager->AddEnemy(700, 500, SMASHER);
 	App->entityManager->AddEnemy(500, 500, BAT);
 	
 
