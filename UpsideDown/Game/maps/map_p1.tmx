@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="36" tilewidth="32" tileheight="32" nextobjectid="33">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="36" tilewidth="32" tileheight="32" nextobjectid="34">
  <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="tileset_p1.png" width="512" height="512"/>
   <terraintypes>
@@ -7228,25 +7228,25 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup color="#ffffff" name="colliders" visible="0">
+ <objectgroup color="#ffffff" name="colliders">
   <object id="3" type="floor" x="1" y="993" width="413.333" height="126.667"/>
   <object id="4" type="floor" x="672" y="991" width="253.333" height="126.667"/>
   <object id="5" type="floor" x="1090.67" y="833" width="222" height="94.6667"/>
-  <object id="6" type="floor" x="1794.33" y="996" width="572" height="127.333"/>
-  <object id="7" type="floor_jumpable" x="2175.67" y="861" width="189.333" height="135.333"/>
-  <object id="8" type="floor" x="2532.33" y="863.667" width="348" height="254.667"/>
+  <object id="6" type="floor" x="1794.33" y="994" width="572" height="127.333"/>
+  <object id="7" type="floor_jumpable" x="2175.67" y="864" width="189.333" height="135.333"/>
+  <object id="8" type="floor" x="2531.33" y="864.667" width="348" height="254.667"/>
   <object id="9" type="floor_jumpable" x="2689.67" y="705" width="188" height="180.667"/>
-  <object id="11" type="floor" x="3039.67" y="222" width="286.667" height="30"/>
-  <object id="12" type="floor" x="3327.33" y="608.333" width="285.333" height="62"/>
+  <object id="11" type="floor" x="3040.67" y="225" width="286.667" height="30"/>
+  <object id="12" type="floor" x="3329.33" y="608.333" width="285.333" height="62"/>
   <object id="13" type="floor" x="3074" y="1089" width="286.5" height="30.5"/>
   <object id="14" type="floor" x="3713.67" y="1088.67" width="349.333" height="30.6667"/>
-  <object id="15" type="floor_jumpable" x="3874.33" y="957.667" width="188.667" height="134"/>
-  <object id="16" type="floor" x="3713" y="29" width="252.667" height="190.667"/>
-  <object id="17" type="floor" x="4097" y="29.3333" width="220.667" height="318.667"/>
+  <object id="15" type="floor_jumpable" x="3873.33" y="960.667" width="188.667" height="134"/>
+  <object id="16" type="floor" x="3713" y="31" width="252.667" height="190.667"/>
+  <object id="17" type="floor" x="4097" y="31.3333" width="220.667" height="318.667"/>
   <object id="18" type="floor" x="4449" y="577" width="287.333" height="63.3333"/>
   <object id="19" type="floor" x="4959.67" y="1024.33" width="222" height="94.6667"/>
-  <object id="20" type="floor" x="5311.67" y="900" width="318" height="223.333"/>
-  <object id="21" type="floor" x="5826.67" y="930.333" width="601.333" height="190"/>
+  <object id="20" type="floor" x="5311.67" y="897" width="318" height="223.333"/>
+  <object id="21" type="floor" x="5824.67" y="928.333" width="601.333" height="190"/>
   <object id="22" type="floor" x="6049.33" y="513" width="397.333" height="422.667"/>
   <object id="23" type="floor" x="5665" y="512.5" width="222" height="63"/>
   <object id="24" type="floor" x="5472" y="-48.5" width="286" height="239"/>
@@ -7254,6 +7254,7 @@
   <object id="26" type="floor" x="5758" y="0" width="479" height="95"/>
   <object id="27" type="floor_jumpable" x="6049" y="-1" width="388" height="224"/>
   <object id="32" type="win1" x="6337" y="447" width="30" height="33"/>
+  <object id="33" type="floor" x="1376" y="-9" width="416" height="489"/>
  </objectgroup>
  <layer name="NoneWalkableTiles" width="200" height="36" visible="0">
   <properties>
