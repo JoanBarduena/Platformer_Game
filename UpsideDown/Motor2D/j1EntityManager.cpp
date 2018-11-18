@@ -8,6 +8,7 @@
 #include "j1Scene.h"
 #include "j1Player.h"
 #include "j1Bat.h"
+#include "j1Smasher.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -20,8 +21,6 @@ j1EntityManager::~j1EntityManager() {}
 
 bool j1EntityManager::Awake(pugi::xml_node& config)
 {
-	LOG("Awaking Entity manager");
-
 	return true;
 }
 
@@ -44,7 +43,6 @@ bool j1EntityManager::PreUpdate()
 		if (Entity_Array[i].type != EntityType::UNKNOWN)
 		{
 			Spawn(Entity_Array[i]);
-			LOG("Spawning Enemy");
 			Entity_Array[i].type = EntityType::UNKNOWN;
 		}
 	}
@@ -126,6 +124,9 @@ j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
 	case EntityType::BAT:
 		ret = new j1Bat(x, y, type);
 		break;
+	case EntityType::SMASHER:
+		ret = new j1Smasher(x, y, type);
+		break;
 	case EntityType::PLAYER:
 		ret = new j1Player(x, y, type);
 		break;
@@ -169,6 +170,8 @@ void j1EntityManager::Spawn(const Info_Enemy& info)
 			j1Entity* entity;
 			if (Entity_Array[i].type == BAT)
 				entity = new j1Bat(info.position.x, info.position.y, info.type);
+			else if (Entity_Array[i].type == SMASHER)
+				entity = new j1Bat(info.position.x, info.position.y, info.type);
 
 			entities.add(entity);
 			entity->Start();
@@ -178,7 +181,6 @@ void j1EntityManager::Spawn(const Info_Enemy& info)
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
-
 	player->Load(data);
 	return true;
 }
