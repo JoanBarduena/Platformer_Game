@@ -227,7 +227,7 @@ int PathNode::Score() const
 int PathNode::CalculateF(const iPoint& destination)
 {
 	g = parent->g + 1;
-	//h = pos.DistanceTo(destination);
+	//Diagonals
 	h = pos.DistanceNoSqrt(destination);
 	return g + h;
 }
@@ -237,6 +237,8 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
+	BROFILER_CATEGORY("A*_Pathfinding", Profiler::Color::Yellow);
+
 	// TODO 1: if origin or destination are not walkable, return -1
 	if (IsWalkable(origin) == false || IsWalkable(destination) == false)
 	{

@@ -133,7 +133,7 @@ bool j1Player::Start()
 	//Player HitBox
 	if (collider == nullptr)
 	{
-		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, player_width, player_height }, COLLIDER_PLAYER, App->entityManager);
+		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, player_width+15, player_height+5 }, COLLIDER_PLAYER, App->entityManager);
 	}
 	can_move = true;
 	current_animation = &idle;

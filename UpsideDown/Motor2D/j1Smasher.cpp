@@ -32,7 +32,7 @@ bool j1Smasher::Start()
 	}
 	if (collider == nullptr)
 	{
-		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 31, 28 }, COLLIDER_ENEMY, App->entityManager);
+		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 53, 45 }, COLLIDER_ENEMY, App->entityManager);
 	}
 
 	position.x = start_pos.x;
@@ -57,8 +57,8 @@ bool j1Smasher::Update(float dt, bool do_logic)
 	{
 		if ((App->entityManager->player->position.x - position.x) <= Smasher_range && (App->entityManager->player->position.x - position.x) >= -Smasher_range)
 		{
-			iPoint Player_center = { App->map->WorldToMap((int)App->entityManager->player->position.x + App->entityManager->player->player_width / 2, (int)App->entityManager->player->position.y + App->entityManager->player->player_height / 2) };
-			Smasher_center = { App->map->WorldToMap((int)position.x + 31 / 2, (int)position.y + 28 / 2) };
+			iPoint Player_center = { App->map->WorldToMap((int)App->entityManager->player->position.x + App->entityManager->player->player_width+1, (int)App->entityManager->player->position.y + App->entityManager->player->player_height / 2) };
+			Smasher_center = { App->map->WorldToMap((int)position.x + 53 / 2, (int)position.y + 45 / 2) };
 			Smasher_dest = Player_center;
 
 			int ret = App->pathfinding->CreatePath(Smasher_center, Smasher_dest);
@@ -139,21 +139,12 @@ void j1Smasher::Move(const p2DynArray<iPoint>& path, float dt)
 {
 	smasher_direction = App->pathfinding->SetDirection(path,"smasher");
 
-	/*if (smasher_direction == Direction::NORTH)
-	{
-		position.y -= speed.y * dt;
-	}*/
+	
 	if (smasher_direction == Direction::EAST)
 	{
 		position.x += speed.x * dt;
 		flip = false;
-
-
 	}
-	/*else if (smasher_direction == Direction::SOUTH)
-	{
-		position.y += speed.y * dt;
-	}*/
 	else if (smasher_direction == Direction::WEST)
 	{
 		position.x -= speed.x * dt;

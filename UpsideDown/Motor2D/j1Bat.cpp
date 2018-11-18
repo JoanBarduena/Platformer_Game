@@ -33,7 +33,7 @@ bool j1Bat::Start()
 	}
 	if (collider == nullptr)
 	{
-		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 31, 28 }, COLLIDER_ENEMY, App->entityManager);
+		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 50, 50 }, COLLIDER_ENEMY, App->entityManager);
 	}
 	
 	position.x = start_pos.x;
@@ -49,13 +49,13 @@ bool j1Bat::Update(float dt, bool do_logic)
 	BROFILER_CATEGORY("Bat Update", Profiler::Color::Green);
 
 	dt_bat = dt;
-	collider->SetPos(position.x, position.y);
+	collider->SetPos(position.x-12, position.y-12);
 
 	if (do_logic == true)
 	{
 		if ((App->entityManager->player->position.x - position.x) <= Bat_range && (App->entityManager->player->position.x - position.x) >= -Bat_range)
 		{
-			iPoint Player_center = { App->map->WorldToMap((int)App->entityManager->player->position.x + App->entityManager->player->player_width/2, (int)App->entityManager->player->position.y + App->entityManager->player->player_height/2)};
+			iPoint Player_center = { App->map->WorldToMap((int)App->entityManager->player->position.x + App->entityManager->player->player_width+1, (int)App->entityManager->player->position.y + App->entityManager->player->player_height/2)};
 			Bat_center = { App->map->WorldToMap((int)position.x + 31 / 2, (int)position.y + 28 / 2 )};
 			Bat_dest = Player_center;
 
