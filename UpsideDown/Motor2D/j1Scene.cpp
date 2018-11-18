@@ -6,6 +6,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+#include "j1Audio.h"
 #include "j1Collision.h"
 #include "j1Player.h"
 #include "j1Fadetoblack.h"
@@ -58,6 +59,8 @@ bool j1Scene::Start()
 	
 		player_added = true;
 	}
+
+	App->audio->PlayMusic("audio/music/Galway.ogg");
 
 	App->entityManager->AddEnemy(2700, 700, SMASHER);
 	App->entityManager->AddEnemy(6020, 700, SMASHER);
@@ -143,55 +146,38 @@ bool j1Scene::Update(float dt)
 		{
 			App->entityManager->player->level_change = 0;
 			Level_Load(2);
-			//App->fade->FadeToBlack(App->scene, App->scene);
+	
 		}
 		else
 		{
 			App->entityManager->player->level_change = 0;
 			Level_Load(1);
-			//App->fade->FadeToBlack(App->scene, App->scene);
+
 		}
 	}
-
-
 	//F3 Starts the second level  
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		App->entityManager->player->level_change = 0;
 		Level_Load(2);
-		//App->fade->FadeToBlack(App->scene, App->scene);
+
 	}
 
-	//App->render->Blit(img, 0, 0);
+	App->audio->SetMusicVolume();
 	App->map->Draw();
 
-	int x, y;
-	/*App->input->GetMousePosition(x, y);
-	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
-	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:%d,%d",
-		App->map->data.width, App->map->data.height,
-		App->map->data.tile_width, App->map->data.tile_height,
-		App->map->data.tilesets.count(),
-		map_coordinates.x, map_coordinates.y);
-
-	App->win->SetTitle(title.GetString());*/
-
-	// Debug pathfinding ------------------------------
-	//int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x, p.y);
-	p = App->map->MapToWorld(p.x, p.y);
-
-	App->render->Blit(debug_tex, p.x, p.y);
-
 	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-
-	for (uint i = 0; i < path->Count(); ++i)
+	if (App->collision->debug)
 	{
-		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-		App->render->Blit(debug_tex, pos.x, pos.y);
+		for (uint i = 0; i < path->Count(); ++i)
+		{
+			iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+			App->render->Blit(debug_tex, pos.x, pos.y);
+		}
 	}
+	
+
+	
 
 	return true;
 }
