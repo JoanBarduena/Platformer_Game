@@ -10,6 +10,7 @@
 
 class j1Entity; 
 class j1Player;
+class j1Bat; 
 
 enum EntityType
 {
@@ -53,6 +54,8 @@ public:
 	void AddEnemy(int x, int y, EntityType type);
 	void AddPlayer();
 	void Spawn(const Info_Enemy& info);
+
+	bool reset_pos = false;
 
 public:
 

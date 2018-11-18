@@ -226,6 +226,7 @@ void j1Scene::Level_Load(uint number)
 		////Starting the level & player
 		App->entityManager->CleanUp();
 		App->entityManager->player->CleanUp();
+		App->entityManager->reset_pos = true; 
 		App->map->Load(actual_level->data->mapPath.GetString());
 		App->entityManager->Start();
 		App->entityManager->player->Start();

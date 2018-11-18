@@ -13,6 +13,9 @@ j1Bat::j1Bat(int x, int y, EntityType type) : j1Entity(x, y, EntityType::BAT)
 	idle.LoadAnimations("bat", "flying");
 	position.x = x;
 	position.y = y;
+
+	start_pos.x = x;
+	start_pos.y = y;
 }
 
 void  j1Bat::LoadValues()
@@ -63,6 +66,14 @@ bool j1Bat::Update(float dt, bool do_logic)
 		}
 	}
 	
+	if (App->entityManager->reset_pos == true)
+	{
+		position.x = start_pos.x; 
+		position.y = start_pos.y;
+
+		App->entityManager->reset_pos = false;
+	}
+
 	return true;
 }
 
