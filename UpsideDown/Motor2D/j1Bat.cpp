@@ -18,13 +18,13 @@ j1Bat::~j1Bat(){}
 
 bool j1Bat::Start()
 {
-	graphics = App->tex->Load("textures/skull_monster.png");
+	graphics = App->tex->Load("textures/bat_sprite.png");
 	if (graphics == NULL)
 	{
 		LOG("bat sprite not loaded");
 		return false;
 	}
-	collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 53, 45 }, COLLIDER_PLAYER, App->entityManager);
+	collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 31, 28 }, COLLIDER_PLAYER, App->entityManager);
 	current_animation = &idle;
 	return true;
 }
