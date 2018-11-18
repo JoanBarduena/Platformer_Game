@@ -10,8 +10,6 @@
 
 class j1Entity; 
 class j1Player;
-class j1Bat; 
-class j1Smasher;
 
 enum EntityType
 {
@@ -56,15 +54,13 @@ public:
 	void AddPlayer();
 	void Spawn(const Info_Enemy& info);
 
-	
+	bool reset_pos = false;
 
 public:
 
 	p2List<j1Entity*> entities;
 
 	j1Player* player = nullptr;
-
-	bool reset_pos = false;
 
 private:
 

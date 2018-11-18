@@ -79,7 +79,7 @@ bool j1Smasher::PostUpdate()
 		speed.y += GRAVITY * dt_smasher; //Aplying "gravity"
 		if (speed.y > max_speed_y)
 			speed.y = max_speed_y;
-		LOG("not touching above");
+		//LOG("not touching above");
 	}
 	else if (touching_above == true)
 	{
@@ -152,12 +152,18 @@ void j1Smasher::Move(const p2DynArray<iPoint>& path, float dt)
 	
 }
 
-bool j1Smasher::Load(pugi::xml_node&)
+bool j1Smasher::Load(pugi::xml_node& data)
 {
 	return true;
 }
-bool j1Smasher::Save(pugi::xml_node&) const
+bool j1Smasher::Save(pugi::xml_node& data) const
 {
+	pugi::xml_node pos = data.append_child("position");
+
+	pos.append_attribute("x") = position.x;
+	pos.append_attribute("y") = position.y;
+
+
 	return true;
 }
 

@@ -49,7 +49,6 @@ bool j1EntityManager::PreUpdate()
 		}
 	}
 
-
 	return true;
 }
 
@@ -185,12 +184,50 @@ void j1EntityManager::Spawn(const Info_Enemy& info)
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
-	player->Load(data);
+	if (player != nullptr)
+	{
+		player->Load(data);
+	}
+
+	for (pugi::xml_node bat = data.child("bat").child("position"); bat; bat = bat.next_sibling()) {
+		iPoint batpos = { bat.attribute("x").as_int(), bat.attribute("y").as_int() };
+		AddEnemy(batpos.x, batpos.y, BAT);
+	}
 	return true;
 }
 
 bool j1EntityManager::Save(pugi::xml_node& data) const
 {
-	player->Save(data);
+	player->Save(data.append_child("player"));
+
+	pugi::xml_node bat = data.append_child("bat");
+	pugi::xml_node smasher = data.append_child("smasher");
+
+	p2List_item<j1Entity*>* iterator;
+
+	for (iterator = entities.start; iterator; iterator = iterator->next)
+	{
+		if (iterator->data->type == BAT)
+			iterator->data->Save(bat); 
+		if (iterator->data->type == SMASHER)
+			iterator->data->Save(smasher); 
+	}
+
+	p2List_item<j1Entity*>* iterator2;
+
+	for (iterator2 = entities.start; iterator2; iterator2 = iterator2->next)
+	{
+		if (iterator2->data->type == BAT) {
+			pugi::xml_node position = bat.append_child("position");
+			position.append_attribute("x") = iterator2->data->position.x;
+			position.append_attribute("y") = iterator2->data->position.y;
+		}
+		if (iterator2->data->type == SMASHER) {
+			pugi::xml_node position = smasher.append_child("position");
+			position.append_attribute("x") = iterator2->data->position.x;
+			position.append_attribute("y") = iterator2->data->position.y;
+		}
+	}
+
 	return true;
 }
