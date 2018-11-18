@@ -135,7 +135,7 @@ bool j1Player::Start()
 	{
 		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, player_width, player_height }, COLLIDER_PLAYER, App->entityManager);
 	}
-
+	can_move = true;
 	current_animation = &idle;
 	return true;
 }
@@ -391,12 +391,14 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN1)
 	{
 		win1 = true;
-		App->fade->FadeToBlack(App->scene, App->scene); 
+		App->fade->FadeToBlack(App->scene, App->scene);
+		can_move = false;
 	}
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN2)
 	{
 		win2 = true;
 		App->fade->FadeToBlack(App->scene, App->scene);
+		can_move = false;
 	}
 }
 
@@ -474,8 +476,12 @@ void j1Player::Check_Collision()
 
 	if (win1 == true)
 	{
-		level_change = 0; 
-		App->scene->Level_Load(2);
+		level_change = 0;
+		if (App->fade->IsFading() == false)
+		{
+			App->scene->Level_Load(2);
+		}
+		
 	}
 	if (win2 == true)
 	{
@@ -550,7 +556,7 @@ void j1Player::GameMode()
 {
 	collider->rect.h = player_height;
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && can_move == true)
 	{
 		speed.x = -player_speed;
 		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
@@ -566,7 +572,7 @@ void j1Player::GameMode()
 		}
 
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && can_move==true)
 	{
 		speed.x = player_speed;
 		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
@@ -586,7 +592,7 @@ void j1Player::GameMode()
 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && is_falling == false && is_jumping == false)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && is_falling == false && is_jumping == false && can_move == true)
 	{
 		if (invert_gravity == true && flip == true)
 		{

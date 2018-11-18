@@ -83,6 +83,7 @@ public:
 
 	bool win1;
 	bool win2;
+	bool can_move;
 	
 	bool invert_gravity;
 	bool can_invert = true;
