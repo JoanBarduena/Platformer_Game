@@ -7,6 +7,10 @@ The game has been made using C++ (using SDL and pugi libraires) and the maps hav
 
 **D** - Move player right.
 
+**W** - Move player up (only with God Mode).
+
+**S** - Move player down (only with God Mode).
+
 **SPACE** - Jump.
 
 **F** - Invert Gravity.
@@ -20,40 +24,49 @@ The game has been made using C++ (using SDL and pugi libraires) and the maps hav
 
 **F5** - Save the current state.
 
-**F6** - Load the previous state.
+**F6** - Load the previous state (even across levels).
 
-**F9** - View colliders.
+**F9** - To view colliders and pathfinding.
 
-**F10** - God Mode.
+**F10** - God Mode (allows to fly around).
+
+**F11** - Enable/Disable FPS cap to 30.
 
 ## Github repository:
 https://github.com/JosepLleal/Platformer_Game
 
 ## Authors:
 - Josep Lleal Sirvent
+	-[Josep's GitHub Link](https://github.com/JosepLleal)
 - Joan Barduena Reyes
+	-[Joan's GitHub Link](https://github.com/JoanBarduena)
 
-## License:
-MIT License
+##Innovation:
+-Level_load: Instead of creating 2 scenes, we develop a Stuct Level with an Int (level) and a Sting (MapPath.tmx). So if the int is "1" the map loaded will be "map1.tmx". 
 
-Copyright (c) 2018 [Josep LLeal Sirvent, Joan Barduena Reyes]
+##Tasklist: 
+- Josep Lleal:
+	- Pathfinding.
+	- Entities (smasher, bat).
+	- UML File. 
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+- Joan Barduena:
+	- God Mode.
+	- Save and load.
+	- Sounds.
+	- Map improvements.
+	- Animations. 
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+- Both members
+	- Brofiler. 
+	- Dt and Framerate Cap. 
+	- Solving memory leaks.
+	- Solving buggs. 
+	- Collisions. 
+	- Entities(player). 
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+##Music: 
+Name:"Galway" 
+By:Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 3.0 License
 
-All the art, music and sounds are free to use from Intenet. 
