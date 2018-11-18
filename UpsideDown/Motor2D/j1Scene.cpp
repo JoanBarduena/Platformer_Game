@@ -55,9 +55,10 @@ bool j1Scene::Start()
 	if (player_added == false)
 	{
 		App->entityManager->AddPlayer(0, 800);
+		App->entityManager->AddEnemy(200, 700, BAT);
 		player_added = true;
 	}
-	App->entityManager->AddEnemy(200, 700, BAT);
+	
 
 	return true;
 }
@@ -206,7 +207,7 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-	/*App->entityManager->CleanUp();*/
+	
 	return true;
 }
 

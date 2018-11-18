@@ -7,10 +7,10 @@
 	<map />
 	<pathfinding />
 	<scene />
-	<player position_x="694" position_y="620" invert_gravity="false" current_level="1" god_mode="true" />
+	<entityManager position_x="2235.00146" position_y="534.064087" invert_gravity="false" current_level="1" god_mode="true" />
 	<fade />
 	<:anonymous />
 	<renderer>
-		<camera x="-54" y="-347" />
+		<camera x="-1647" y="-347" />
 	</renderer>
 </game_state>

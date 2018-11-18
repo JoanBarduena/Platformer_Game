@@ -179,12 +179,12 @@ void j1EntityManager::Spawn(const Info_Enemy& info)
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
 
-	AddEnemy(0, 920, BAT);
-
+	player->Load(data);
 	return true;
 }
 
 bool j1EntityManager::Save(pugi::xml_node& data) const
 {
+	player->Save(data);
 	return true;
 }

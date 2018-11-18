@@ -23,13 +23,15 @@ j1Bat::~j1Bat(){}
 
 bool j1Bat::Start()
 {
-	graphics = App->tex->Load("textures/bat_sprite.png");
-	if (graphics == NULL)
+	if(graphics == nullptr)
 	{
-		LOG("bat sprite not loaded");
-		return false;
+		graphics = App->tex->Load("textures/bat_sprite.png");
 	}
-	collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 31, 28 }, COLLIDER_PLAYER, App->entityManager);
+	if (collider == nullptr)
+	{
+		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 31, 28 }, COLLIDER_PLAYER, App->entityManager);
+	}
+	
 	current_animation = &idle;
 	return true;
 }
@@ -51,8 +53,9 @@ bool j1Bat::PostUpdate()
 bool j1Bat::CleanUp()
 {
 	App->tex->UnLoad(graphics);
+	graphics = nullptr;
 	if (collider != nullptr)
-		collider->to_delete = true;
+		collider = nullptr;
 	return true;
 }
 

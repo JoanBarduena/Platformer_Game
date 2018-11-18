@@ -83,37 +83,44 @@ bool j1Player::Start()
 {
 	LoadValues();
 
-	limit_up = Player.limit_up;
-	limit_down = Player.limit_down;
-	limit_right = Player.limit_right;
-	limit_left = Player.limit_left;
+	if (counter == 0)
+	{
+		limit_up = Player.limit_up;
+		limit_down = Player.limit_down;
+		limit_right = Player.limit_right;
+		limit_left = Player.limit_left;
 
-	player_speed = Player.player_speed;
-	maxSpeed_y = Player.maxSpeed_y;
-	jump_force = Player.jump_force;
+		player_speed = Player.player_speed;
+		maxSpeed_y = Player.maxSpeed_y;
+		jump_force = Player.jump_force;
 
-	player_width = Player.player_width;
-	player_height = Player.player_height;
+		player_width = Player.player_width;
+		player_height = Player.player_height;
 
-	dead_limit_down = Player.player_dead_limit_down; 
-	dead_limit_up = Player.player_dead_limit_up; 
+		dead_limit_down = Player.player_dead_limit_down;
+		dead_limit_up = Player.player_dead_limit_up;
 
-	graphics = App->tex->Load("textures/adventurer.png");
+		
 
-	//Loading Sounds FX
-	jump = App->audio->LoadFx("audio/fx/Jump.wav");
-	run = App->audio->LoadFx("audio/fx/Run.wav");
-	invert_gravity_fx = App->audio->LoadFx("audio/fx/invert_gravity.wav");
+		//Loading Sounds FX
+		jump = App->audio->LoadFx("audio/fx/Jump.wav");
+		run = App->audio->LoadFx("audio/fx/Run.wav");
+		invert_gravity_fx = App->audio->LoadFx("audio/fx/invert_gravity.wav");
 
-	
+		counter++;
+	}
 
 	//-----------------------------------------------
-
+	if (graphics == nullptr)
+	{
+		graphics = App->tex->Load("textures/adventurer.png");
+	}
+	
 	App->render->camera.x = Player.camera_position.x;
 	App->render->camera.y = Player.camera_position.y;
 
 
-	if (level_change <= 0)
+	if (level_change == 0)
 	{
 		position.x = Player.position.x;
 		position.y = Player.position.y;
@@ -135,6 +142,8 @@ bool j1Player::Start()
 bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(graphics); 
+	graphics = nullptr;
+
 	if (collider != nullptr)
 	{
 		collider->to_delete = true;
@@ -514,8 +523,8 @@ bool j1Player::Load(pugi::xml_node& data)
 	position.y = data.attribute("position_y").as_int();
 	invert_gravity = data.attribute("invert_gravity").as_bool();
 	App->scene->Level_Load(data.attribute("current_level").as_int());
-	god_mode = data.attribute("god_mode").as_bool(); 
-
+	god_mode = data.attribute("god_mode").as_bool();
+	
 	return true; 
 }
 
