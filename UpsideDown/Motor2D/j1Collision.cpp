@@ -61,6 +61,8 @@ bool j1Collision::PreUpdate()
 		}
 	}
 
+	
+
 	return true;
 }
 

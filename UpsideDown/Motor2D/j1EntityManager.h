@@ -9,6 +9,8 @@
 
 
 class j1Entity; 
+class j1Player;
+
 enum EntityType
 {
 	PLAYER,
@@ -43,14 +45,20 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
+	void OnCollision(Collider* c1, Collider* c2);
+
 	j1Entity* CreateEntity(EntityType type, int x, int y);
+
 	void DestroyEntity(j1Entity* entity);
 	void AddEnemy(int x, int y, EntityType type);
+	void AddPlayer(int x, int y);
 	void Spawn(const Info_Enemy& info);
 
 public:
 
 	p2List<j1Entity*> entities;
+
+	j1Player* player = nullptr;
 
 private:
 

@@ -3,6 +3,7 @@
 
 #include "j1Entity.h"
 #include "j1PathFinding.h"
+#include "j1Render.h"
 #include "PugiXml/src/pugixml.hpp"
 
 class j1Bat : public j1Entity
@@ -15,6 +16,7 @@ public:
 
 	bool Start();
 	bool Update(float dt, bool do_logic);
+	bool PostUpdate();
 	bool CleanUp();
 
 	void OnCollision(Collider* c1, Collider* c2);
@@ -25,11 +27,15 @@ public:
 	void LoadValues();
 	void Move(p2DynArray<iPoint>& path, float dt);
 
+	void Draw();
+
 public:
 
 	p2DynArray<iPoint>* path;
 
 	Animation idle, flying;
+
+	float dt_bat;
 
 };
 

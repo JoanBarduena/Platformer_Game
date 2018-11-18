@@ -104,6 +104,20 @@ bool j1EntityManager::CleanUp()
 	return ret;
 }
 
+void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
+{
+	p2List_item<j1Entity*>* iterator;
+
+	for ( iterator = entities.start; iterator != nullptr; iterator = iterator->next)
+	{
+		if (iterator->data->collider == c1)
+		{
+			iterator->data->OnCollision(c1, c2);
+			break;
+		}
+	}
+}
+
 j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
 {
 	j1Entity* ret = nullptr;
@@ -111,6 +125,9 @@ j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
 	{
 	case EntityType::BAT:
 		ret = new j1Bat(x, y, type);
+		break;
+	case EntityType::PLAYER:
+		ret = new j1Player(x, y, type);
 		break;
 	}
 	if (ret != nullptr)
@@ -136,6 +153,11 @@ void j1EntityManager::AddEnemy(int x, int y, EntityType type)
 			break;
 		}
 	}
+}
+
+void j1EntityManager::AddPlayer(int x, int y)
+{
+	player = (j1Player*)CreateEntity(PLAYER, x, y);
 }
 
 void j1EntityManager::Spawn(const Info_Enemy& info)

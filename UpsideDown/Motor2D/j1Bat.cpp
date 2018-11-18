@@ -14,6 +14,11 @@ j1Bat::j1Bat(int x, int y, EntityType type) : j1Entity(x, y, EntityType::BAT)
 	position.y = y;
 }
 
+void  j1Bat::LoadValues()
+{
+
+}
+
 j1Bat::~j1Bat(){}
 
 bool j1Bat::Start()
@@ -31,11 +36,15 @@ bool j1Bat::Start()
 
 bool j1Bat::Update(float dt, bool do_logic)
 {
+	dt_bat = dt;
 	collider->SetPos(position.x, position.y);
-	LOG("%i", collider->type);
-	SDL_Rect rect = current_animation->GetCurrentFrame(dt);
-	Draw(rect);
 	
+	return true;
+}
+
+bool j1Bat::PostUpdate()
+{
+	Draw();
 	return true;
 }
 
@@ -47,7 +56,18 @@ bool j1Bat::CleanUp()
 	return true;
 }
 
+void j1Bat::Draw()
+{
+	SDL_Rect rect = current_animation->GetCurrentFrame(dt_bat);
+	App->render->Blit(graphics, (int)position.x, (int)position.y, &rect, SDL_FLIP_NONE);
+}
+
 void j1Bat::OnCollision(Collider* c1, Collider* c2)
+{
+
+}
+
+void j1Bat::Move(p2DynArray<iPoint>& path, float dt)
 {
 
 }
@@ -61,12 +81,6 @@ bool j1Bat::Save(pugi::xml_node&) const
 	return true;
 }
 
-void  j1Bat::LoadValues()
-{
 
-}
 
-void j1Bat::Move(p2DynArray<iPoint>& path, float dt)
-{
 
-}

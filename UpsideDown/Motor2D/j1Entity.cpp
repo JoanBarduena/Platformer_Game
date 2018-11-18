@@ -12,9 +12,4 @@
 
 j1Entity::j1Entity(int x, int y, EntityType type){}
 
-void j1Entity::Draw(SDL_Rect rect)
-{
-	App->render->Blit(graphics, (int)position.x, (int)position.y, &rect, SDL_FLIP_NONE);
-}
-
 

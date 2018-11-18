@@ -52,7 +52,11 @@ bool j1Scene::Start()
 	RELEASE_ARRAY(data);
 
 	debug_tex = App->tex->Load("maps/pathfinding_debug.png");
-
+	if (player_added == false)
+	{
+		App->entityManager->AddPlayer(0, 800);
+		player_added = true;
+	}
 	App->entityManager->AddEnemy(200, 700, BAT);
 
 	return true;
@@ -115,7 +119,7 @@ bool j1Scene::Update(float dt)
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
-		App->player->level_change = 0;
+		App->entityManager->player->level_change = 0;
 		Level_Load(1); 
 	}
 
@@ -130,13 +134,13 @@ bool j1Scene::Update(float dt)
 	{
 		if (actual_level->data->lvl == 2)
 		{
-			App->player->level_change = 0;
+			App->entityManager->player->level_change = 0;
 			Level_Load(2);
 			//App->fade->FadeToBlack(App->scene, App->scene);
 		}
 		else
 		{
-			App->player->level_change = 0;
+			App->entityManager->player->level_change = 0;
 			Level_Load(1);
 			//App->fade->FadeToBlack(App->scene, App->scene);
 		}
@@ -146,7 +150,7 @@ bool j1Scene::Update(float dt)
 	//F3 Starts the second level  
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
-		App->player->level_change = 0;
+		App->entityManager->player->level_change = 0;
 		Level_Load(2);
 		//App->fade->FadeToBlack(App->scene, App->scene);
 	}
@@ -220,8 +224,6 @@ void j1Scene::Level_Load(uint number)
 		////Starting the level & player
 		App->entityManager->CleanUp();
 		App->map->Load(actual_level->data->mapPath.GetString());
-		App->player->playerHitbox = nullptr;
-		App->player->Start();
 		App->entityManager->Start();
 	}
 	else

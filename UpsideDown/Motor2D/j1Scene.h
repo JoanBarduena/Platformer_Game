@@ -54,6 +54,7 @@ public:
 
 private:
 	SDL_Texture * debug_tex;
+	bool player_added = false;
 };
 
 #endif // __j1SCENE_H__

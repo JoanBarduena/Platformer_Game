@@ -33,7 +33,7 @@ public:
 	virtual bool Save(pugi::xml_node&) const { return true; }
 	virtual void LoadValues() {}
 
-	void Draw(SDL_Rect rect);
+	virtual void Draw() {};
 
 public:
 		

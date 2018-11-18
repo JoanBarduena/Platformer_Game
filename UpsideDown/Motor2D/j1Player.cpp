@@ -14,7 +14,7 @@
 
 #include<stdio.h>
 
-j1Player::j1Player() : j1Module()
+j1Player::j1Player(int x, int y, EntityType type) : j1Entity(x,y,EntityType::PLAYER)
 {
 	//Loading Animations
 	idle.LoadAnimations("player", "idle");
@@ -28,83 +28,85 @@ j1Player::j1Player() : j1Module()
 
 	god_mode_anim.LoadAnimations("player", "god_mode_anim");
 	god_mode_turned.LoadAnimations("player", "god_mode_turned");
-
-	name.create("player");	
 }
 
 j1Player::~j1Player()
 {}
 
-bool j1Player::Awake(pugi::xml_node& config)
+void j1Player::LoadValues()
 {
+	pugi::xml_document config_file;
+	config_file.load_file("config.xml");
+	pugi::xml_node config;
+	config = config_file.child("config");
+	pugi::xml_node player;
+	player = config.child("player");
+
 	//PLayer initial position
-	Player.position.x = config.child("position").attribute("x").as_int();
-	Player.position.y = config.child("position").attribute("y").as_int();
+	Player.position.x = player.child("position").attribute("x").as_int();
+	Player.position.y = player.child("position").attribute("y").as_int();
 
 	//camera limits
-	Player.limit_up = config.child("limits").attribute("up").as_int();
-	Player.limit_down = config.child("limits").attribute("down").as_int();
-	Player.limit_left = config.child("limits").attribute("left").as_int();
-	Player.limit_right = config.child("limits").attribute("right").as_int();
+	limit_up = player.child("limits").attribute("up").as_int();
+	Player.limit_down = player.child("limits").attribute("down").as_int();
+	Player.limit_left = player.child("limits").attribute("left").as_int();
+	Player.limit_right = player.child("limits").attribute("right").as_int();
 
 	//Player physic values
-	Player.player_speed = config.child("speed_x").attribute("value").as_int();
-	Player.maxSpeed_y = config.child("maxSpeed_y").attribute("value").as_int();
-	Player.jump_force = config.child("jump_force").attribute("value").as_int();
+	Player.player_speed = player.child("speed_x").attribute("value").as_int();
+	Player.maxSpeed_y = player.child("maxSpeed_y").attribute("value").as_int();
+	Player.jump_force = player.child("jump_force").attribute("value").as_int();
 
 	//Player dimensions
-	Player.player_width = config.child("player_size").attribute("width").as_int();
-	Player.player_height = config.child("player_size").attribute("height").as_int();
+	Player.player_width = player.child("player_size").attribute("width").as_int();
+	Player.player_height = player.child("player_size").attribute("height").as_int();
 
 	//Camera initial position
-	Player.camera_position.x = config.child("camera").attribute("x").as_int();
-	Player.camera_position.y = config.child("camera").attribute("y").as_int();
+	Player.camera_position.x = player.child("camera").attribute("x").as_int();
+	Player.camera_position.y = player.child("camera").attribute("y").as_int();
 
 	//Player limits 
-	Player.player_limit_up = config.child("player_limit").attribute("up").as_int();
-	Player.player_limit_down = config.child("player_limit").attribute("down").as_int();
-	Player.player_limit_left = config.child("player_limit").attribute("left").as_int();
-	Player.player_limit_right = config.child("player_limit").attribute("right").as_int();
+	Player.player_limit_up = player.child("player_limit").attribute("up").as_int();
+	Player.player_limit_down = player.child("player_limit").attribute("down").as_int();
+	Player.player_limit_left = player.child("player_limit").attribute("left").as_int();
+	Player.player_limit_right = player.child("player_limit").attribute("right").as_int();
 
 	//Player deadzone limit 
-	Player.player_dead_limit_down = config.child("player_dead_limit").attribute("down").as_int(); 
-	Player.player_dead_limit_up = config.child("player_dead_limit").attribute("up").as_int();
+	Player.player_dead_limit_down = player.child("player_dead_limit").attribute("down").as_int();
+	Player.player_dead_limit_up = player.child("player_dead_limit").attribute("up").as_int();
 
 	//GodMode Hitbox value
-	Player.godmode_hitbox = config.child("godmode_hitbox").attribute("value").as_int(); 
-
-	return true;
+	Player.godmode_hitbox = player.child("godmode_hitbox").attribute("value").as_int();
 }
 
 bool j1Player::Start()
 {
+	LoadValues();
+
+	limit_up = Player.limit_up;
+	limit_down = Player.limit_down;
+	limit_right = Player.limit_right;
+	limit_left = Player.limit_left;
+
+	player_speed = Player.player_speed;
+	maxSpeed_y = Player.maxSpeed_y;
+	jump_force = Player.jump_force;
+
+	player_width = Player.player_width;
+	player_height = Player.player_height;
+
+	dead_limit_down = Player.player_dead_limit_down; 
+	dead_limit_up = Player.player_dead_limit_up; 
+
+	graphics = App->tex->Load("textures/adventurer.png");
+
+	//Loading Sounds FX
+	jump = App->audio->LoadFx("audio/fx/Jump.wav");
+	run = App->audio->LoadFx("audio/fx/Run.wav");
+	invert_gravity_fx = App->audio->LoadFx("audio/fx/invert_gravity.wav");
+
 	
-	if (counter == 0)
-	{
-		limit_up = Player.limit_up;
-		limit_down = Player.limit_down;
-		limit_right = Player.limit_right;
-		limit_left = Player.limit_left;
 
-		player_speed = Player.player_speed;
-		maxSpeed_y = Player.maxSpeed_y;
-		jump_force = Player.jump_force;
-
-		player_width = Player.player_width;
-		player_height = Player.player_height;
-
-		dead_limit_down = Player.player_dead_limit_down; 
-		dead_limit_up = Player.player_dead_limit_up; 
-
-		graphics = App->tex->Load("textures/adventurer.png");
-
-		//Loading Sounds FX
-		jump = App->audio->LoadFx("audio/fx/Jump.wav");
-		run = App->audio->LoadFx("audio/fx/Run.wav");
-		invert_gravity_fx = App->audio->LoadFx("audio/fx/invert_gravity.wav");
-
-		counter++;
-	}
 	//-----------------------------------------------
 
 	App->render->camera.x = Player.camera_position.x;
@@ -121,25 +123,27 @@ bool j1Player::Start()
 		level_change++;
 	}
 	//Player HitBox
-	if (playerHitbox == nullptr)
+	if (collider == nullptr)
 	{
-		playerHitbox = App->collision->AddCollider({ (int)position.x, (int)position.y, player_width, player_height }, COLLIDER_PLAYER, this);
+		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, player_width, player_height }, COLLIDER_PLAYER, App->entityManager);
 	}
+
+	current_animation = &idle;
 	return true;
 }
 
 bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(graphics); 
-	if (playerHitbox != nullptr)
+	if (collider != nullptr)
 	{
-		playerHitbox->to_delete = true;
-		playerHitbox = nullptr;
+		collider->to_delete = true;
+		collider = nullptr;
 	}
 	return true;
 }
 
-bool j1Player::Update(float dt)
+bool j1Player::Update(float dt, bool do_logic)
 {
 	BROFILER_CATEGORY("Player Update", Profiler::Color::Green);
 
@@ -217,7 +221,7 @@ bool j1Player::Update(float dt)
 	Flip();
 
 	//Set playerhitbox position
-	playerHitbox->SetPos(position.x + (player_width/2), position.y);
+	collider->SetPos(position.x + (player_width/2), position.y);
 	
 	return true;
 }
@@ -231,6 +235,7 @@ bool j1Player::PostUpdate()
 		if (invert_gravity == true)
 		{
 			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_VERTICAL);
+			Draw();
 		}
 		else
 		{
@@ -516,7 +521,7 @@ bool j1Player::Load(pugi::xml_node& data)
 
 void j1Player::GameMode()
 {
-	playerHitbox->rect.h = player_height;
+	collider->rect.h = player_height;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
@@ -597,7 +602,7 @@ void j1Player::GameMode()
 void j1Player::GodMode() 
 {
 	maxSpeed_y = 0;
-	playerHitbox->rect.h = Player.godmode_hitbox; 
+	collider->rect.h = Player.godmode_hitbox; 
 	current_animation = &god_mode_anim;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)

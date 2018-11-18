@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "p2Point.h"
 #include "j1Map.h"
+#include "j1Entity.h"
 
 struct SDL_Texture;
 
@@ -21,18 +22,19 @@ struct player_config
 	int			 godmode_hitbox; 
 };
 
-class j1Player : public j1Module
+class j1Player : public j1Entity
 {
 public:
-	j1Player();
+	j1Player(int x, int y, EntityType type);
 	~j1Player();
 
-	bool Awake(pugi::xml_node& config);
+	
 	bool Start();
-	bool Update(float dt);
+	bool Update(float dt, bool do_logic);
 	bool PostUpdate();
 	bool CleanUp();
 
+	void LoadValues();
 	void Flip();
 	void OnCollision(Collider* c1, Collider* c2);
 	void Check_Collision();
@@ -47,8 +49,6 @@ public:
 
 public:
 
-	SDL_Texture* graphics = nullptr;
-
 	fPoint		 position;
 	fPoint		 speed;
 	int			 player_speed;
@@ -58,9 +58,7 @@ public:
 	float dt_player;
 
 	//HitBox
-	Collider*	 playerHitbox = nullptr; 
-
-	Animation*   current_animation = nullptr;
+	
 	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned;
 	Animation	 god_mode_anim, god_mode_turned; 
 
