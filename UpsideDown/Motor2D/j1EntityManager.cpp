@@ -155,9 +155,9 @@ void j1EntityManager::AddEnemy(int x, int y, EntityType type)
 	}
 }
 
-void j1EntityManager::AddPlayer(int x, int y)
+void j1EntityManager::AddPlayer()
 {
-	player = (j1Player*)CreateEntity(PLAYER, x, y);
+	player = (j1Player*)CreateEntity(PLAYER, 0, 700);
 }
 
 void j1EntityManager::Spawn(const Info_Enemy& info)

@@ -54,7 +54,7 @@ bool j1Scene::Start()
 	debug_tex = App->tex->Load("maps/pathfinding_debug.png");
 	if (player_added == false)
 	{
-		App->entityManager->AddPlayer(0, 800);
+		App->entityManager->AddPlayer();
 		App->entityManager->AddEnemy(200, 700, BAT);
 		player_added = true;
 	}
@@ -224,8 +224,10 @@ void j1Scene::Level_Load(uint number)
 	{
 		////Starting the level & player
 		App->entityManager->CleanUp();
+		App->entityManager->player->CleanUp();
 		App->map->Load(actual_level->data->mapPath.GetString());
 		App->entityManager->Start();
+		App->entityManager->player->Start();
 	}
 	else
 	{
