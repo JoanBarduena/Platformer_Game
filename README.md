@@ -67,6 +67,10 @@ https://github.com/JosepLleal/Platformer_Game
 
 ## Music: 
 Name: "Galway" 
+
 By: Kevin MacLeod (incompetech.com)
+
 Licensed under Creative Commons: By Attribution 3.0 License
 
+This game has been created by Josep LLeal and Joan Barduena. 
+Licensed under the [MIT License](LICENSE).
