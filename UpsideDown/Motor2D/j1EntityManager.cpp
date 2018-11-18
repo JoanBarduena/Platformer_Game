@@ -21,6 +21,8 @@ j1EntityManager::~j1EntityManager() {}
 
 bool j1EntityManager::Awake(pugi::xml_node& config)
 {
+	LOG("Awaking Entity manager");
+
 	return true;
 }
 
@@ -171,10 +173,12 @@ void j1EntityManager::Spawn(const Info_Enemy& info)
 			if (Entity_Array[i].type == BAT)
 				entity = new j1Bat(info.position.x, info.position.y, info.type);
 			else if (Entity_Array[i].type == SMASHER)
-				entity = new j1Bat(info.position.x, info.position.y, info.type);
+				entity = new j1Smasher(info.position.x, info.position.y, info.type);
+				
 
 			entities.add(entity);
 			entity->Start();
+			break;
 		}
 	}
 }

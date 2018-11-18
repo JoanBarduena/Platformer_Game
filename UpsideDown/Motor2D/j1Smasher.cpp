@@ -5,13 +5,16 @@
 #include "j1Map.h"
 #include "j1Smasher.h"
 
-j1Smasher::j1Smasher(int x, int y, EntityType type) : j1Entity(x, y, EntityType::BAT)
+j1Smasher::j1Smasher(int x, int y, EntityType type) : j1Entity(x, y, EntityType::SMASHER)
 {
 	current_animation = NULL;
 
 	idle.LoadAnimations("smasher", "run");
 	position.x = x;
 	position.y = y;
+
+	start_pos.x = x;
+	start_pos.y = y;
 }
 
 void  j1Smasher::LoadValues()
@@ -31,6 +34,9 @@ bool j1Smasher::Start()
 	{
 		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 31, 28 }, COLLIDER_ENEMY, App->entityManager);
 	}
+
+	position.x = start_pos.x;
+	position.y = start_pos.y;
 
 	speed.x = speed.y = 3;
 	current_animation = &idle;
@@ -56,6 +62,7 @@ bool j1Smasher::Update(float dt, bool do_logic)
 
 		}
 	}
+	
 
 	return true;
 }

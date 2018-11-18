@@ -36,6 +36,9 @@ bool j1Bat::Start()
 		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 31, 28 }, COLLIDER_ENEMY, App->entityManager);
 	}
 	
+	position.x = start_pos.x;
+	position.y = start_pos.y;
+
 	speed.x = speed.y = 5;
 	current_animation = &idle;
 	return true;
@@ -54,11 +57,6 @@ bool j1Bat::Update(float dt, bool do_logic)
 			Bat_center = { App->map->WorldToMap((int)position.x + 31 / 2, (int)position.y + 28 / 2 )};
 			Bat_dest = Player_center;
 
-			/*LOG("BAT %uc", App->pathfinding->IsWalkable(Bat_center));
-			LOG("bat pos %i,%i", Bat_center.x, Bat_center.y);
-			LOG("PLA %uc", App->pathfinding->IsWalkable(Bat_dest));
-			LOG("PLA pos %i,%i", Bat_dest.x, Bat_dest.y);*/
-
 			int ret = App->pathfinding->CreatePath(Bat_center, Bat_dest);
 			path = App->pathfinding->GetLastPath();
 			Move(*path, dt);
@@ -66,13 +64,6 @@ bool j1Bat::Update(float dt, bool do_logic)
 		}
 	}
 	
-	if (App->entityManager->reset_pos == true)
-	{
-		position.x = start_pos.x; 
-		position.y = start_pos.y;
-
-		App->entityManager->reset_pos = false;
-	}
 
 	return true;
 }

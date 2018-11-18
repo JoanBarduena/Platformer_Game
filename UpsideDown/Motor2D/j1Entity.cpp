@@ -8,7 +8,6 @@
 #include "j1Window.h"
 #include "j1Textures.h"
 #include "j1PathFinding.h"
-#include "j1Player.h"
 
 j1Entity::j1Entity(int x, int y, EntityType type){}
 

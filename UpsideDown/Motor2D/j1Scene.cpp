@@ -55,10 +55,13 @@ bool j1Scene::Start()
 	if (player_added == false)
 	{
 		App->entityManager->AddPlayer();
-		App->entityManager->AddEnemy(401, 700, BAT);
-		/*App->entityManager->AddEnemy(450, 800, BAT);*/
+	
 		player_added = true;
 	}
+	/*App->entityManager->AddEnemy(401, 700, BAT);
+	App->entityManager->AddEnemy(500, 700, BAT);*/
+	App->entityManager->AddEnemy(600, 500, SMASHER);
+	App->entityManager->AddEnemy(500, 500, BAT);
 	
 
 	return true;
