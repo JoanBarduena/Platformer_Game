@@ -45,6 +45,7 @@ public:
 	int max_speed_y = 10;
 
 	float dt_smasher;
+	bool flip;
 
 	bool touching_above, touching_bottom, touching_right, touching_left;
 	

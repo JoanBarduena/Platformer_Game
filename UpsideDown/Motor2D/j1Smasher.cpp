@@ -37,7 +37,7 @@ bool j1Smasher::Start()
 
 	position.x = start_pos.x;
 	position.y = start_pos.y;
-
+	flip = false;
 	speed.x = speed.y = 3;
 	current_animation = &idle;
 	return true;
@@ -105,7 +105,11 @@ bool j1Smasher::CleanUp()
 void j1Smasher::Draw()
 {
 	SDL_Rect rect = current_animation->GetCurrentFrame(dt_smasher);
-	App->render->Blit(graphics, (int)position.x, (int)position.y, &rect, SDL_FLIP_NONE);
+	if(flip)
+		App->render->Blit(graphics, (int)position.x, (int)position.y, &rect, SDL_FLIP_HORIZONTAL);
+	else
+		App->render->Blit(graphics, (int)position.x, (int)position.y, &rect, SDL_FLIP_NONE);
+
 }
 
 void j1Smasher::OnCollision(Collider* c1, Collider* c2)
@@ -142,6 +146,9 @@ void j1Smasher::Move(const p2DynArray<iPoint>& path, float dt)
 	if (smasher_direction == Direction::EAST)
 	{
 		position.x += speed.x * dt;
+		flip = false;
+
+
 	}
 	/*else if (smasher_direction == Direction::SOUTH)
 	{
@@ -150,6 +157,8 @@ void j1Smasher::Move(const p2DynArray<iPoint>& path, float dt)
 	else if (smasher_direction == Direction::WEST)
 	{
 		position.x -= speed.x * dt;
+		flip = true;
+
 	}
 	
 }

@@ -494,7 +494,11 @@ void j1Player::Check_Collision()
 	if (win2 == true)
 	{
 		level_change = 0;
-		App->scene->Level_Load(1);
+		if (App->fade->IsFading() == false)
+		{
+			App->scene->Level_Load(1);
+		}
+		
 	}
 }
 
