@@ -9,13 +9,14 @@
 	<scene />
 	<entityManager>
 		<player>
-			<position x="5931.2876" y="876.552124" />
+			<position x="5762.47949" y="874.817261" />
 			<invert_gravity value="false" />
 			<current_level value="1" />
 			<god_mode value="true" />
 		</player>
-		<bat />
-		<smasher />
+		<bat position_x="660.931396" position_y="726.750916" />
+		<bat position_x="2768.16968" position_y="727.456726" />
+		<bat position_x="5806.24561" position_y="855.566711" />
 	</entityManager>
 	<fade />
 	<:anonymous />

@@ -6,7 +6,7 @@
 #include "j1Bat.h"
 #include "j1Scene.h"
 
-j1Bat::j1Bat(int x, int y, EntityType type) : j1Entity(x, y, EntityType::BAT)
+j1Bat::j1Bat(int x, int y, EntityType type) : j1Entity(x, y, type)
 {
 	current_animation = NULL;
 
@@ -16,6 +16,8 @@ j1Bat::j1Bat(int x, int y, EntityType type) : j1Entity(x, y, EntityType::BAT)
 
 	start_pos.x = x;
 	start_pos.y = y;
+
+	Type = type; 
 }
 
 void  j1Bat::LoadValues()
@@ -137,15 +139,24 @@ void j1Bat::Move(const p2DynArray<iPoint>& path, float dt)
 
 
 }
+bool j1Bat::Load(pugi::xml_node& data)
+{
+	position.x = data.child("bat").child("position").attribute("x").as_int();
+	position.y = data.child("bat").child("position").attribute("y").as_int();
 
-bool j1Bat::Load(pugi::xml_node&)
-{
 	return true;
 }
-bool j1Bat::Save(pugi::xml_node&) const
+bool j1Bat::Save(pugi::xml_node& data) const
 {
+	pugi::xml_node pos = data.append_child("position");
+
+	pos.append_attribute("x") = position.x;
+	pos.append_attribute("y") = position.y;
+
+
 	return true;
 }
+
 
 
 

@@ -5,7 +5,7 @@
 #include "j1Map.h"
 #include "j1Smasher.h"
 
-j1Smasher::j1Smasher(int x, int y, EntityType type) : j1Entity(x, y, EntityType::SMASHER)
+j1Smasher::j1Smasher(int x, int y, EntityType type) : j1Entity(x, y, type)
 {
 	current_animation = NULL;
 
@@ -15,6 +15,8 @@ j1Smasher::j1Smasher(int x, int y, EntityType type) : j1Entity(x, y, EntityType:
 
 	start_pos.x = x;
 	start_pos.y = y;
+
+	Type = type; 
 }
 
 void  j1Smasher::LoadValues()
@@ -156,6 +158,9 @@ void j1Smasher::Move(const p2DynArray<iPoint>& path, float dt)
 
 bool j1Smasher::Load(pugi::xml_node& data)
 {
+	position.x = data.child("bat").child("position").attribute("x").as_int();
+	position.y = data.child("bat").child("position").attribute("y").as_int();
+	
 	return true;
 }
 bool j1Smasher::Save(pugi::xml_node& data) const
