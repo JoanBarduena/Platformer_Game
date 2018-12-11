@@ -55,10 +55,13 @@ public:
 	p2List_item<level*>* actual_level;
 	SDL_Texture * debug_tex;
 
+	bool enemy_spawn = false;
+
 private:
 	
 	bool player_added = false;
 	bool not_started = false; 
+	
 };
 
 #endif // __j1SCENE_H__

@@ -18,7 +18,7 @@
  <tileset firstgid="257" name="meta" tilewidth="32" tileheight="32" tilecount="2" columns="2">
   <image source="meta.png" width="64" height="32"/>
  </tileset>
- <imagelayer name="clouds" offsetx="-150" offsety="0">
+ <imagelayer name="clouds" offsetx="-200" offsety="-400">
   <image source="clouds_map1.png" width="1920" height="1352"/>
  </imagelayer>
 </map>

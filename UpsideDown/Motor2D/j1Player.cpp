@@ -121,14 +121,14 @@ bool j1Player::Start()
 	App->render->camera.y = Player.camera_position.y;
 
 
-	if (level_change == 0)
+	if (level_change)
 	{
 		position.x = Player.position.x;
 		position.y = Player.position.y;
 		
 		invert_gravity = false; 
 
-		level_change++;
+		level_change = false;
 	}
 	//Player HitBox
 	if (collider == nullptr)
@@ -387,10 +387,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				App->audio->PlayFx(death_fx); 
 				if (App->scene->actual_level->data->lvl == 1)
 				{
-					App->scene->Level_Load(1);
+					App->scene->enemy_spawn = true;
+					App->scene->Level_Load(1);	
 				}
 				else if (App->scene->actual_level->data->lvl == 2)
 				{
+					App->scene->enemy_spawn = true;
 					App->scene->Level_Load(2);
 				}
 			}
@@ -650,10 +652,12 @@ void j1Player::GameMode()
 		if (App->scene->actual_level->data->lvl == 1)
 		{
 			App->scene->Level_Load(1); 
+			App->scene->enemy_spawn = true; 
 		}
 		else if (App->scene->actual_level->data->lvl == 2)
 		{
 			App->scene->Level_Load(2);
+			App->scene->enemy_spawn = true;
 		}
 	}
 }

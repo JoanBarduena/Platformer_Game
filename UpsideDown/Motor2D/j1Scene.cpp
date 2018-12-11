@@ -64,7 +64,10 @@ bool j1Scene::Start()
 
 			player_added = true;
 		}
+	}
 
+	if (enemy_spawn)
+	{
 		App->audio->PlayMusic(actual_level->data->level_music.GetString(), 1.0f);
 
 		App->entityManager->AddEnemy(2700, 700, SMASHER);
@@ -74,6 +77,7 @@ bool j1Scene::Start()
 		App->entityManager->AddEnemy(2600, 500, BAT);
 		App->entityManager->AddEnemy(6000, 500, BAT);
 	}
+
 	return true;
 }
 
@@ -113,11 +117,19 @@ bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Scene Update", Profiler::Color::Green);
 
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	{
+		App->entityManager->player->level_change = false;
 		App->LoadGame();
+	}
 
-	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	{
+		App->entityManager->player->level_change = false;
+		enemy_spawn = false; 
 		App->SaveGame();
+	}
+		
 
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		App->render->camera.y += 3;
@@ -219,12 +231,12 @@ void j1Scene::Level_Load(uint number)
 		else 
 		{
 			not_started = true;
+			enemy_spawn = true;
 		}
 		Start();
 		App->map->Load(actual_level->data->mapPath.GetString());
 		App->entityManager->Start();
-		App->entityManager->player->Start();
-		App->entityManager->player->level_change = 0;
+		App->entityManager->player->level_change = true;
 	}
 	else
 	{
