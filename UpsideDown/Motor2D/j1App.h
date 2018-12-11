@@ -21,6 +21,8 @@ class j1Collision;
 class j1Fadetoblack;
 class j1EntityManager;
 class j1PathFinding;
+class j1Fonts;
+class j1Gui;
 
 class j1App
 {
@@ -84,17 +86,19 @@ private:
 public:
 
 	// Modules
-	j1Window*			win;
-	j1Input*			input;
-	j1Render*			render;
-	j1Textures*			tex;
-	j1Audio*			audio;
-	j1Scene*			scene;
-	j1Map*				map;
-	j1Collision*		collision;
-	j1Fadetoblack*		fade; 
-	j1EntityManager*	entityManager;
-	j1PathFinding*		pathfinding;
+	j1Window*			win = NULL;
+	j1Input*			input = NULL;
+	j1Render*			render = NULL;
+	j1Textures*			tex = NULL;
+	j1Audio*			audio = NULL;
+	j1Scene*			scene = NULL;
+	j1Map*				map = NULL;
+	j1Collision*		collision = NULL;
+	j1Fadetoblack*		fade = NULL;
+	j1EntityManager*	entityManager = NULL;
+	j1PathFinding*		pathfinding = NULL;
+	j1Fonts*			font = NULL;
+	j1Gui*				gui = NULL;
 
 	bool caped_frames = true;
 
