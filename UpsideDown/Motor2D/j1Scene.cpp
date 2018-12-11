@@ -16,10 +16,12 @@
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
-		
-	level* lvl1 = new level(1, "map_p1.tmx");
-	level* lvl2 = new level(2, "map_p2.tmx");
+	
+	level* menu = new level(0, "map_menu.tmx", "audio/music/Galway.ogg"); 
+	level* lvl1 = new level(1, "map_p1.tmx", "audio/music/Galway.ogg");
+	level* lvl2 = new level(2, "map_p2.tmx", "audio/music/Galway.ogg");
 
+	levels_list.add(menu); 
 	levels_list.add(lvl1);
 	levels_list.add(lvl2);
 
@@ -43,32 +45,35 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load(levels_list.start->data->mapPath.GetString());
+	LOG("LEVEL NUMBER: %d", actual_level->data->lvl); 
 
-	int w, h;
-	uchar* data = NULL;
-	if (App->map->CreateWalkabilityMap(w, h, &data))
+	if (not_started)
 	{
-		App->pathfinding->SetMap(w, h, data);
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+		{
+			App->pathfinding->SetMap(w, h, data);
+		}
+		RELEASE_ARRAY(data);
+
+		debug_tex = App->tex->Load("maps/pathfinding_debug.png");
+		if (player_added == false)
+		{
+			App->entityManager->AddPlayer();
+
+			player_added = true;
+		}
+
+		App->audio->PlayMusic(actual_level->data->level_music.GetString(), 1.0f);
+
+		App->entityManager->AddEnemy(2700, 700, SMASHER);
+		App->entityManager->AddEnemy(6020, 700, SMASHER);
+		App->entityManager->AddEnemy(5200, 600, SMASHER);
+		App->entityManager->AddEnemy(500, 500, BAT);
+		App->entityManager->AddEnemy(2600, 500, BAT);
+		App->entityManager->AddEnemy(6000, 500, BAT);
 	}
-	RELEASE_ARRAY(data);
-
-	debug_tex = App->tex->Load("maps/pathfinding_debug.png");
-	if (player_added == false)
-	{
-		App->entityManager->AddPlayer();
-	
-		player_added = true;
-	}
-
-	App->audio->PlayMusic("audio/music/Galway.ogg");
-
-	App->entityManager->AddEnemy(2700, 700, SMASHER);
-	App->entityManager->AddEnemy(6020, 700, SMASHER);
-	App->entityManager->AddEnemy(5200, 600, SMASHER);
-	App->entityManager->AddEnemy(500, 500, BAT);
-	App->entityManager->AddEnemy(2600, 500, BAT);
-	App->entityManager->AddEnemy(6000, 500, BAT);
-	
 	return true;
 }
 
@@ -129,7 +134,6 @@ bool j1Scene::Update(float dt)
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
-		App->entityManager->player->level_change = 0;
 		Level_Load(1); 
 	}
 
@@ -144,23 +148,17 @@ bool j1Scene::Update(float dt)
 	{
 		if (actual_level->data->lvl == 2)
 		{
-			App->entityManager->player->level_change = 0;
 			Level_Load(2);
-	
 		}
 		else
 		{
-			App->entityManager->player->level_change = 0;
 			Level_Load(1);
-
 		}
 	}
 	//F3 Starts the second level  
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
-		App->entityManager->player->level_change = 0;
 		Level_Load(2);
-
 	}
 
 	App->audio->SetMusicVolume();
@@ -176,9 +174,6 @@ bool j1Scene::Update(float dt)
 		}
 	}
 	
-
-	
-
 	return true;
 }
 
@@ -206,7 +201,7 @@ bool j1Scene::CleanUp()
 void j1Scene::Level_Load(uint number)
 {
 	p2List_item<level*>* lvl = levels_list.start;
-	for (int i = 1; i < number; i++)
+	for (int i = 0; i < number; i++)
 	{
 		lvl = lvl->next;
 	}
@@ -215,12 +210,21 @@ void j1Scene::Level_Load(uint number)
 	if (actual_level != nullptr)
 	{
 		////Starting the level & player
-		App->entityManager->CleanUp();
-		App->entityManager->DestroyEnemies(); 
-		App->entityManager->player->CleanUp();
+		if (not_started) 
+		{
+			App->entityManager->CleanUp();
+			App->entityManager->DestroyEnemies();
+			App->entityManager->player->CleanUp();
+		}
+		else 
+		{
+			not_started = true;
+		}
+		Start();
 		App->map->Load(actual_level->data->mapPath.GetString());
 		App->entityManager->Start();
 		App->entityManager->player->Start();
+		App->entityManager->player->level_change = 0;
 	}
 	else
 	{

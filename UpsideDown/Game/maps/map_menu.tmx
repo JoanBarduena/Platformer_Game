@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="36" tilewidth="32" tileheight="32" nextobjectid="34">
+ <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+  <image source="tileset_p1.png" width="512" height="512"/>
+  <terraintypes>
+   <terrain name="Grass" tile="33"/>
+  </terraintypes>
+  <tile id="16" terrain=",,,0"/>
+  <tile id="17" terrain=",,0,0"/>
+  <tile id="18" terrain=",,0,"/>
+  <tile id="32" terrain=",0,,0"/>
+  <tile id="33" terrain="0,0,0,0"/>
+  <tile id="34" terrain="0,,0,"/>
+  <tile id="48" terrain=",0,,"/>
+  <tile id="49" terrain="0,0,,"/>
+  <tile id="50" terrain="0,,,"/>
+ </tileset>
+ <tileset firstgid="257" name="meta" tilewidth="32" tileheight="32" tilecount="2" columns="2">
+  <image source="meta.png" width="64" height="32"/>
+ </tileset>
+ <imagelayer name="clouds" offsetx="-150" offsety="0">
+  <image source="clouds_map1.png" width="1920" height="1352"/>
+ </imagelayer>
+</map>

@@ -7256,7 +7256,7 @@
   <object id="32" type="win1" x="6337" y="447" width="30" height="33"/>
   <object id="33" type="floor" x="1376" y="-9" width="416" height="489"/>
  </objectgroup>
- <layer name="NoneWalkableTiles" width="200" height="36" visible="0">
+ <layer name="NoneWalkableTiles" width="200" height="36">
   <properties>
    <property name="Navigation" type="int" value="1"/>
    <property name="NotDraw" type="int" value="1"/>
