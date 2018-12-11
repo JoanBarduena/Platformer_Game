@@ -9,20 +9,17 @@
 	<scene />
 	<entityManager>
 		<player>
-			<position x="1136.99048" y="778.513367" />
+			<position x="5931.2876" y="876.552124" />
 			<invert_gravity value="false" />
 			<current_level value="1" />
-			<god_mode value="false" />
+			<god_mode value="true" />
 		</player>
-		<bat position_x="665.695862" position_y="788.688477" />
-		<bat position_x="2600" position_y="500" />
-		<bat position_x="6000" position_y="500" />
+		<bat />
+		<smasher />
 	</entityManager>
 	<fade />
 	<:anonymous />
-	<fonts />
-	<gui />
 	<renderer>
-		<camera x="-510" y="-347" />
+		<camera x="-5370" y="-347" />
 	</renderer>
 </game_state>

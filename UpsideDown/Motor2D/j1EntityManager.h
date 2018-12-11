@@ -1,15 +1,15 @@
-#ifndef __j1ENTITYMANAGER_H__
-#define __j1ENTITYMANAGER_H__
+#ifndef __ENTITYMANAGER_H__
+#define __ENTITYMANAGER_H__
 
 #include "j1Module.h"
 #include "p2Defs.h"
 #include "p2List.h"
 #include "p2Point.h"
-//#include "j1Entity.h"
+#include "j1Entity.h"
 
 
 class j1Entity; 
-class j1Player; 
+class j1Player;
 
 enum EntityType
 {
@@ -21,7 +21,7 @@ enum EntityType
 
 struct Info_Enemy
 {
-	EntityType type = UNKNOWN;
+	EntityType type = EntityType::UNKNOWN;
 	fPoint position;
 };
 

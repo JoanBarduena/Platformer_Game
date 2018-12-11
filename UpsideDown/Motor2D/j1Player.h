@@ -94,9 +94,8 @@ public:
 
 	int player_width, player_height;
 	int jump_force;
+	int level_change = 0;
 	int counter = 0;
-
-	bool level_change = true; 
 
 	p2SString folder;
 	p2List_item<ImageLayer*>* image = nullptr;

@@ -105,7 +105,6 @@ bool j1EntityManager::CleanUp()
 		iterator->data->CleanUp();
 	}
 
-
 	return ret;
 }
 
@@ -122,28 +121,26 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 		}
 	}
 }
-//
-//j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
-//{
-//	j1Entity* ret = nullptr;
-//	switch (type)
-//	{
-//	case EntityType::BAT:
-//		ret = new j1Bat(x, y, type);
-//		break;
-//	case EntityType::SMASHER:
-//		ret = new j1Smasher(x, y, type);
-//		break;
-//	case EntityType::PLAYER:
-//		ret = new j1Player(x, y, type);
-//		break;
-//	}
-//
-//	if (ret != nullptr)
-//		entities.add(ret);
-//
-//	return ret; 
-//}
+
+j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
+{
+	j1Entity* ret = nullptr;
+	switch (type)
+	{
+	case EntityType::BAT:
+		ret = new j1Bat(x, y, type);
+		break;
+	case EntityType::SMASHER:
+		ret = new j1Smasher(x, y, type);
+		break;
+	case EntityType::PLAYER:
+		ret = new j1Player(x, y, type);
+		break;
+	}
+	if (ret != nullptr)
+		entities.add(ret);
+	return ret; 
+}
 
 void j1EntityManager::DestroyEnemies()
 {
@@ -153,7 +150,7 @@ void j1EntityManager::DestroyEnemies()
 	}
 
 	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next) {
-		if (iterator->data->Type != EntityType::PLAYER)
+		if (iterator->data->type != EntityType::PLAYER)
 		{
 			iterator->data->CleanUp();
 			int num = entities.find(iterator->data);
@@ -179,10 +176,7 @@ void j1EntityManager::AddEnemy(int x, int y, EntityType type)
 
 void j1EntityManager::AddPlayer()
 {
-	//player = (j1Player*)CreateEntity(PLAYER, 0, 700);
-	player = new j1Player(0, 700, PLAYER);
-
-	entities.add(player); 
+	player = (j1Player*)CreateEntity(PLAYER, 0, 700);
 }
 
 void j1EntityManager::Spawn(const Info_Enemy& info)
@@ -193,12 +187,11 @@ void j1EntityManager::Spawn(const Info_Enemy& info)
 		{
 			j1Entity* entity;
 			if (Entity_Array[i].type == BAT)
-			{
 				entity = new j1Bat(info.position.x, info.position.y, info.type);
-			}
 			else if (Entity_Array[i].type == SMASHER)
 				entity = new j1Smasher(info.position.x, info.position.y, info.type);
 				
+
 			entities.add(entity);
 			entity->Start();
 			break;
@@ -208,15 +201,14 @@ void j1EntityManager::Spawn(const Info_Enemy& info)
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
-	//CleanUp(); 
 	if (player != nullptr)
 	{
 		player->Load(data);
 	}
 
-	for (pugi::xml_node bat = data.child("bat"); bat; bat = bat.next_sibling("bat"))
-	{
-		AddEnemy(bat.attribute("position_x").as_int(), bat.attribute("position_y").as_int(), BAT);
+	for (pugi::xml_node bat = data.child("bat").child("position"); bat; bat = bat.next_sibling()) {
+		iPoint batpos = { bat.attribute("x").as_int(), bat.attribute("y").as_int() };
+		AddEnemy(batpos.x, batpos.y, BAT);
 	}
 	return true;
 }
@@ -225,15 +217,34 @@ bool j1EntityManager::Save(pugi::xml_node& data) const
 {
 	player->Save(data.append_child("player"));
 
-	for (p2List_item<j1Entity*>* entity = entities.start; entity; entity = entity->next)
+	pugi::xml_node bat = data.append_child("bat");
+	pugi::xml_node smasher = data.append_child("smasher");
+
+	p2List_item<j1Entity*>* iterator;
+
+	for (iterator = entities.start; iterator; iterator = iterator->next)
 	{
-		LOG("entity: %d", entity->data->Type); 
-		if (entity->data->Type == BAT)
-		{ 
-			pugi::xml_node child = data.append_child("bat");
-			child.append_attribute("position_x") = entity->data->position.x;
-			child.append_attribute("position_y") = entity->data->position.y;
+		if (iterator->data->type == BAT)
+			iterator->data->Save(bat); 
+		if (iterator->data->type == SMASHER)
+			iterator->data->Save(smasher); 
+	}
+
+	p2List_item<j1Entity*>* iterator2;
+
+	for (iterator2 = entities.start; iterator2; iterator2 = iterator2->next)
+	{
+		if (iterator2->data->type == BAT) {
+			pugi::xml_node position = bat.append_child("position");
+			position.append_attribute("x") = iterator2->data->position.x;
+			position.append_attribute("y") = iterator2->data->position.y;
+		}
+		if (iterator2->data->type == SMASHER) {
+			pugi::xml_node position = smasher.append_child("position");
+			position.append_attribute("x") = iterator2->data->position.x;
+			position.append_attribute("y") = iterator2->data->position.y;
 		}
 	}
+
 	return true;
 }

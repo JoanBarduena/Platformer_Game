@@ -41,7 +41,7 @@ public:
 	fPoint			start_pos;
 	fPoint			position;
 
-	EntityType		Type;
+	EntityType		type;
 
 	SDL_Texture*	graphics = nullptr;
 	Collider*		collider = nullptr;

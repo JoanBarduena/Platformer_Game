@@ -7,15 +7,13 @@ struct SDL_Texture;
 
 struct level
 {
-	level(int num, char* mapPath, char* music)
+	level(int num, char* mapPath)
 	{
 		this->mapPath.create(mapPath);
-		level_music.create(music); 
 		lvl = num;
 	}
 
 	p2SString mapPath;
-	p2SString level_music; 
 	int lvl;
 };
 
@@ -55,13 +53,10 @@ public:
 	p2List_item<level*>* actual_level;
 	SDL_Texture * debug_tex;
 
-	bool enemy_spawn = false;
-
 private:
 	
 	bool player_added = false;
-	bool not_started = false; 
-	
+
 };
 
 #endif // __j1SCENE_H__
