@@ -80,7 +80,10 @@ bool j1Bat::CleanUp()
 	App->tex->UnLoad(graphics);
 	graphics = nullptr;
 	if (collider != nullptr)
+	{
+		collider->to_delete = true;
 		collider = nullptr;
+	}
 	return true;
 }
 

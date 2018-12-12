@@ -146,6 +146,19 @@ void j1EntityManager::DestroyEnemies()
 	
 }
 
+void j1EntityManager::DestroyThisEntity(j1Entity* entity)
+{
+	for (p2List_item<j1Entity*>* iterator = entities.start; iterator; iterator = iterator->next)
+	{
+		if (iterator->data == entity)
+		{
+			iterator->data->CleanUp();
+			entities.del(iterator);
+			RELEASE(iterator->data);
+		}
+	}
+}
+
 void j1EntityManager::DestroyPlayer()
 {
 	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next) {

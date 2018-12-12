@@ -114,14 +114,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 3;
 
-	//if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT)
-	//{
-	//	RespawnEntities();
-	//	App->entityManager->Start();
-	//}
-	//if (App->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)
-	//	App->entityManager->DestroyEnemies();
-	
+		
 	
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
@@ -242,7 +235,6 @@ void j1Scene::Level_Load(uint number)
 		App->entityManager->DestroyEnemies();
 		RespawnEntities();
 		App->entityManager->Start();
-		/*App->entityManager->player->Start();*/
 	}
 	else if ((actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1))
 	{
@@ -274,4 +266,5 @@ void j1Scene::RespawnEntities()
 	App->entityManager->CreateEntity(6000, 500, BAT);
 
 	App->entityManager->CreateEntity(800, 950, COIN);
+	App->entityManager->CreateEntity(900, 950, COIN);
 }

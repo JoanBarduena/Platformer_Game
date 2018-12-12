@@ -220,8 +220,9 @@ bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
 
-	CleanUp();
 	App->collision->CleanUp();
+	CleanUp();
+	
 
 	p2SString tmp("%s%s", folder.GetString(), file_name);
 

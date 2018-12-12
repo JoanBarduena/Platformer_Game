@@ -35,7 +35,7 @@ bool j1Coin::Start()
 	}
 	if (collider == nullptr)
 	{
-		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 10, 10 }, COLLIDER_NONE, App->entityManager);
+		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 20, 20 }, COLLIDER_COIN, App->entityManager);
 	}
 
 	position.x = start_pos.x;
@@ -50,7 +50,7 @@ bool j1Coin::Update(float dt, bool do_logic)
 	BROFILER_CATEGORY("Bat Update", Profiler::Color::Green);
 
 	dt_coin = dt;
-	collider->SetPos(position.x - 12, position.y - 12);
+	collider->SetPos(position.x , position.y );
 
 	
 	return true;
@@ -67,7 +67,11 @@ bool j1Coin::CleanUp()
 	App->tex->UnLoad(graphics);
 	graphics = nullptr;
 	if (collider != nullptr)
+	{
+		collider->to_delete = true;
 		collider = nullptr;
+	}
+	
 	return true;
 }
 
@@ -79,7 +83,11 @@ void j1Coin::Draw()
 
 void j1Coin::OnCollision(Collider* c1, Collider* c2)
 {
-
+	if (c2->type == COLLIDER_PLAYER)
+	{
+		App->entityManager->DestroyThisEntity(this);
+		App->entityManager->player->collected_coins++;
+	}
 }
 
 bool j1Coin::Load(pugi::xml_node&)

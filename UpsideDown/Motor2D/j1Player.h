@@ -97,6 +97,7 @@ public:
 	int player_width, player_height;
 	int jump_force;
 	int counter = 0;
+	int collected_coins = 0;
 
 	p2SString folder;
 	p2List_item<ImageLayer*>* image = nullptr;
