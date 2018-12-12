@@ -6,13 +6,15 @@
 #include "j1Bat.h"
 #include "j1Scene.h"
 
-j1Bat::j1Bat(int x, int y, EntityType type) : j1Entity(x, y, EntityType::BAT)
+j1Bat::j1Bat(int x, int y, EntityType Type) : j1Entity(x, y, Type)
 {
 	current_animation = NULL;
 
 	idle.LoadAnimations("bat", "flying");
 	position.x = x;
 	position.y = y;
+
+	type = Type;
 
 	start_pos.x = x;
 	start_pos.y = y;

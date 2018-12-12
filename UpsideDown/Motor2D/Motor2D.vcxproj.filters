@@ -64,6 +64,9 @@
     <ClCompile Include="j1Smasher.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="j1Coin.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -148,6 +151,9 @@
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
     <ClInclude Include="j1Smasher.h">
+      <Filter>Desenvolupament  ========\Modules\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Coin.h">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
   </ItemGroup>

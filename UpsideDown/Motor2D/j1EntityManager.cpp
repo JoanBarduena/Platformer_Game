@@ -9,6 +9,7 @@
 #include "j1Player.h"
 #include "j1Bat.h"
 #include "j1Smasher.h"
+#include "j1Coin.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -37,23 +38,6 @@ bool j1EntityManager::Start()
 	
 	return ret;
 }
-
-bool j1EntityManager::PreUpdate()
-{
-	BROFILER_CATEGORY("EntityManager PreUpdate", Profiler::Color::Blue);
-
-	for (uint i = 0; i < 20; ++i)
-	{
-		if (Entity_Array[i].type != EntityType::UNKNOWN)
-		{
-			Spawn(Entity_Array[i]);
-			Entity_Array[i].type = EntityType::UNKNOWN;
-		}
-	}
-
-	return true;
-}
-
 
 bool j1EntityManager::Update(float dt)
 {
@@ -122,7 +106,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 	}
 }
 
-j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
+void j1EntityManager::CreateEntity(int x, int y, EntityType type)
 {
 	j1Entity* ret = nullptr;
 	switch (type)
@@ -133,71 +117,37 @@ j1Entity* j1EntityManager::CreateEntity(EntityType type, int x, int y)
 	case EntityType::SMASHER:
 		ret = new j1Smasher(x, y, type);
 		break;
-	case EntityType::PLAYER:
-		ret = new j1Player(x, y, type);
+	case EntityType::COIN:
+		ret = new j1Coin(x, y, type);
 		break;
 	}
 	if (ret != nullptr)
 		entities.add(ret);
-	return ret; 
+}
+
+void j1EntityManager::AddPlayer()
+{
+	player = new j1Player(0, 700, PLAYER);
+	entities.add(player);
 }
 
 void j1EntityManager::DestroyEnemies()
 {
-	for (int i = 0; i < 20; i++)
-	{
-		Entity_Array[i].type = EntityType::UNKNOWN;
-	}
-
 	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next) {
 		if (iterator->data->type != EntityType::PLAYER)
 		{
 			iterator->data->CleanUp();
 			int num = entities.find(iterator->data);
-			RELEASE(entities.At(num)->data);
 			entities.del(entities.At(num));
+			RELEASE(entities.At(num)->data);
+			
+			LOG("deleting enemy");
 		}
 	}
+	
 }
 
-void j1EntityManager::AddEnemy(int x, int y, EntityType type)
-{
-	for (uint i = 0; i < 20; ++i)
-	{
-		if (Entity_Array[i].type == EntityType::UNKNOWN)
-		{
-			Entity_Array[i].type = type;
-			Entity_Array[i].position.x = x;
-			Entity_Array[i].position.y = y;
-			break;
-		}
-	}
-}
 
-void j1EntityManager::AddPlayer()
-{
-	player = (j1Player*)CreateEntity(PLAYER, 0, 700);
-}
-
-void j1EntityManager::Spawn(const Info_Enemy& info)
-{
-	for (uint i = 0; i < 20; ++i)
-	{
-		if (Entity_Array[i].type != EntityType::UNKNOWN)
-		{
-			j1Entity* entity;
-			if (Entity_Array[i].type == BAT)
-				entity = new j1Bat(info.position.x, info.position.y, info.type);
-			else if (Entity_Array[i].type == SMASHER)
-				entity = new j1Smasher(info.position.x, info.position.y, info.type);
-				
-
-			entities.add(entity);
-			entity->Start();
-			break;
-		}
-	}
-}
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
@@ -208,7 +158,7 @@ bool j1EntityManager::Load(pugi::xml_node& data)
 
 	for (pugi::xml_node bat = data.child("bat").child("position"); bat; bat = bat.next_sibling()) {
 		iPoint batpos = { bat.attribute("x").as_int(), bat.attribute("y").as_int() };
-		AddEnemy(batpos.x, batpos.y, BAT);
+		//AddEnemy(batpos.x, batpos.y, BAT);
 	}
 	return true;
 }

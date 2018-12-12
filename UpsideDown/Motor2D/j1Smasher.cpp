@@ -5,13 +5,15 @@
 #include "j1Map.h"
 #include "j1Smasher.h"
 
-j1Smasher::j1Smasher(int x, int y, EntityType type) : j1Entity(x, y, EntityType::SMASHER)
+j1Smasher::j1Smasher(int x, int y, EntityType Type) : j1Entity(x, y, Type)
 {
 	current_animation = NULL;
 
 	idle.LoadAnimations("smasher", "run");
 	position.x = x;
 	position.y = y;
+
+	type = Type;
 
 	start_pos.x = x;
 	start_pos.y = y;
