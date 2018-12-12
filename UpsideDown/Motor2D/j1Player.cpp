@@ -14,7 +14,7 @@
 
 #include<stdio.h>
 
-j1Player::j1Player(int x, int y, EntityType type) : j1Entity(x,y,EntityType::PLAYER)
+j1Player::j1Player(int x, int y, EntityType Type) : j1Entity(x,y,Type)
 {
 	//Loading Animations
 	idle.LoadAnimations("player", "idle");
@@ -28,6 +28,9 @@ j1Player::j1Player(int x, int y, EntityType type) : j1Entity(x,y,EntityType::PLA
 
 	god_mode_anim.LoadAnimations("player", "god_mode_anim");
 	god_mode_turned.LoadAnimations("player", "god_mode_turned");
+
+	type = Type;
+
 }
 
 j1Player::~j1Player()
@@ -376,18 +379,13 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		{
 			if (god_mode == false)
 			{
-				position.x = Player.position.x;
-				position.y = Player.position.y;
-				invert_gravity = false;
-				App->render->camera.x = Player.camera_position.x;
-				App->render->camera.y = Player.camera_position.y;
 				image->data->position.x = 0;
-				App->audio->PlayFx(death_fx); 
-				if (App->scene->actual_level->data->lvl == 1)
+				/*App->audio->PlayFx(death_fx); */
+				if (App->scene->level_to_load->data->lvl == 1)
 				{
 					App->scene->Level_Load(1);
 				}
-				else if (App->scene->actual_level->data->lvl == 2)
+				else if (App->scene->level_to_load->data->lvl == 2)
 				{
 					App->scene->Level_Load(2);
 				}
@@ -549,7 +547,7 @@ bool j1Player::Save(pugi::xml_node& data) const
 	pos.append_attribute("x") = position.x;
 	pos.append_attribute("y") = position.y;
 	gravity.append_attribute("value") = invert_gravity;
-	level.append_attribute("value") = App->scene->actual_level->data->lvl;
+	level.append_attribute("value") = App->scene->level_to_load->data->lvl;
 	god.append_attribute("value") = god_mode; 
 
 	return true;
@@ -638,18 +636,14 @@ void j1Player::GameMode()
 	image = App->map->data.image_layers.start;
 	if (position.y < dead_limit_up || position.y > dead_limit_down)//Player dies if he falls
 	{
-		App->audio->PlayFx(death_fx);
-		position.x = Player.position.x;
-		position.y = Player.position.y;
-		invert_gravity = false;
-		App->render->camera.x = Player.camera_position.x;
-		App->render->camera.y = Player.camera_position.y;
+		
 		image->data->position.x = 0;
-		if (App->scene->actual_level->data->lvl == 1)
+
+		if (App->scene->level_to_load->data->lvl == 1)
 		{
 			App->scene->Level_Load(1); 
 		}
-		else if (App->scene->actual_level->data->lvl == 2)
+		else if (App->scene->level_to_load->data->lvl == 2)
 		{
 			App->scene->Level_Load(2);
 		}

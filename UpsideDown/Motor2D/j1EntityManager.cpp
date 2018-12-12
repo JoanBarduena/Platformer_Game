@@ -137,9 +137,8 @@ void j1EntityManager::DestroyEnemies()
 		if (iterator->data->type != EntityType::PLAYER)
 		{
 			iterator->data->CleanUp();
-			int num = entities.find(iterator->data);
-			entities.del(entities.At(num));
-			RELEASE(entities.At(num)->data);
+			entities.del(iterator);
+			/*RELEASE(iterator);*/
 			
 			LOG("deleting enemy");
 		}
@@ -147,7 +146,20 @@ void j1EntityManager::DestroyEnemies()
 	
 }
 
+void j1EntityManager::DestroyPlayer()
+{
+	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next) {
+		if (iterator->data->type == EntityType::PLAYER)
+		{
+			iterator->data->CleanUp();
+			entities.del(iterator);
+			/*RELEASE(iterator);*/
 
+			LOG("deleting PLAYER");
+		}
+	}
+
+}
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {

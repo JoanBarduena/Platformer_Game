@@ -50,6 +50,7 @@ public:
 	void CreateEntity(int x, int y, EntityType type);
 
 	void DestroyEnemies();
+	void DestroyPlayer();
 	
 	void AddPlayer();
 

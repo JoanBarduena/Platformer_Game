@@ -51,7 +51,8 @@ public:
 public:
 
 	p2List<level*> levels_list;
-	p2List_item<level*>* actual_level;
+	p2List_item<level*>* level_to_load;
+	uint actual_level;
 	SDL_Texture * debug_tex;
 
 private:

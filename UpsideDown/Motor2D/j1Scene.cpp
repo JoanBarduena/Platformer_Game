@@ -25,7 +25,7 @@ j1Scene::j1Scene() : j1Module()
 	levels_list.add(lvl1);
 	levels_list.add(lvl2);
 
-	actual_level = levels_list.start;
+	level_to_load = levels_list.start;
 }
 
 // Destructor
@@ -46,13 +46,7 @@ bool j1Scene::Start()
 {
 	App->map->Load(levels_list.start->data->mapPath.GetString());
 	
-	int w, h;
-	uchar* data = NULL;
-	if (App->map->CreateWalkabilityMap(w, h, &data))
-	{
-		App->pathfinding->SetMap(w, h, data);
-	}
-	RELEASE_ARRAY(data);
+	actual_level = 0;
 
 	debug_tex = App->tex->Load("maps/pathfinding_debug.png");
 
@@ -119,15 +113,18 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 3;
+
+	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT)
+		RespawnEntities();
+
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)
+		App->entityManager->DestroyEnemies();
+	
 	
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
-		if (!adding_entities)
-		{
-			RespawnEntities();
-			adding_entities = true; 
-		}
+		start_pos = true;
 		Level_Load(1); 
 	}
 	
@@ -140,7 +137,8 @@ bool j1Scene::Update(float dt)
 	//F2 Starts from the beginning of the current level
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
-		if (actual_level->data->lvl == 2)
+		start_pos = true;
+		if (level_to_load->data->lvl == 2)
 		{
 			Level_Load(2);
 		}
@@ -152,8 +150,13 @@ bool j1Scene::Update(float dt)
 	//F3 Starts the second level  
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
-		
+		start_pos = true;
 		Level_Load(2);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+	{
+		Level_Load(0);
 	}
 
 	App->audio->SetMusicVolume();
@@ -200,51 +203,76 @@ void j1Scene::Level_Load(uint number)
 	{
 		lvl = lvl->next;
 	}
-	actual_level = lvl;
+	level_to_load = lvl;
 
-	if (actual_level != nullptr)
-	{
-		////Starting the level & player
-		if (!menu_active)
-		{
-			App->entityManager->CleanUp();
-			App->entityManager->DestroyEnemies();
-			App->entityManager->player->CleanUp();
-		}
-		menu_active = false; 
-		App->map->Load(actual_level->data->mapPath.GetString());
-		App->entityManager->Start();
+	//-------------------------------------------------------------------
+	App->map->Load(level_to_load->data->mapPath.GetString());
+	
 
-		if(start_pos)
-			App->entityManager->player->initial_pos = true; 
-		if(!start_pos)
-			App->entityManager->player->initial_pos = false;
-
-		App->entityManager->player->Start(); 
-	}
-	else
-	{
-		LOG("Actual Level (%u) is nullptr", number);
-	}
 	int w, h;
 	uchar* data = NULL;
 	if (App->map->CreateWalkabilityMap(w, h, &data))
 	{
 		App->pathfinding->SetMap(w, h, data);
 	}
-
-
 	RELEASE_ARRAY(data);
+	//---------------------------------------------------------------------------
+
+	if (actual_level > 0)
+	{
+		if (start_pos)
+			App->entityManager->player->initial_pos = true;
+		else
+			App->entityManager->player->initial_pos = false;
+	}
+
+	if (actual_level == 0 && level_to_load->data->lvl > 0)
+	{
+		RespawnEntities();
+		App->entityManager->AddPlayer();
+		App->entityManager->Start();
+		App->entityManager->player->Start();
+		actual_level = level_to_load->data->lvl;
+	}
+	else if (actual_level == level_to_load->data->lvl)
+	{
+		App->entityManager->player->CleanUp();
+		App->entityManager->DestroyEnemies();
+		RespawnEntities();
+		App->entityManager->Start();
+		/*App->entityManager->player->Start();*/
+	}
+	else if ((actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1))
+	{
+		App->entityManager->player->CleanUp();
+		App->entityManager->DestroyEnemies();
+		RespawnEntities();
+		App->entityManager->Start();
+		actual_level = level_to_load->data->lvl;
+	}
+	else if ((actual_level > 0) && (level_to_load->data->lvl == 0))
+	{
+		App->entityManager->CleanUp();
+		App->entityManager->DestroyEnemies();
+		App->entityManager->DestroyPlayer();
+		actual_level = level_to_load->data->lvl;
+		App->audio->PlayMusic("audio/music/Galway.ogg");
+	}
+
+	
+	
+	
 }
 
 void j1Scene::RespawnEntities()
 {
-	App->entityManager->AddPlayer();
+	
+	App->entityManager->CreateEntity(2700, 700, SMASHER);
+	App->entityManager->CreateEntity(6020, 700, SMASHER);
+	App->entityManager->CreateEntity(5200, 600, SMASHER);
+	App->entityManager->CreateEntity(500, 500, BAT);
+	App->entityManager->CreateEntity(2600, 500, BAT);
+	App->entityManager->CreateEntity(6000, 500, BAT);
 
-	App->entityManager->AddEnemy(2700, 700, SMASHER);
-	App->entityManager->AddEnemy(6020, 700, SMASHER);
-	App->entityManager->AddEnemy(5200, 600, SMASHER);
-	App->entityManager->AddEnemy(500, 500, BAT);
-	App->entityManager->AddEnemy(2600, 500, BAT);
-	App->entityManager->AddEnemy(6000, 500, BAT);
+	App->entityManager->CreateEntity(800, 950, COIN);
 }
