@@ -46,6 +46,7 @@ public:
 
 	//Load Level
 	void Level_Load(uint number = 0);
+	void RespawnEntities(); 
 
 public:
 
@@ -55,8 +56,10 @@ public:
 
 private:
 	
-	bool player_added = false;
-
+	bool adding_entities = false;
+	bool menu_active = true; 
+	bool start_elems = true; 
+	bool start_pos = true; 
 };
 
 #endif // __j1SCENE_H__

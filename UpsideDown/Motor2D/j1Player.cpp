@@ -100,8 +100,6 @@ bool j1Player::Start()
 		dead_limit_down = Player.player_dead_limit_down;
 		dead_limit_up = Player.player_dead_limit_up;
 
-		
-
 		//Loading Sounds FX
 		jump_fx = App->audio->LoadFx("audio/fx/Jump.wav");
 		run_fx = App->audio->LoadFx("audio/fx/Run.wav");
@@ -121,14 +119,14 @@ bool j1Player::Start()
 	App->render->camera.y = Player.camera_position.y;
 
 
-	if (level_change == 0)
+	if (initial_pos)
 	{
 		position.x = Player.position.x;
 		position.y = Player.position.y;
 		
 		invert_gravity = false; 
 
-		level_change++;
+		initial_pos = false;
 	}
 	//Player HitBox
 	if (collider == nullptr)
@@ -484,7 +482,7 @@ void j1Player::Check_Collision()
 
 	if (win1 == true)
 	{
-		level_change = 0;
+		initial_pos = true;
 		if (App->fade->IsFading() == false)
 		{
 			App->scene->Level_Load(2);
@@ -493,7 +491,7 @@ void j1Player::Check_Collision()
 	}
 	if (win2 == true)
 	{
-		level_change = 0;
+		initial_pos = true;
 		if (App->fade->IsFading() == false)
 		{
 			App->scene->Level_Load(1);

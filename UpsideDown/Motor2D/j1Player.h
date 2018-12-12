@@ -92,9 +92,10 @@ public:
 	bool camera_goes_left;
 	bool camera_goes_right;
 
+	bool initial_pos = true;
+
 	int player_width, player_height;
 	int jump_force;
-	int level_change = 0;
 	int counter = 0;
 
 	p2SString folder;
