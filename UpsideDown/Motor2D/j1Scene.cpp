@@ -114,11 +114,13 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 3;
 
-	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT)
-		RespawnEntities();
-
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)
-		App->entityManager->DestroyEnemies();
+	//if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT)
+	//{
+	//	RespawnEntities();
+	//	App->entityManager->Start();
+	//}
+	//if (App->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)
+	//	App->entityManager->DestroyEnemies();
 	
 	
 	//F1 Starts form the very first level 

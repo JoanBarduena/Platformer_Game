@@ -383,10 +383,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 				/*App->audio->PlayFx(death_fx); */
 				if (App->scene->level_to_load->data->lvl == 1)
 				{
+					App->scene->start_pos = true;
 					App->scene->Level_Load(1);
 				}
 				else if (App->scene->level_to_load->data->lvl == 2)
 				{
+					App->scene->start_pos = true;
 					App->scene->Level_Load(2);
 				}
 			}
@@ -483,6 +485,7 @@ void j1Player::Check_Collision()
 		initial_pos = true;
 		if (App->fade->IsFading() == false)
 		{
+			App->scene->start_pos = true;
 			App->scene->Level_Load(2);
 		}
 		
@@ -492,6 +495,7 @@ void j1Player::Check_Collision()
 		initial_pos = true;
 		if (App->fade->IsFading() == false)
 		{
+			App->scene->start_pos = true;
 			App->scene->Level_Load(1);
 		}
 		
@@ -549,6 +553,8 @@ bool j1Player::Save(pugi::xml_node& data) const
 	gravity.append_attribute("value") = invert_gravity;
 	level.append_attribute("value") = App->scene->level_to_load->data->lvl;
 	god.append_attribute("value") = god_mode; 
+
+	LOG("SAVING PLAYER");
 
 	return true;
 }
@@ -641,10 +647,12 @@ void j1Player::GameMode()
 
 		if (App->scene->level_to_load->data->lvl == 1)
 		{
+			App->scene->start_pos = true;
 			App->scene->Level_Load(1); 
 		}
 		else if (App->scene->level_to_load->data->lvl == 2)
 		{
+			App->scene->start_pos = true;
 			App->scene->Level_Load(2);
 		}
 	}

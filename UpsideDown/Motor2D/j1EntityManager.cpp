@@ -138,7 +138,7 @@ void j1EntityManager::DestroyEnemies()
 		{
 			iterator->data->CleanUp();
 			entities.del(iterator);
-			/*RELEASE(iterator);*/
+			RELEASE(iterator->data);
 			
 			LOG("deleting enemy");
 		}
@@ -153,7 +153,7 @@ void j1EntityManager::DestroyPlayer()
 		{
 			iterator->data->CleanUp();
 			entities.del(iterator);
-			/*RELEASE(iterator);*/
+			RELEASE(iterator->data);
 
 			LOG("deleting PLAYER");
 		}
@@ -169,17 +169,49 @@ bool j1EntityManager::Load(pugi::xml_node& data)
 		player->Load(data);
 	}
 
+	uint bat_counter = 0;
+	uint smasher_counter = 0;
+
 	for (p2List_item<j1Entity*>* entity = entities.start; entity; entity = entity->next)
 	{
 		if (entity->data->type == BAT)
 		{
-			entity->data->position.x = data.child("bat").attribute("position_x").as_int();
-			entity->data->position.y = data.child("bat").attribute("position_y").as_int();
+			bat_counter++;
+			if (bat_counter == 1)
+			{
+				entity->data->position.x = data.child("bat1").attribute("position_x").as_int();
+				entity->data->position.y = data.child("bat1").attribute("position_y").as_int();
+			}
+			else if (bat_counter == 2)
+			{
+				entity->data->position.x = data.child("bat2").attribute("position_x").as_int();
+				entity->data->position.y = data.child("bat2").attribute("position_y").as_int();
+			}
+			else if (bat_counter == 3)
+			{
+				entity->data->position.x = data.child("bat3").attribute("position_x").as_int();
+				entity->data->position.y = data.child("bat3").attribute("position_y").as_int();
+			}
+			
 		}
 		if (entity->data->type == SMASHER)
 		{
-			entity->data->position.x = data.child("smasher").attribute("position_x").as_int();
-			entity->data->position.y = data.child("smasher").attribute("position_y").as_int();
+			smasher_counter++;
+			if (smasher_counter == 1)
+			{
+				entity->data->position.x = data.child("smasher1").attribute("position_x").as_int();
+				entity->data->position.y = data.child("smasher1").attribute("position_y").as_int();
+			}
+			else if (smasher_counter == 2)
+			{
+				entity->data->position.x = data.child("smasher2").attribute("position_x").as_int();
+				entity->data->position.y = data.child("smasher2").attribute("position_y").as_int();
+			}
+			else if (smasher_counter == 3)
+			{
+				entity->data->position.x = data.child("smasher3").attribute("position_x").as_int();
+				entity->data->position.y = data.child("smasher3").attribute("position_y").as_int();
+			}
 		}
 	}
 
@@ -190,19 +222,54 @@ bool j1EntityManager::Save(pugi::xml_node& data) const
 {
 	player->Save(data.append_child("player"));
 
+	uint bat_counter = 0;
+	uint smasher_counter = 0;
+
 	for (p2List_item<j1Entity*>* entity = entities.start; entity; entity = entity->next)
 	{
 		if (entity->data->type == BAT)
 		{
-			pugi::xml_node child = data.append_child("bat");
-			child.append_attribute("position_x") = entity->data->position.x;
-			child.append_attribute("position_y") = entity->data->position.y;
+			bat_counter++;
+			if (bat_counter == 1)
+			{
+				pugi::xml_node child = data.append_child("bat1");
+				child.append_attribute("position_x") = entity->data->position.x;
+				child.append_attribute("position_y") = entity->data->position.y;
+			}
+			else if (bat_counter == 2)
+			{
+				pugi::xml_node child = data.append_child("bat2");
+				child.append_attribute("position_x") = entity->data->position.x;
+				child.append_attribute("position_y") = entity->data->position.y;
+			}
+			else if (bat_counter == 3)
+			{
+				pugi::xml_node child = data.append_child("bat3");
+				child.append_attribute("position_x") = entity->data->position.x;
+				child.append_attribute("position_y") = entity->data->position.y;
+			}
 		}
 		if (entity->data->type == SMASHER)
 		{
-			pugi::xml_node child = data.append_child("smasher");
-			child.append_attribute("position_x") = entity->data->position.x;
-			child.append_attribute("position_y") = entity->data->position.y;
+			smasher_counter++;
+			if (smasher_counter == 1)
+			{
+				pugi::xml_node child = data.append_child("smasher1");
+				child.append_attribute("position_x") = entity->data->position.x;
+				child.append_attribute("position_y") = entity->data->position.y;
+			}
+			else if (smasher_counter == 2)
+			{
+				pugi::xml_node child = data.append_child("smasher2");
+				child.append_attribute("position_x") = entity->data->position.x;
+				child.append_attribute("position_y") = entity->data->position.y;
+			}
+			else if (smasher_counter == 3)
+			{
+				pugi::xml_node child = data.append_child("smasher3");
+				child.append_attribute("position_x") = entity->data->position.x;
+				child.append_attribute("position_y") = entity->data->position.y;
+			}
 		}
 	}
 	return true;

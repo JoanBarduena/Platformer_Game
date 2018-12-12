@@ -19,12 +19,6 @@ enum EntityType
 	UNKNOWN
 };
 
-struct Info_Enemy
-{
-	EntityType type = EntityType::UNKNOWN;
-	fPoint position;
-};
-
 
 class j1EntityManager : public j1Module
 {
@@ -36,7 +30,7 @@ public:
 	bool Awake(pugi::xml_node&);
 	bool Start();
 
-	//bool PreUpdate();
+	
 	bool Update(float dt);
 	bool PostUpdate();
 
@@ -50,6 +44,7 @@ public:
 	void CreateEntity(int x, int y, EntityType type);
 
 	void DestroyEnemies();
+	void DestroyThisEntity(j1Entity* entity);
 	void DestroyPlayer();
 	
 	void AddPlayer();

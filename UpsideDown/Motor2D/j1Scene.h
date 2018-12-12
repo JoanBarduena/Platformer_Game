@@ -55,12 +55,14 @@ public:
 	uint actual_level;
 	SDL_Texture * debug_tex;
 
+	bool start_pos = true;
+
 private:
 	
 	bool adding_entities = false;
 	bool menu_active = true; 
 	bool start_elems = true; 
-	bool start_pos = true; 
+	
 };
 
 #endif // __j1SCENE_H__
