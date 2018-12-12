@@ -259,9 +259,6 @@ void j1Scene::Level_Load(uint number)
 		App->audio->PlayMusic("audio/music/Galway.ogg");
 	}
 
-	
-	
-	
 }
 
 void j1Scene::RespawnEntities()

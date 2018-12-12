@@ -140,15 +140,13 @@ void j1Bat::Move(const p2DynArray<iPoint>& path, float dt)
 
 }
 
-bool j1Bat::Load(pugi::xml_node&)
+bool j1Bat::Load(pugi::xml_node& data)
 {
 	return true;
 }
-bool j1Bat::Save(pugi::xml_node&) const
+bool j1Bat::Save(pugi::xml_node& data) const
 {
 	return true;
 }
-
-
 
 
