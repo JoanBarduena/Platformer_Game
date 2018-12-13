@@ -47,7 +47,7 @@ public:
 
 	//Load Level
 	void Level_Load(uint number = 0);
-	void RespawnEntities(); 
+	void RespawnEntitiesLvl1(); 
 
 public:
 
@@ -58,20 +58,20 @@ public:
 
 	bool start_pos = true;
 
+	bool loading_tutorial = false;
+	bool loading_lvl1 = false;
+	bool loading_lvl2 = false;
+	bool loading_menu = false;
+	bool loading_saved_game = false;
+
 private:
 	
 	float dt_scene;
 
 	bool adding_entities = false;
 	bool menu_active = true; 
-	bool start_elems = true; 
-
-	bool loading_lvl1 = false;
-	bool loading_lvl2 = false;
-	bool loading_tutorial = false;
-	bool loading_menu = false; 
-	bool loading_saved_game = false; 
-
+	bool start_elems = true;
+	
 	Animation player_running;
 	Animation *current;
 

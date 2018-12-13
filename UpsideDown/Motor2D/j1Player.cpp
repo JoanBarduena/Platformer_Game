@@ -380,16 +380,19 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 			if (god_mode == false)
 			{
 				image->data->position.x = 0;
-				/*App->audio->PlayFx(death_fx); */
+				App->audio->PlayFx(death_fx); 
+
 				if (App->scene->level_to_load->data->lvl == 1)
 				{
+					App->fade->FadeToBlack(App->scene, App->scene); 
 					App->scene->start_pos = true;
-					App->scene->Level_Load(1);
+					App->scene->loading_lvl1 = true; 
 				}
 				else if (App->scene->level_to_load->data->lvl == 2)
 				{
+					App->fade->FadeToBlack(App->scene, App->scene);
 					App->scene->start_pos = true;
-					App->scene->Level_Load(2);
+					App->scene->loading_lvl2 = true;
 				}
 			}
 		}
@@ -485,21 +488,24 @@ void j1Player::Check_Collision()
 
 	if (win1 == true)
 	{
+		App->fade->FadeToBlack(App->scene, App->scene);
 		initial_pos = true;
 		App->scene->start_pos = true;
-		App->scene->Level_Load(2);
+		App->scene->loading_lvl2 = true; 
 	}
 	if (win2 == true)
 	{
+		App->fade->FadeToBlack(App->scene, App->scene);
 		initial_pos = true;
 		App->scene->start_pos = true;
-		App->scene->Level_Load(1);
+		App->scene->loading_lvl1 = true; 
 	}
 	if (wintutorial == true)
 	{
+		App->fade->FadeToBlack(App->scene, App->scene); 
 		initial_pos = true;
 		App->scene->start_pos = true;
-		App->scene->Level_Load(1);
+		App->scene->loading_lvl1 = true; 
 	}
 }
 
@@ -647,18 +653,21 @@ void j1Player::GameMode()
 
 		if (App->scene->level_to_load->data->lvl == 1)
 		{
+			App->fade->FadeToBlack(App->scene, App->scene);
 			App->scene->start_pos = true;
-			App->scene->Level_Load(1); 
+			App->scene->loading_lvl1 = true;
 		}
 		else if (App->scene->level_to_load->data->lvl == 2)
 		{
+			App->fade->FadeToBlack(App->scene, App->scene);
 			App->scene->start_pos = true;
-			App->scene->Level_Load(2);
+			App->scene->loading_lvl2 = true;
 		}
 		else if (App->scene->level_to_load->data->lvl == 3)
 		{
+			App->fade->FadeToBlack(App->scene, App->scene);
 			App->scene->start_pos = true;
-			App->scene->Level_Load(3);
+			App->scene->loading_tutorial = true;
 		}
 	}
 }

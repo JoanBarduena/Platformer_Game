@@ -194,8 +194,11 @@ bool j1Scene::Update(float dt)
 	//Load Tutorial 
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 	{
-		App->fade->FadeToBlack(this, this);
-		loading_tutorial = true; 
+		if(actual_level == 0)
+		{ 
+			App->fade->FadeToBlack(this, this);
+			loading_tutorial = true;
+		}
 	}
 
 	//From fade to levels
@@ -325,7 +328,7 @@ void j1Scene::Level_Load(uint number)
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
 		if(level_to_load->data->lvl != 3)
-			RespawnEntities();
+			RespawnEntitiesLvl1();
 
 		App->entityManager->AddPlayer();
 		App->entityManager->Start();
@@ -342,7 +345,7 @@ void j1Scene::Level_Load(uint number)
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
 		if (level_to_load->data->lvl != 3)
-			RespawnEntities();
+			RespawnEntitiesLvl1();
 
 		App->entityManager->Start();
 	}
@@ -352,7 +355,7 @@ void j1Scene::Level_Load(uint number)
 		if (level_to_load->data->lvl != 3)
 			App->entityManager->DestroyEnemies();
 		App->map->Load(level_to_load->data->mapPath.GetString());
-		RespawnEntities();
+		RespawnEntitiesLvl1();
 		App->entityManager->Start();
 		actual_level = level_to_load->data->lvl;
 	}
@@ -378,7 +381,7 @@ void j1Scene::Level_Load(uint number)
 
 }
 
-void j1Scene::RespawnEntities()
+void j1Scene::RespawnEntitiesLvl1()
 {
 	App->entityManager->CreateEntity(2700, 700, SMASHER);
 	App->entityManager->CreateEntity(6020, 700, SMASHER);
