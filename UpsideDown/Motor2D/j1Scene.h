@@ -2,6 +2,7 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
+#include "Animation.h"
 
 struct SDL_Texture;
 
@@ -59,9 +60,15 @@ public:
 
 private:
 	
+	float dt_scene;
+
 	bool adding_entities = false;
 	bool menu_active = true; 
 	bool start_elems = true; 
+	Animation player_running;
+	Animation *current;
+
+	SDL_Texture *graphics;
 	
 };
 

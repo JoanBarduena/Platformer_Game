@@ -45,10 +45,16 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load(levels_list.start->data->mapPath.GetString());
+	player_running.LoadAnimations("player", "running");
 	
 	actual_level = 0;
+	App->render->camera.x = -50; 
+	App->render->camera.y = -300; 
+
+	current = &player_running;
 
 	debug_tex = App->tex->Load("maps/pathfinding_debug.png");
+	graphics = App->tex->Load("textures/adventurer.png");
 
 	App->audio->PlayMusic("audio/music/Galway.ogg");
 
@@ -91,6 +97,8 @@ bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Scene Update", Profiler::Color::Green);
 
+	dt_scene = dt;
+
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 	{
 		start_pos = false;
@@ -114,8 +122,15 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 3;
 
-		
-	
+	if (actual_level == 0)
+	{
+		App->render->camera.x -= 2;
+		if (App->render->camera.x < -1350)
+		{
+			App->render->camera.x = -50;
+		}
+	}
+
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
@@ -166,6 +181,8 @@ bool j1Scene::Update(float dt)
 			App->render->Blit(debug_tex, pos.x, pos.y);
 		}
 	}
+
+	
 	
 	return true;
 }
@@ -176,7 +193,12 @@ bool j1Scene::PostUpdate()
 	BROFILER_CATEGORY("Collision PostUpdate", Profiler::Color::Red);
 
 	bool ret = true;
-
+	
+	if (actual_level == 0)
+	{
+		App->render->Blit(graphics, 100, 630, &current->GetCurrentFrame(dt_scene), SDL_FLIP_NONE, 0);
+	}
+	
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
@@ -243,6 +265,8 @@ void j1Scene::Level_Load(uint number)
 		App->entityManager->DestroyEnemies();
 		App->entityManager->DestroyPlayer();
 		App->map->Load(level_to_load->data->mapPath.GetString());
+		App->render->camera.x = -50;
+		App->render->camera.y = -300;
 		actual_level = level_to_load->data->lvl;
 		App->audio->PlayMusic("audio/music/Galway.ogg");
 	}

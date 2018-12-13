@@ -246,7 +246,6 @@ bool j1Player::PostUpdate()
 		if (invert_gravity == true)
 		{
 			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_VERTICAL);
-			Draw();
 		}
 		else
 		{
