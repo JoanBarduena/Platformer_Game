@@ -407,10 +407,10 @@ void j1Scene::RespawnEntities()
 void j1Scene::Create_UI_Elements()
 {
 
-	Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 430, 300 }, { 1070, 260 , 190, 49 }, App->gui->GetAtlas(), Function::PLAY);
-	Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 430, 400 }, { 1070, 260 , 190, 49 }, App->gui->GetAtlas(), Function::EXIT);
+	Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, App->gui->GetAtlas(), Function::PLAY);
+	Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, App->gui->GetAtlas(), Function::EXIT);
 
-	App->gui->Create_Label(Element_type::LABEL, { 57, 12 }, { 0,0,70, 20 }, "PLAY", { 255,255,255,0 }, App->font->default, Play);
-	App->gui->Create_Label(Element_type::LABEL, { 57, 12 }, { 0,0,70, 20 }, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
+	App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, "PLAY", { 255,255,255,0 }, App->font->default, Play);
+	App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
 
 }
