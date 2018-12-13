@@ -71,11 +71,21 @@ private:
 	Animation* current_keyA; 
 	Animation keyA, keyA_pressed; 
 
+	Animation* current_keyD;
+	Animation keyD, keyD_pressed;
+
+	Animation* current_keyP;
+	Animation keyP, keyP_pressed;
+
+	Animation* current_keyL;
+	Animation keyL, keyL_pressed;
+
+	Animation* current_keySpace;
+	Animation keySpace, keySpace_pressed;
+
 	SDL_Texture *keyboard; 
 	SDL_Texture *graphics;
 	
-
-	SDL_Rect rect = { 48, 49, 16, 15 };
 };
 
 #endif // __j1SCENE_H__

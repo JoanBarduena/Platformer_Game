@@ -108,5 +108,36 @@
       <animation x="101" y="2" width="14" height="13"/>
     </idle>
   </coin>
-  
+  <keys>
+    <keyA speed ="0.0f" loop="false">
+      <animation x="142" y="144" width="47" height="45"/>
+    </keyA>
+    <keyA_pressed speed ="0.0f" loop="false">
+      <animation x="142" y="425" width="47" height="45"/>
+    </keyA_pressed>
+    <keyD speed ="0.0f" loop="false">
+      <animation x="236" y="144" width="47" height="45"/>
+    </keyD>
+    <keyD_pressed speed ="0.0f" loop="false">
+      <animation x="236" y="425" width="47" height="45"/>
+    </keyD_pressed>
+    <keySpace speed ="0.0f" loop="false">
+      <animation x="236" y="239" width="236" height="44"/>
+    </keySpace>
+    <keySpace_pressed speed ="0.0f" loop="false">
+      <animation x="236" y="285" width="236" height="44"/>
+    </keySpace_pressed>
+     <keyP speed ="0.0f" loop="false">
+      <animation x="567" y="97" width="47" height="45"/>
+    </keyP>
+    <keyP_pressed speed ="0.0f" loop="false">
+      <animation x="567" y="380" width="47" height="45"/>
+    </keyP_pressed>
+     <keyL speed ="0.0f" loop="false">
+      <animation x="520" y="144" width="47" height="45"/>
+    </keyL>
+    <keyL_pressed speed ="0.0f" loop="false">
+      <animation x="520" y="425" width="47" height="45"/>
+    </keyL_pressed>
+  </keys>
 </animations>

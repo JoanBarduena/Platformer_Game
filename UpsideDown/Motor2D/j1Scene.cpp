@@ -47,8 +47,21 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load(levels_list.start->data->mapPath.GetString());
-	player_running.LoadAnimations("player", "running");
 	
+	//Loading animations
+	player_running.LoadAnimations("player", "running");
+	keyA.LoadAnimations("keys", "keyA"); 
+	keyA_pressed.LoadAnimations("keys", "keyA_pressed");
+	keyD.LoadAnimations("keys", "keyD");
+	keyD_pressed.LoadAnimations("keys", "keyD_pressed");
+	keyP.LoadAnimations("keys", "keyP");
+	keyP_pressed.LoadAnimations("keys", "keyP_pressed");
+	keyL.LoadAnimations("keys", "keyL");
+	keyL_pressed.LoadAnimations("keys", "keyL_pressed");
+	keySpace.LoadAnimations("keys", "keySpace");
+	keySpace_pressed.LoadAnimations("keys", "keySpace_pressed");
+
+
 	actual_level = 0;
 	App->render->camera.x = -50; 
 	App->render->camera.y = -300; 
@@ -209,9 +222,33 @@ bool j1Scene::PostUpdate()
 
 	if (actual_level == 3)
 	{
-		App->render->Blit(keyboard, 300, 630, &rect, SDL_FLIP_NONE);
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			current_keyA = &keyA_pressed;
+		else
+			current_keyA = &keyA;
+
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			current_keyD = &keyD_pressed;
+		else
+			current_keyD = &keyD;
+
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
+			current_keyL = &keyL_pressed;
+		else
+			current_keyL = &keyL;
+
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+			current_keySpace = &keySpace_pressed;
+		else
+			current_keySpace = &keySpace;
+
+		App->render->Blit(keyboard, 300, 900, &current_keyA->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 350, 900, &current_keyD->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 2200, 900, &current_keyL->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 3400, 650, &current_keyL->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 1100, 900, &current_keySpace->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
 	}
-	
+
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 

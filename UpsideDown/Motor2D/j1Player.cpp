@@ -601,7 +601,6 @@ void j1Player::GameMode()
 				current_animation = &run_turned;
 			}
 		}
-
 	}
 	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && can_move==true)
 	{
@@ -643,7 +642,7 @@ void j1Player::GameMode()
 		App->audio->PlayFx(jump_fx, 0);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN && can_invert == true)
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN && can_invert == true)
 	{
 		invert_gravity = !invert_gravity;
 		App->audio->PlayFx(invert_gravity_fx);
