@@ -53,7 +53,7 @@ public:
 	fPoint		 speed;
 	int			 player_speed;
 	int			 maxSpeed_y;
-	int			dead_limit_up, dead_limit_down;
+	int			 dead_limit_up, dead_limit_down;
 
 	float dt_player;
 
@@ -83,6 +83,7 @@ public:
 
 	bool win1;
 	bool win2;
+	bool wintutorial; 
 	bool can_move;
 	
 	bool invert_gravity;

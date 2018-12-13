@@ -20,10 +20,12 @@ j1Scene::j1Scene() : j1Module()
 	level* menu = new level(0, "map_menu.tmx"); 
 	level* lvl1 = new level(1, "map_p1.tmx");
 	level* lvl2 = new level(2, "map_p2.tmx");
+	level* tutorial = new level(3, "map_tutorial.tmx"); 
 
 	levels_list.add(menu); 
 	levels_list.add(lvl1);
 	levels_list.add(lvl2);
+	levels_list.add(tutorial); 
 
 	level_to_load = levels_list.start;
 }
@@ -169,6 +171,11 @@ bool j1Scene::Update(float dt)
 		Level_Load(0);
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+	{
+		Level_Load(3);
+	}
+
 	App->audio->SetMusicVolume();
 	App->map->Draw();
 
@@ -236,7 +243,10 @@ void j1Scene::Level_Load(uint number)
 	if (actual_level == 0 && level_to_load->data->lvl > 0)
 	{
 		App->map->Load(level_to_load->data->mapPath.GetString());
-		RespawnEntities();
+
+		if(level_to_load->data->lvl != 3)
+			RespawnEntities();
+
 		App->entityManager->AddPlayer();
 		App->entityManager->Start();
 		App->entityManager->player->Start();
@@ -245,15 +255,22 @@ void j1Scene::Level_Load(uint number)
 	else if (actual_level == level_to_load->data->lvl)
 	{
 		App->entityManager->player->CleanUp();
-		App->entityManager->DestroyEnemies();
+
+		if (level_to_load->data->lvl != 3)
+			App->entityManager->DestroyEnemies();
+
 		App->map->Load(level_to_load->data->mapPath.GetString());
-		RespawnEntities();
+
+		if (level_to_load->data->lvl != 3)
+			RespawnEntities();
+
 		App->entityManager->Start();
 	}
-	else if ((actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1))
+	else if ((actual_level == 3 && level_to_load->data->lvl == 1) || (actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1))
 	{
 		App->entityManager->player->CleanUp();
-		App->entityManager->DestroyEnemies();
+		if (level_to_load->data->lvl != 3)
+			App->entityManager->DestroyEnemies();
 		App->map->Load(level_to_load->data->mapPath.GetString());
 		RespawnEntities();
 		App->entityManager->Start();

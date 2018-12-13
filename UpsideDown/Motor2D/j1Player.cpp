@@ -167,6 +167,7 @@ bool j1Player::Update(float dt, bool do_logic)
 
 	win1 = false;
 	win2 = false;
+	wintutorial = false; 
 
 	dt_player = dt;
 	
@@ -395,9 +396,14 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	}
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN1)
 	{
-		win1 = true;
+		if (App->scene->actual_level == 3)
+			wintutorial = true;
+		else 
+			win1 = true;
+
 		App->fade->FadeToBlack(App->scene, App->scene);
 		can_move = false;
+		
 	}
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN2)
 	{
@@ -486,8 +492,7 @@ void j1Player::Check_Collision()
 		{
 			App->scene->start_pos = true;
 			App->scene->Level_Load(2);
-		}
-		
+		}	
 	}
 	if (win2 == true)
 	{
@@ -497,7 +502,15 @@ void j1Player::Check_Collision()
 			App->scene->start_pos = true;
 			App->scene->Level_Load(1);
 		}
-		
+	}
+	if (wintutorial == true)
+	{
+		initial_pos = true;
+		if (App->fade->IsFading() == false)
+		{
+			App->scene->start_pos = true;
+			App->scene->Level_Load(1);
+		}
 	}
 }
 
@@ -653,6 +666,11 @@ void j1Player::GameMode()
 		{
 			App->scene->start_pos = true;
 			App->scene->Level_Load(2);
+		}
+		else if (App->scene->level_to_load->data->lvl == 3)
+		{
+			App->scene->start_pos = true;
+			App->scene->Level_Load(3);
 		}
 	}
 }
