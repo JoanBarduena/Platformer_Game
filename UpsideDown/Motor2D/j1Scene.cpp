@@ -76,7 +76,7 @@ bool j1Scene::Start()
 	graphics = App->tex->Load("textures/adventurer.png");
 	keyboard = App->tex->Load("textures/keyboard.png"); 
 
-	App->audio->PlayMusic("audio/music/Galway.ogg");
+	//App->audio->PlayMusic("audio/music/Galway.ogg");
 
 	Create_UI_Elements();
 
@@ -393,15 +393,27 @@ void j1Scene::Level_Load(uint number)
 
 void j1Scene::RespawnEntities()
 {
-	App->entityManager->CreateEntity(2060, 880, SMASHER);
-	App->entityManager->CreateEntity(4125, 950, SMASHER);
-	App->entityManager->CreateEntity(5431, 790, SMASHER);
-	App->entityManager->CreateEntity(4650, 960, BAT);
-	App->entityManager->CreateEntity(2430, 537, BAT);
-	App->entityManager->CreateEntity(3770, 450, BAT);
+	if (level_to_load->data->lvl == 1)
+	{
+		App->entityManager->CreateEntity(2060, 880, SMASHER);
+		App->entityManager->CreateEntity(4125, 950, SMASHER);
+		App->entityManager->CreateEntity(5571, 790, SMASHER);
+		App->entityManager->CreateEntity(5874, 116, BAT);
+		App->entityManager->CreateEntity(2430, 537, BAT);
+		App->entityManager->CreateEntity(3770, 450, BAT);
 
-	App->entityManager->CreateEntity(800, 950, COIN);
-	App->entityManager->CreateEntity(900, 950, COIN);
+		App->entityManager->CreateEntity(800, 950, COIN);
+		App->entityManager->CreateEntity(900, 950, COIN);
+	}
+	else if (level_to_load->data->lvl == 2)
+	{
+		App->entityManager->CreateEntity(630, 700, SMASHER);
+		App->entityManager->CreateEntity(5280, 600, SMASHER);
+		App->entityManager->CreateEntity(4676, 820, SMASHER);
+		App->entityManager->CreateEntity(2357, 650, BAT);
+		App->entityManager->CreateEntity(4038, 570, BAT);
+		App->entityManager->CreateEntity(5585, 118, BAT);
+	}
 }
 
 void j1Scene::Create_UI_Elements()
