@@ -170,6 +170,9 @@ bool j1Player::Update(float dt, bool do_logic)
 	wintutorial = false; 
 
 	dt_player = dt;
+
+	LOG("POS.X: %f", position.x);
+	LOG("POS.Y: %f", position.y);
 	
 	//Normal Game Mode
 	if (god_mode == false)

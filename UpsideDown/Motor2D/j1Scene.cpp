@@ -328,7 +328,7 @@ void j1Scene::Level_Load(uint number)
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
 		if(level_to_load->data->lvl != 3)
-			RespawnEntitiesLvl1();
+			RespawnEntities();
 
 		App->entityManager->AddPlayer();
 		App->entityManager->Start();
@@ -345,7 +345,7 @@ void j1Scene::Level_Load(uint number)
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
 		if (level_to_load->data->lvl != 3)
-			RespawnEntitiesLvl1();
+			RespawnEntities();
 
 		App->entityManager->Start();
 	}
@@ -355,7 +355,7 @@ void j1Scene::Level_Load(uint number)
 		if (level_to_load->data->lvl != 3)
 			App->entityManager->DestroyEnemies();
 		App->map->Load(level_to_load->data->mapPath.GetString());
-		RespawnEntitiesLvl1();
+		RespawnEntities();
 		App->entityManager->Start();
 		actual_level = level_to_load->data->lvl;
 	}
@@ -381,14 +381,14 @@ void j1Scene::Level_Load(uint number)
 
 }
 
-void j1Scene::RespawnEntitiesLvl1()
+void j1Scene::RespawnEntities()
 {
-	App->entityManager->CreateEntity(2700, 700, SMASHER);
-	App->entityManager->CreateEntity(6020, 700, SMASHER);
-	App->entityManager->CreateEntity(5200, 600, SMASHER);
-	App->entityManager->CreateEntity(500, 500, BAT);
-	App->entityManager->CreateEntity(2600, 500, BAT);
-	App->entityManager->CreateEntity(6000, 500, BAT);
+	App->entityManager->CreateEntity(2060, 880, SMASHER);
+	App->entityManager->CreateEntity(4125, 950, SMASHER);
+	App->entityManager->CreateEntity(5431, 790, SMASHER);
+	App->entityManager->CreateEntity(4650, 960, BAT);
+	App->entityManager->CreateEntity(2430, 537, BAT);
+	App->entityManager->CreateEntity(3770, 450, BAT);
 
 	App->entityManager->CreateEntity(800, 950, COIN);
 	App->entityManager->CreateEntity(900, 950, COIN);

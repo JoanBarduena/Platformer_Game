@@ -47,7 +47,7 @@ public:
 
 	//Load Level
 	void Level_Load(uint number = 0);
-	void RespawnEntitiesLvl1(); 
+	void RespawnEntities(); 
 
 public:
 
