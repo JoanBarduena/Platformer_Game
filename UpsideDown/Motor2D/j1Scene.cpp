@@ -57,6 +57,7 @@ bool j1Scene::Start()
 
 	debug_tex = App->tex->Load("maps/pathfinding_debug.png");
 	graphics = App->tex->Load("textures/adventurer.png");
+	keyboard = App->tex->Load("textures/keyboard.png"); 
 
 	App->audio->PlayMusic("audio/music/Galway.ogg");
 
@@ -204,6 +205,11 @@ bool j1Scene::PostUpdate()
 	if (actual_level == 0)
 	{
 		App->render->Blit(graphics, 100, 630, &current->GetCurrentFrame(dt_scene), SDL_FLIP_NONE, 0);
+	}
+
+	if (actual_level == 3)
+	{
+		App->render->Blit(keyboard, 300, 630, &rect, SDL_FLIP_NONE);
 	}
 	
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)

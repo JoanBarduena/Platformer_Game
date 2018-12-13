@@ -68,8 +68,14 @@ private:
 	Animation player_running;
 	Animation *current;
 
+	Animation* current_keyA; 
+	Animation keyA, keyA_pressed; 
+
+	SDL_Texture *keyboard; 
 	SDL_Texture *graphics;
 	
+
+	SDL_Rect rect = { 48, 49, 16, 15 };
 };
 
 #endif // __j1SCENE_H__
