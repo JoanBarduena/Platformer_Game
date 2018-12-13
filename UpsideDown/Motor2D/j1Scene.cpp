@@ -12,6 +12,10 @@
 #include "j1Fadetoblack.h"
 #include "j1PathFinding.h"
 #include "j1EntityManager.h"
+#include "j1Fonts.h"
+#include "j1Gui.h"
+#include "j1Gui_Elements.h"
+
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -74,6 +78,8 @@ bool j1Scene::Start()
 
 	App->audio->PlayMusic("audio/music/Galway.ogg");
 
+	Create_UI_Elements();
+
 	return true;
 }
 
@@ -82,28 +88,7 @@ bool j1Scene::PreUpdate()
 {
 	BROFILER_CATEGORY("Scene PreUpdate", Profiler::Color::Blue);
 
-	// debug pathfing ------------------
-	static iPoint origin;
-	static bool origin_selected = false;
-
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x, p.y);
-
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		if (origin_selected == true)
-		{
-			App->pathfinding->CreatePath(origin, p);
-			origin_selected = false;
-		}
-		else
-		{
-			origin = p;
-			origin_selected = true;
-		}
-	}
+	Prev_Mouse_Pos = Mouse_Pos;
 
 	return true;
 }
@@ -114,6 +99,28 @@ bool j1Scene::Update(float dt)
 	BROFILER_CATEGORY("Scene Update", Profiler::Color::Green);
 
 	dt_scene = dt;
+
+	// Gui ------------------------------------------------------------------------------------------
+	p2List_item<Gui_Elements*>* iterator;
+
+	for (iterator = App->gui->List_elem.start; iterator != nullptr; iterator = iterator->next)
+	{
+		if (iterator->data->type == Element_type::BUTTON)
+		{
+			if (iterator->data->funct == Function::PLAY && iterator->data->do_action)
+			{
+				App->fade->FadeToBlack(this, this);
+				loading_tutorial = true;
+			}
+			else if (iterator->data->funct == Function::EXIT && iterator->data->do_action)
+			{
+				return false;
+			}
+			iterator->data->do_action = false;
+		}
+
+	}
+	// -------------------------------------------------------------------------------------------
 
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 	{
@@ -244,7 +251,7 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-	
+	App->input->GetMousePosition(Mouse_Pos.x, Mouse_Pos.y);
 	
 	return true;
 }
@@ -325,6 +332,8 @@ void j1Scene::Level_Load(uint number)
 
 	if (actual_level == 0 && level_to_load->data->lvl > 0)
 	{
+		App->gui->Delete_UI_Elements();
+
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
 		if(level_to_load->data->lvl != 3)
@@ -368,6 +377,7 @@ void j1Scene::Level_Load(uint number)
 		App->render->camera.x = -50;
 		App->render->camera.y = -300;
 		actual_level = level_to_load->data->lvl;
+		Create_UI_Elements();
 		App->audio->PlayMusic("audio/music/Galway.ogg");
 	}
 
@@ -392,4 +402,15 @@ void j1Scene::RespawnEntities()
 
 	App->entityManager->CreateEntity(800, 950, COIN);
 	App->entityManager->CreateEntity(900, 950, COIN);
+}
+
+void j1Scene::Create_UI_Elements()
+{
+
+	Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 430, 300 }, { 1070, 260 , 190, 49 }, App->gui->GetAtlas(), Function::PLAY);
+	Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 430, 400 }, { 1070, 260 , 190, 49 }, App->gui->GetAtlas(), Function::EXIT);
+
+	App->gui->Create_Label(Element_type::LABEL, { 57, 12 }, { 0,0,70, 20 }, "PLAY", { 255,255,255,0 }, App->font->default, Play);
+	App->gui->Create_Label(Element_type::LABEL, { 57, 12 }, { 0,0,70, 20 }, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
+
 }

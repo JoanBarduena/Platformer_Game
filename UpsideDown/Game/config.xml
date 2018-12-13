@@ -27,6 +27,10 @@
     <folder>maps/</folder>
   </map>
 
+  <gui>
+    <atlas file="gui/atlas.png"/>
+  </gui>
+  
   <player>
     <position x="0" y="930" />
     <limits up="47" down="347" left="5" right="5370" />

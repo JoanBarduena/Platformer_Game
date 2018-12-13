@@ -48,6 +48,7 @@ public:
 	//Load Level
 	void Level_Load(uint number = 0);
 	void RespawnEntities(); 
+	void Create_UI_Elements();
 
 public:
 
@@ -55,6 +56,9 @@ public:
 	p2List_item<level*>* level_to_load;
 	uint actual_level;
 	SDL_Texture * debug_tex;
+
+	iPoint Mouse_Pos;
+	iPoint Prev_Mouse_Pos;
 
 	bool start_pos = true;
 

@@ -21,6 +21,8 @@ class j1Collision;
 class j1FadeToBlack;
 class j1EntityManager;
 class j1PathFinding;
+class j1Fonts;
+class j1Gui;
 
 class j1App
 {
@@ -95,6 +97,8 @@ public:
 	j1FadeToBlack*		fade; 
 	j1EntityManager*	entityManager;
 	j1PathFinding*		pathfinding;
+	j1Fonts*			font;
+	j1Gui*				gui;
 
 	bool caped_frames = true;
 
