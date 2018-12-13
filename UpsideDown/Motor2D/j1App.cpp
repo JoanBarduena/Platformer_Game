@@ -33,7 +33,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new j1Scene();
 	map = new j1Map();
 	collision = new j1Collision();
-	fade = new j1Fadetoblack();
+	fade = new j1FadeToBlack();
 	entityManager = new j1EntityManager();
 	pathfinding = new j1PathFinding();
 	

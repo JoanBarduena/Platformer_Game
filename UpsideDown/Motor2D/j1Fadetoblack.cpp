@@ -1,41 +1,35 @@
 #include <math.h>
-#include "p2Defs.h"
-#include "p2Log.h"
 #include "j1App.h"
 #include "j1Fadetoblack.h"
 #include "j1Render.h"
+#include "j1Window.h"
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
 
-j1Fadetoblack::j1Fadetoblack()
+j1FadeToBlack::j1FadeToBlack() : j1Module()
 {
-	pugi::xml_document file;
-	pugi::xml_parse_result result = file.load_file("config.xml");
-
-	int width = file.child("config").child("window").child("resolution").attribute("width").as_int();
-	int height = file.child("config").child("window").child("resolution").attribute("height").as_int();
-	int scale = file.child("config").child("window").child("resolution").attribute("scale").as_int();
-
-	screen = { 0, 0, width * scale, height * scale };
 	name.create("fade");
 }
 
-j1Fadetoblack::~j1Fadetoblack()
+j1FadeToBlack::~j1FadeToBlack()
 {}
 
 // Load assets
-bool j1Fadetoblack::Start()
+bool j1FadeToBlack::Start()
 {
-	LOG("Preparing Fade Screen");
+	App->win->GetWindowSize(screen_width, screen_height);
+	screen = { 0, 0, int(screen_width * App->win->GetScale()), int(screen_height* App->win->GetScale()) };
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
 	return true;
 }
 
-// Update: draw background
-bool j1Fadetoblack::Update(float dt)
+bool j1FadeToBlack::Update(float dt)
 {
-	BROFILER_CATEGORY("FadeToBlack Update", Profiler::Color::Green);
+	return true;
+}
 
+bool j1FadeToBlack::PostUpdate()
+{
 	if (current_step == fade_step::none)
 		return true;
 
@@ -61,33 +55,35 @@ bool j1Fadetoblack::Update(float dt)
 		if (now >= total_time)
 			current_step = fade_step::none;
 	} break;
+
 	}
 
-	// Finally render the black square with alpha on the screen
 	SDL_SetRenderDrawColor(App->render->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
 	SDL_RenderFillRect(App->render->renderer, &screen);
 
 	return true;
 }
 
-// Fade to black. At mid point deactivate one module, then activate the other
-bool j1Fadetoblack::FadeToBlack(j1Module* module_off, j1Module* module_on, float time)
+bool j1FadeToBlack::FadeToBlack(j1Module* module_off, j1Module* module_on, float time)
 {
 	bool ret = false;
-	ModuleOff = module_off;
-	ModuleOn = module_on;
 
 	if (current_step == fade_step::none)
 	{
 		current_step = fade_step::fade_to_black;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
+
+		fade_out = module_off;
+		fade_in = module_on;
+		
 		ret = true;
 	}
+
 	return ret;
 }
 
-bool j1Fadetoblack::IsFading() const
+bool j1FadeToBlack::IsFading() const
 {
 	return current_step == fade_step::fade_to_black;
 }

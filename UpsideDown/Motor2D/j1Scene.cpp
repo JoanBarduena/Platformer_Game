@@ -118,7 +118,8 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 	{
 		start_pos = false;
-		App->LoadGame();
+		App->fade->FadeToBlack(this, this);
+		loading_saved_game = true; 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 	{
@@ -151,7 +152,8 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		start_pos = true;
-		Level_Load(1); 
+		App->fade->FadeToBlack(this, this);
+		loading_lvl1 = true;
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
@@ -166,30 +168,66 @@ bool j1Scene::Update(float dt)
 		start_pos = true;
 		if (level_to_load->data->lvl == 2)
 		{
-			Level_Load(2);
+			App->fade->FadeToBlack(this, this);
+			loading_lvl2 = true;
 		}
 		else
 		{
-			Level_Load(1); 
+			App->fade->FadeToBlack(this, this);
+			loading_lvl1 = true; 
 		}
 	}
 	//F3 Starts the second level  
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		start_pos = true;
-		Level_Load(2);
+		App->fade->FadeToBlack(this, this);
+		loading_lvl2 = true; 
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
 	{
-		Level_Load(0);
+		App->fade->FadeToBlack(this, this);
+		loading_menu = true; 
 	}
 
+	//Load Tutorial 
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
 	{
-		Level_Load(3);
+		App->fade->FadeToBlack(this, this);
+		loading_tutorial = true; 
 	}
 
+	//From fade to levels
+	if (App->fade->IsFading() == false)
+	{
+		if (loading_tutorial == true)
+		{
+			Level_Load(3);
+			loading_tutorial = false;
+		}
+		if (loading_menu == true)
+		{
+			Level_Load(0); 
+			loading_menu = false; 
+		}
+		if (loading_lvl1 == true)
+		{
+			Level_Load(1);
+			loading_lvl1 = false; 
+		}
+		if (loading_lvl2 == true)
+		{
+			Level_Load(2);
+			loading_lvl2 = false; 
+		}
+		if (loading_saved_game == true)
+		{
+			App->LoadGame();
+			loading_saved_game = false; 
+		}
+	}
+		
 	App->audio->SetMusicVolume();
 	App->map->Draw();
 
@@ -273,8 +311,7 @@ void j1Scene::Level_Load(uint number)
 	level_to_load = lvl;
 
 	//App->map->Load(level_to_load->data->mapPath.GetString());
-
-
+	
 	if (actual_level > 0)
 	{
 		if (start_pos)
@@ -343,7 +380,6 @@ void j1Scene::Level_Load(uint number)
 
 void j1Scene::RespawnEntities()
 {
-	
 	App->entityManager->CreateEntity(2700, 700, SMASHER);
 	App->entityManager->CreateEntity(6020, 700, SMASHER);
 	App->entityManager->CreateEntity(5200, 600, SMASHER);

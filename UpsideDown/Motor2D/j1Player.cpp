@@ -401,14 +401,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		else 
 			win1 = true;
 
-		App->fade->FadeToBlack(App->scene, App->scene);
 		can_move = false;
 		
 	}
 	else if (c1->type == COLLIDER_PLAYER && c2->type == COLLIDER_WIN2)
 	{
 		win2 = true;
-		App->fade->FadeToBlack(App->scene, App->scene);
 		can_move = false;
 	}
 }
@@ -488,29 +486,20 @@ void j1Player::Check_Collision()
 	if (win1 == true)
 	{
 		initial_pos = true;
-		if (App->fade->IsFading() == false)
-		{
-			App->scene->start_pos = true;
-			App->scene->Level_Load(2);
-		}	
+		App->scene->start_pos = true;
+		App->scene->Level_Load(2);
 	}
 	if (win2 == true)
 	{
 		initial_pos = true;
-		if (App->fade->IsFading() == false)
-		{
-			App->scene->start_pos = true;
-			App->scene->Level_Load(1);
-		}
+		App->scene->start_pos = true;
+		App->scene->Level_Load(1);
 	}
 	if (wintutorial == true)
 	{
 		initial_pos = true;
-		if (App->fade->IsFading() == false)
-		{
-			App->scene->start_pos = true;
-			App->scene->Level_Load(1);
-		}
+		App->scene->start_pos = true;
+		App->scene->Level_Load(1);
 	}
 }
 
