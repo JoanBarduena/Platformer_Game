@@ -9,21 +9,21 @@
 	<scene />
 	<entityManager>
 		<player>
-			<position x="1208.63306" y="551.66748" />
+			<position x="3475.13062" y="552.821838" />
 			<invert_gravity value="false" />
 			<current_level value="1" />
-			<god_mode value="true" />
+			<god_mode value="false" />
 		</player>
-		<smasher1 position_x="2563.94727" position_y="837.050537" />
-		<smasher2 position_x="5806.83691" position_y="25164.7676" />
-		<smasher3 position_x="5319.81396" position_y="41285.5156" />
-		<bat1 position_x="981.382813" position_y="444.415222" />
-		<bat2 position_x="3035.15674" position_y="379.125061" />
-		<bat3 position_x="5623.25879" position_y="525.233704" />
+		<smasher1 position_x="2905.99146" position_y="9897.95801" />
+		<smasher2 position_x="6020" position_y="9957.95703" />
+		<smasher3 position_x="5200" position_y="13119.9473" />
+		<bat1 position_x="2074" position_y="312" />
+		<bat2 position_x="3254.37793" position_y="532.11792" />
+		<bat3 position_x="6000" position_y="500" />
 	</entityManager>
 	<fade />
 	<:anonymous />
 	<renderer>
-		<camera x="-817" y="-322" />
+		<camera x="-2842" y="-147" />
 	</renderer>
 </game_state>

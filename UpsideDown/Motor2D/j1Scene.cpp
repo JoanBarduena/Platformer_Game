@@ -200,18 +200,8 @@ void j1Scene::Level_Load(uint number)
 	}
 	level_to_load = lvl;
 
-	//-------------------------------------------------------------------
-	App->map->Load(level_to_load->data->mapPath.GetString());
-	
+	//App->map->Load(level_to_load->data->mapPath.GetString());
 
-	int w, h;
-	uchar* data = NULL;
-	if (App->map->CreateWalkabilityMap(w, h, &data))
-	{
-		App->pathfinding->SetMap(w, h, data);
-	}
-	RELEASE_ARRAY(data);
-	//---------------------------------------------------------------------------
 
 	if (actual_level > 0)
 	{
@@ -223,6 +213,7 @@ void j1Scene::Level_Load(uint number)
 
 	if (actual_level == 0 && level_to_load->data->lvl > 0)
 	{
+		App->map->Load(level_to_load->data->mapPath.GetString());
 		RespawnEntities();
 		App->entityManager->AddPlayer();
 		App->entityManager->Start();
@@ -233,6 +224,7 @@ void j1Scene::Level_Load(uint number)
 	{
 		App->entityManager->player->CleanUp();
 		App->entityManager->DestroyEnemies();
+		App->map->Load(level_to_load->data->mapPath.GetString());
 		RespawnEntities();
 		App->entityManager->Start();
 	}
@@ -240,6 +232,7 @@ void j1Scene::Level_Load(uint number)
 	{
 		App->entityManager->player->CleanUp();
 		App->entityManager->DestroyEnemies();
+		App->map->Load(level_to_load->data->mapPath.GetString());
 		RespawnEntities();
 		App->entityManager->Start();
 		actual_level = level_to_load->data->lvl;
@@ -249,9 +242,18 @@ void j1Scene::Level_Load(uint number)
 		App->entityManager->CleanUp();
 		App->entityManager->DestroyEnemies();
 		App->entityManager->DestroyPlayer();
+		App->map->Load(level_to_load->data->mapPath.GetString());
 		actual_level = level_to_load->data->lvl;
 		App->audio->PlayMusic("audio/music/Galway.ogg");
 	}
+
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+	{
+		App->pathfinding->SetMap(w, h, data);
+	}
+	RELEASE_ARRAY(data);
 
 }
 
