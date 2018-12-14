@@ -1,6 +1,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Input.h"
+#include "j1Window.h"
 #include "j1Gui.h"
 #include "j1Gui_Elements.h"
 #include "j1Gui_Image.h"
@@ -59,6 +60,10 @@ bool j1Gui::PostUpdate()
 {
 	bool ret = true;
 
+	if (App->scene->pause)
+		App->render->DrawQuad({ 0,0,(int)App->win->width, (int)App->win->height }, 0, 0, 0, 150, true, false);
+
+
 	for (p2List_item<Gui_Elements*>* iterator = List_elem.start; iterator != nullptr; iterator = iterator->next)
 	{
 		ret = iterator->data->PostUpdate();
@@ -66,6 +71,7 @@ bool j1Gui::PostUpdate()
 			break;
 	}
 
+	
 	return ret;
 }
 
@@ -136,6 +142,19 @@ void j1Gui::Delete_UI_Elements()
 
 		LOG("deleting UI elements");
 		
+	}
+}
+
+void j1Gui::Delete_This_Element(Gui_Elements* element)
+{
+	for (p2List_item<Gui_Elements*>* iterator = List_elem.start; iterator; iterator = iterator->next)
+	{
+		if (iterator->data == element)
+		{
+			iterator->data->CleanUp();
+			List_elem.del(iterator);
+			RELEASE(iterator->data);
+		}
 	}
 }
 

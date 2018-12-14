@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "Animation.h"
+#include "j1Gui.h"
 
 struct SDL_Texture;
 
@@ -98,6 +99,9 @@ private:
 	SDL_Texture *keyboard; 
 	SDL_Texture *graphics;
 	SDL_Texture *title;
+
+	Gui_Elements* Skip;
+	Gui_Elements* Skip_Text;
 	
 };
 

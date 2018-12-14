@@ -110,20 +110,26 @@ bool j1Scene::Update(float dt)
 
 	for (iterator = App->gui->List_elem.start; iterator != nullptr; iterator = iterator->next)
 	{
-		if (iterator->data->type == Element_type::BUTTON)
+		if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action)
 		{
-			if (iterator->data->funct == Function::PLAY && iterator->data->do_action)
+			if (iterator->data->funct == Function::PLAY )
 			{
 				App->fade->FadeToBlack(this, this);
 				loading_tutorial = true;
 			}
-			else if (iterator->data->funct == Function::EXIT && iterator->data->do_action)
+			else if (iterator->data->funct == Function::EXIT)
 			{
 				return false;
 			}
-			else if (iterator->data->funct == Function::GITHUB && iterator->data->do_action)
+			else if (iterator->data->funct == Function::GITHUB)
 			{
 				ShellExecuteA(NULL, "open", "https://github.com/JosepLleal/Platformer_Game", NULL, NULL, SW_SHOWNORMAL);
+			}
+			else if (iterator->data->funct == Function::SKIP)
+			{
+				start_pos = true;
+				App->fade->FadeToBlack(this, this);
+				loading_lvl1 = true;
 			}
 			iterator->data->do_action = false;
 		}
@@ -131,29 +137,18 @@ bool j1Scene::Update(float dt)
 	}
 	// -------------------------------------------------------------------------------------------
 
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && !pause)
 	{
 		start_pos = false;
 		App->fade->FadeToBlack(this, this);
 		loading_saved_game = true; 
 	}
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && !pause)
 	{
 		start_pos = false; 
 		App->SaveGame();
 	}
 		
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y += 3;
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y -= 3;
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x += 3;
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= 3;
 
 	if (actual_level == 0)
 	{
@@ -165,21 +160,21 @@ bool j1Scene::Update(float dt)
 	}
 
 	//F1 Starts form the very first level 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && !pause)
 	{
 		start_pos = true;
 		App->fade->FadeToBlack(this, this);
 		loading_lvl1 = true;
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && !pause)
 	{
 		//counter for animation speed
 		App->caped_frames = !App->caped_frames;
 	}
 
 	//F2 Starts from the beginning of the current level
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN && !pause)
 	{
 		start_pos = true;
 		if (level_to_load->data->lvl == 2)
@@ -194,21 +189,21 @@ bool j1Scene::Update(float dt)
 		}
 	}
 	//F3 Starts the second level  
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN && !pause)
 	{
 		start_pos = true;
 		App->fade->FadeToBlack(this, this);
 		loading_lvl2 = true; 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN && !pause)
 	{
 		App->fade->FadeToBlack(this, this);
 		loading_menu = true; 
 	}
 
 	//Load Tutorial 
-	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN && !pause)
 	{
 		if(actual_level == 0)
 		{ 
@@ -289,22 +284,22 @@ bool j1Scene::PostUpdate()
 
 	if (actual_level == 3)
 	{
-		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !pause)
 			current_keyA = &keyA_pressed;
 		else
 			current_keyA = &keyA;
 
-		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !pause)
 			current_keyD = &keyD_pressed;
 		else
 			current_keyD = &keyD;
 
-		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT)
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT && !pause)
 			current_keyL = &keyL_pressed;
 		else
 			current_keyL = &keyL;
 
-		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !pause)
 			current_keySpace = &keySpace_pressed;
 		else
 			current_keySpace = &keySpace;
@@ -318,8 +313,7 @@ bool j1Scene::PostUpdate()
 		
 		
 	}
-	if (pause)
-		App->render->DrawQuad({ 0,0,(int)App->win->width, (int)App->win->height }, 0, 0, 0, 150, true, false);
+	
 	
 
 	return ret;
@@ -342,8 +336,6 @@ void j1Scene::Level_Load(uint number)
 	}
 	level_to_load = lvl;
 
-	//App->map->Load(level_to_load->data->mapPath.GetString());
-	
 	if (actual_level > 0)
 	{
 		if (start_pos)
@@ -358,12 +350,14 @@ void j1Scene::Level_Load(uint number)
 
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
-		if(level_to_load->data->lvl != 3)
-			RespawnEntities();
+		RespawnEntities();
+		Create_UI_Elements();
 
 		App->entityManager->AddPlayer();
 		App->entityManager->Start();
 		App->entityManager->player->Start();
+		
+
 		actual_level = level_to_load->data->lvl;
 	}
 	else if (actual_level == level_to_load->data->lvl)
@@ -382,9 +376,18 @@ void j1Scene::Level_Load(uint number)
 	}
 	else if ((actual_level == 3 && level_to_load->data->lvl == 1) || (actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1))
 	{
+		if (actual_level == 3)
+		{
+			App->gui->Delete_This_Element(Skip);
+			App->gui->Delete_This_Element(Skip_Text);
+		}
+		
 		App->entityManager->player->CleanUp();
-		if (level_to_load->data->lvl != 3)
+		if (actual_level != 3)
+		{
 			App->entityManager->DestroyEnemies();
+		}
+		
 		App->map->Load(level_to_load->data->mapPath.GetString());
 		RespawnEntities();
 		App->entityManager->Start();
@@ -440,15 +443,23 @@ void j1Scene::RespawnEntities()
 
 void j1Scene::Create_UI_Elements()
 {
+	if (level_to_load->data->lvl == 0)
+	{
+		Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, App->gui->GetAtlas(), Function::PLAY);
+		Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, App->gui->GetAtlas(), Function::EXIT);
+		Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, App->gui->GetAtlas(), Function::GITHUB);
 
-	Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, App->gui->GetAtlas(), Function::PLAY);
-	Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, App->gui->GetAtlas(), Function::EXIT);
-	Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, App->gui->GetAtlas(), Function::GITHUB);
+		SDL_Rect title_rect = { 0, 0, 500, 300 };
+		App->gui->Create_Image(Element_type::IMAGE, { 275, 0 }, title_rect, title, nullptr);
 
-	SDL_Rect title_rect = { 0, 0, 500, 300 };
-	App->gui->Create_Image(Element_type::IMAGE, { 275, 0 }, title_rect, title, nullptr);
-
-	App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, "PLAY", { 255,255,255,0 }, App->font->default, Play);
-	App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
+		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, "PLAY", { 255,255,255,0 }, App->font->default, Play);
+		App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
+	}
+	else if (level_to_load->data->lvl == 3)
+	{
+		Skip = App->gui->Create_Button(Element_type::BUTTON, { 800, 700 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, App->gui->GetAtlas(), Function::SKIP);
+		Skip_Text = App->gui->Create_Label(Element_type::LABEL, { 3, 6 }, { 0,0,180, 30 }, "SKIP TUTORIAL", { 255,255,255,0 }, App->font->default, Skip);
+	}
+	
 
 }

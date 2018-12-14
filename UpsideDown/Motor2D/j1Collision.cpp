@@ -1,6 +1,7 @@
 #include "j1App.h"
 #include "j1Input.h"
 #include "j1Render.h"
+#include "j1Scene.h"
 #include "j1Player.h"
 #include "j1Collision.h"
 #include "p2Log.h"
@@ -137,7 +138,7 @@ bool j1Collision::Update(float dt)
 
 void j1Collision::DebugDraw()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN && App->scene->pause==false)
 	{
 		debug = !debug;
 	}

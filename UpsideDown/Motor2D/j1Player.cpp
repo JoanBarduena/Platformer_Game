@@ -171,8 +171,8 @@ bool j1Player::Update(float dt, bool do_logic)
 
 	dt_player = dt;
 
-	LOG("POS.X: %f", position.x);
-	LOG("POS.Y: %f", position.y);
+	/*LOG("POS.X: %f", position.x);
+	LOG("POS.Y: %f", position.y);*/
 	
 	//Normal Game Mode
 	if (god_mode == false)
@@ -227,7 +227,7 @@ bool j1Player::Update(float dt, bool do_logic)
 		GodMode();
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN && App->scene->pause == false)
 	{
 		god_mode = !god_mode;
 	}
@@ -268,6 +268,7 @@ bool j1Player::PostUpdate()
 		}
 		
 	}
+
 
 	Check_Collision();
 	
@@ -585,7 +586,7 @@ void j1Player::GameMode()
 {
 	collider->rect.h = player_height;
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && can_move == true)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && can_move == true && App->scene->pause == false)
 	{
 		speed.x = -player_speed;
 		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
@@ -600,7 +601,7 @@ void j1Player::GameMode()
 			}
 		}
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && can_move==true)
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && can_move==true && App->scene->pause == false)
 	{
 		speed.x = player_speed;
 		if (current_animation != &jumping && &falling && &falling_turned && &jump_turned)
@@ -620,7 +621,7 @@ void j1Player::GameMode()
 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && is_falling == false && is_jumping == false && can_move == true)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && is_falling == false && is_jumping == false && can_move == true && App->scene->pause == false)
 	{
 		if (invert_gravity == true && flip == true)
 		{
@@ -645,7 +646,7 @@ void j1Player::GameMode()
 		App->audio->PlayFx(jump_fx, 0);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN && can_invert == true)
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN && can_invert == true && App->scene->pause == false)
 	{
 		invert_gravity = !invert_gravity;
 		App->audio->PlayFx(invert_gravity_fx);
@@ -686,11 +687,11 @@ void j1Player::GodMode()
 	collider->rect.h = Player.godmode_hitbox; 
 	current_animation = &god_mode_anim;
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && App->scene->pause == false)
 	{
 		speed.x = -player_speed;
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->scene->pause == false)
 	{
 		speed.x = player_speed;
 	}
@@ -699,13 +700,13 @@ void j1Player::GodMode()
 		speed.x = 0; 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && App->scene->pause == false)
 	{
 		speed.y = -player_speed;
 		maxSpeed_y = Player.maxSpeed_y;
 		
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && App->scene->pause == false)
 	{
 		is_falling = true; 
 		speed.y = player_speed;

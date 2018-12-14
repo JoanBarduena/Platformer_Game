@@ -33,6 +33,7 @@ enum class Function
 	PLAY,
 	EXIT,
 	GITHUB,
+	SKIP,
 	NONE
 };
 
@@ -72,6 +73,7 @@ public:
 	Gui_Elements* Create_Label(Element_type element, iPoint position, SDL_Rect rect, const char* Text, SDL_Color Color, _TTF_Font* Font, Gui_Elements* Parent = nullptr);
 
 	void Delete_UI_Elements();
+	void Delete_This_Element(Gui_Elements* element);
 
 private:
 
