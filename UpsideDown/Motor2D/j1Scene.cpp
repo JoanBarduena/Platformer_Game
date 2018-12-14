@@ -76,7 +76,12 @@ bool j1Scene::Start()
 	graphics = App->tex->Load("textures/adventurer.png");
 	keyboard = App->tex->Load("textures/keyboard.png"); 
 
-	//App->audio->PlayMusic("audio/music/Galway.ogg");
+	//title = App->tex->Load("textures/upsidedown_title.png");
+	title = App->tex->Load("textures/upsidedown_title2.png");
+	//title = App->tex->Load("textures/upsidedown_title3.png");
+	//title = App->tex->Load("textures/upsidedown_title4.png");
+
+	App->audio->PlayMusic("audio/music/Galway.ogg");
 
 	Create_UI_Elements();
 
@@ -148,8 +153,8 @@ bool j1Scene::Update(float dt)
 
 	if (actual_level == 0)
 	{
-		App->render->camera.x -= 2;
-		if (App->render->camera.x < -1350)
+		App->render->camera.x -= 3*dt;
+		if (App->render->camera.x < -5350)
 		{
 			App->render->camera.x = -50;
 		}
@@ -266,6 +271,8 @@ bool j1Scene::PostUpdate()
 	if (actual_level == 0)
 	{
 		App->render->Blit(graphics, 100, 630, &current->GetCurrentFrame(dt_scene), SDL_FLIP_NONE, 0);
+		SDL_Rect title_rect = { 0, 0, 500, 300 };
+		App->render->Blit(title, 275, 0, &title_rect, SDL_FLIP_NONE, 0);
 	}
 
 	if (actual_level == 3)

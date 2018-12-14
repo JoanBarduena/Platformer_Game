@@ -96,6 +96,7 @@ private:
 
 	SDL_Texture *keyboard; 
 	SDL_Texture *graphics;
+	SDL_Texture *title;
 	
 };
 
