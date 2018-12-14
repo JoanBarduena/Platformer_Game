@@ -81,7 +81,7 @@ bool j1Scene::Start()
 	//title = App->tex->Load("textures/upsidedown_title3.png");
 	title = App->tex->Load("textures/upsidedown_title4.png");
 
-	App->audio->PlayMusic("audio/music/Galway.ogg");
+	//App->audio->PlayMusic("audio/music/Galway.ogg");
 
 	Create_UI_Elements();
 
@@ -114,7 +114,7 @@ bool j1Scene::Update(float dt)
 		{
 			if (iterator->data->funct == Function::PLAY )
 			{
-				App->fade->FadeToBlack(this, this);
+				App->fade->FadeToBlack(this, this, 1.3f);
 				loading_tutorial = true;
 			}
 			else if (iterator->data->funct == Function::EXIT)
@@ -128,7 +128,7 @@ bool j1Scene::Update(float dt)
 			else if (iterator->data->funct == Function::SKIP)
 			{
 				start_pos = true;
-				App->fade->FadeToBlack(this, this);
+				App->fade->FadeToBlack(this, this, 1.3f);
 				loading_lvl1 = true;
 			}
 			iterator->data->do_action = false;
@@ -140,7 +140,7 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && !pause)
 	{
 		start_pos = false;
-		App->fade->FadeToBlack(this, this);
+		App->fade->FadeToBlack(this, this, 1.0f);
 		loading_saved_game = true; 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && !pause)
@@ -163,7 +163,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && !pause)
 	{
 		start_pos = true;
-		App->fade->FadeToBlack(this, this);
+		App->fade->FadeToBlack(this, this, 1.3f);
 		loading_lvl1 = true;
 	}
 	
@@ -179,12 +179,12 @@ bool j1Scene::Update(float dt)
 		start_pos = true;
 		if (level_to_load->data->lvl == 2)
 		{
-			App->fade->FadeToBlack(this, this);
+			App->fade->FadeToBlack(this, this, 1.3f);
 			loading_lvl2 = true;
 		}
 		else
 		{
-			App->fade->FadeToBlack(this, this);
+			App->fade->FadeToBlack(this, this, 1.3f);
 			loading_lvl1 = true; 
 		}
 	}
@@ -192,13 +192,13 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN && !pause)
 	{
 		start_pos = true;
-		App->fade->FadeToBlack(this, this);
+		App->fade->FadeToBlack(this, this, 1.3f);
 		loading_lvl2 = true; 
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN && !pause)
 	{
-		App->fade->FadeToBlack(this, this);
+		App->fade->FadeToBlack(this, this, 1.3f);
 		loading_menu = true; 
 	}
 
@@ -207,7 +207,7 @@ bool j1Scene::Update(float dt)
 	{
 		if(actual_level == 0)
 		{ 
-			App->fade->FadeToBlack(this, this);
+			App->fade->FadeToBlack(this, this, 1.3f);
 			loading_tutorial = true;
 		}
 	}
@@ -433,11 +433,11 @@ void j1Scene::RespawnEntities()
 	else if (level_to_load->data->lvl == 2)
 	{
 		App->entityManager->CreateEntity(630, 700, SMASHER);
-		App->entityManager->CreateEntity(5280, 600, SMASHER);
-		App->entityManager->CreateEntity(4676, 820, SMASHER);
-		App->entityManager->CreateEntity(2357, 650, BAT);
-		App->entityManager->CreateEntity(4038, 570, BAT);
-		App->entityManager->CreateEntity(5585, 118, BAT);
+		App->entityManager->CreateEntity(3620, 670, SMASHER);
+		App->entityManager->CreateEntity(4272, 710, SMASHER);
+		App->entityManager->CreateEntity(1875, 167, BAT);
+		App->entityManager->CreateEntity(5291, 248, BAT);
+		App->entityManager->CreateEntity(6052, 483, BAT);
 	}
 }
 

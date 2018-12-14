@@ -40,7 +40,7 @@
     <jump_force value="20" />
     <camera x="0" y="-347"/>
     <player_limit up="50" down="1060" left="8" right="6350"/>
-    <player_dead_limit up="-100" down="1230"/>
+    <player_dead_limit up="-50" down="1160"/>
     <godmode_hitbox value="56"/>
   </player>
 </config>

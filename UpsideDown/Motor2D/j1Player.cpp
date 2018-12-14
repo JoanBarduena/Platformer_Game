@@ -173,7 +173,7 @@ bool j1Player::Update(float dt, bool do_logic)
 
 	/*LOG("POS.X: %f", position.x);
 	LOG("POS.Y: %f", position.y);*/
-	
+
 	//Normal Game Mode
 	if (god_mode == false)
 	{
@@ -273,8 +273,11 @@ bool j1Player::PostUpdate()
 	Check_Collision();
 	
 	//applaying movement to the player
-	position.x += speed.x*dt_player;
-	position.y += speed.y*dt_player;
+	if (can_move)
+	{
+		position.x += speed.x*dt_player;
+		position.y += speed.y*dt_player;
+	}
 
 	CameraOnPlayer();
 
@@ -383,18 +386,20 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		{
 			if (god_mode == false)
 			{
+				if(can_move)
+					App->audio->PlayFx(death_fx);
+				can_move = false;
 				image->data->position.x = 0;
-				App->audio->PlayFx(death_fx); 
-
+				
 				if (App->scene->level_to_load->data->lvl == 1)
 				{
-					App->fade->FadeToBlack(App->scene, App->scene); 
+					App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 					App->scene->start_pos = true;
 					App->scene->loading_lvl1 = true; 
 				}
 				else if (App->scene->level_to_load->data->lvl == 2)
 				{
-					App->fade->FadeToBlack(App->scene, App->scene);
+					App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 					App->scene->start_pos = true;
 					App->scene->loading_lvl2 = true;
 				}
@@ -492,21 +497,21 @@ void j1Player::Check_Collision()
 
 	if (win1 == true)
 	{
-		App->fade->FadeToBlack(App->scene, App->scene);
+		App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 		initial_pos = true;
 		App->scene->start_pos = true;
 		App->scene->loading_lvl2 = true; 
 	}
 	if (win2 == true)
 	{
-		App->fade->FadeToBlack(App->scene, App->scene);
+		App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 		initial_pos = true;
 		App->scene->start_pos = true;
 		App->scene->loading_lvl1 = true; 
 	}
 	if (wintutorial == true)
 	{
-		App->fade->FadeToBlack(App->scene, App->scene); 
+		App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 		initial_pos = true;
 		App->scene->start_pos = true;
 		App->scene->loading_lvl1 = true; 
@@ -657,24 +662,26 @@ void j1Player::GameMode()
 	image = App->map->data.image_layers.start;
 	if (position.y < dead_limit_up || position.y > dead_limit_down)//Player dies if he falls
 	{
-		
+		if(can_move)
+			App->audio->PlayFx(death_fx);
+		can_move = false; 
 		image->data->position.x = 0;
-
+		
 		if (App->scene->level_to_load->data->lvl == 1)
 		{
-			App->fade->FadeToBlack(App->scene, App->scene);
+			App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 			App->scene->start_pos = true;
 			App->scene->loading_lvl1 = true;
 		}
 		else if (App->scene->level_to_load->data->lvl == 2)
 		{
-			App->fade->FadeToBlack(App->scene, App->scene);
+			App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 			App->scene->start_pos = true;
 			App->scene->loading_lvl2 = true;
 		}
 		else if (App->scene->level_to_load->data->lvl == 3)
 		{
-			App->fade->FadeToBlack(App->scene, App->scene);
+			App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 			App->scene->start_pos = true;
 			App->scene->loading_tutorial = true;
 		}
