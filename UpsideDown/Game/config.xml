@@ -42,5 +42,6 @@
     <player_limit up="50" down="1060" left="8" right="6350"/>
     <player_dead_limit up="-50" down="1160"/>
     <godmode_hitbox value="56"/>
+    <lifes value="3"/>
   </player>
 </config>

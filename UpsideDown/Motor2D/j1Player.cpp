@@ -81,13 +81,17 @@ void j1Player::LoadValues()
 
 	//GodMode Hitbox value
 	Player.godmode_hitbox = player.child("godmode_hitbox").attribute("value").as_int();
+
+	//Initial player lifes
+	if(player_starts)
+		Player.player_lifes = player.child("lifes").attribute("value").as_int(); 
 }
 
 bool j1Player::Start()
 {
 	LoadValues();
 
-	if (counter == 0)
+	if (player_starts)
 	{
 		limit_up = Player.limit_up;
 		limit_down = Player.limit_down;
@@ -104,13 +108,15 @@ bool j1Player::Start()
 		dead_limit_down = Player.player_dead_limit_down;
 		dead_limit_up = Player.player_dead_limit_up;
 
+		lifes = Player.player_lifes; 
+
 		//Loading Sounds FX
 		jump_fx = App->audio->LoadFx("audio/fx/Jump.wav");
 		run_fx = App->audio->LoadFx("audio/fx/Run.wav");
 		invert_gravity_fx = App->audio->LoadFx("audio/fx/invert_gravity.wav");
 		death_fx = App->audio->LoadFx("audio/fx/death.wav"); 
 
-		counter++;
+		player_starts = false;
 	}
 
 	//-----------------------------------------------
@@ -388,24 +394,32 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		if (c2->rect.x > c1->rect.x || c2->rect.x < c1->rect.x || c2->rect.y > c1->rect.y || c2->rect.y < c1->rect.y)
 		{
 			if (god_mode == false)
-			{
+			{ 
 				current_animation = &death; 
-				if(can_move)
+				if (can_move)
+				{
 					App->audio->PlayFx(death_fx);
+					lifes--; 
+				}		
 				can_move = false;
 				image->data->position.x = 0;
 				
-				if (App->scene->level_to_load->data->lvl == 1)
+				if (App->scene->level_to_load->data->lvl == 1 && lifes > 0)
 				{
 					App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 					App->scene->start_pos = true;
 					App->scene->loading_lvl1 = true; 
 				}
-				else if (App->scene->level_to_load->data->lvl == 2)
+				else if (App->scene->level_to_load->data->lvl == 2 && lifes > 0)
 				{
 					App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 					App->scene->start_pos = true;
 					App->scene->loading_lvl2 = true;
+				}
+				else if(lifes <= 0)
+				{
+					App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
+					App->scene->loading_menu = true;
 				}
 			}
 		}
@@ -666,28 +680,37 @@ void j1Player::GameMode()
 	image = App->map->data.image_layers.start;
 	if (position.y < dead_limit_up || position.y > dead_limit_down)//Player dies if he falls
 	{
-		if(can_move)
+		if (can_move)
+		{
 			App->audio->PlayFx(death_fx);
+			lifes--; 
+		}
+			
 		can_move = false; 
 		image->data->position.x = 0;
 		
-		if (App->scene->level_to_load->data->lvl == 1)
+		if (App->scene->level_to_load->data->lvl == 1 && lifes > 0)
 		{
 			App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 			App->scene->start_pos = true;
 			App->scene->loading_lvl1 = true;
 		}
-		else if (App->scene->level_to_load->data->lvl == 2)
+		else if (App->scene->level_to_load->data->lvl == 2 && lifes > 0)
 		{
 			App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 			App->scene->start_pos = true;
 			App->scene->loading_lvl2 = true;
 		}
-		else if (App->scene->level_to_load->data->lvl == 3)
+		else if (App->scene->level_to_load->data->lvl == 3 && lifes > 0)
 		{
 			App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 			App->scene->start_pos = true;
 			App->scene->loading_tutorial = true;
+		}
+		else if (lifes <= 0)
+		{
+			App->fade->FadeToBlack(App->scene, App->scene, 1.3f); 
+			App->scene->loading_menu = true;
 		}
 	}
 }

@@ -20,6 +20,7 @@ struct player_config
 	int			 player_dead_limit_down, player_dead_limit_up;
 	int			 player_limit_left, player_limit_right, player_limit_up, player_limit_down;
 	int			 godmode_hitbox; 
+	int			 player_lifes; 
 };
 
 class j1Player : public j1Entity
@@ -73,6 +74,8 @@ public:
 	int limit_left, limit_right, limit_up, limit_down;
 	int player_limit_right, player_limit_left; 
 
+	int lifes; 
+
 	bool flip;				//if player is going left (-speed.x)
 	bool touching_above;	//if player is touching from above
 	bool touching_bottom;	//if player is touching from bottom
@@ -94,10 +97,10 @@ public:
 	bool camera_goes_right;
 
 	bool initial_pos = true;
+	bool player_starts = true; 
 
 	int player_width, player_height;
 	int jump_force;
-	int counter = 0;
 	int collected_coins = 0;
 
 	p2SString folder;
