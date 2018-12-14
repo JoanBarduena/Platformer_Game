@@ -93,10 +93,10 @@ SDL_Texture* j1Gui::GetAtlas() const
 }
 
 
-Gui_Elements* j1Gui::Create_Button(Element_type element, iPoint position, SDL_Rect rect, SDL_Texture* tex, Function function, Gui_Elements* Parent, Button_type button)
+Gui_Elements* j1Gui::Create_Button(Element_type element, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, SDL_Texture* tex, Function function, Gui_Elements* Parent, Button_type button)
 {
 	Gui_Elements* elem = nullptr;
-	elem = new Gui_Button(element, position, rect, tex, function, Parent);
+	elem = new Gui_Button(element, position, rect, rect_hovering, rect_clicking, tex, function, Parent);
 
 	if (elem != nullptr)
 		List_elem.add(elem);

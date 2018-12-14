@@ -1,7 +1,7 @@
 #include "j1Gui_Button.h"
 
 
-Gui_Button::Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Texture* tex, Function function, Gui_Elements* Parent) : Gui_Elements(type, position, rect, Parent, tex)
+Gui_Button::Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, SDL_Texture* tex, Function function, Gui_Elements* Parent) : Gui_Elements(type, position, rect, Parent, tex)
 {
 	pos.x = position.x;
 	pos.y = position.y;
@@ -11,9 +11,8 @@ Gui_Button::Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Te
 
 	Rect = rect;
 
-	hovering_rect = { 650, 260, 190, 49 };
-	clicking_rect = { 860, 264, 190, 45 };
-
+	hovering_rect = rect_hovering;
+	clicking_rect = rect_clicking;
 
 	if (parent != nullptr)
 	{

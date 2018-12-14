@@ -77,9 +77,9 @@ bool j1Scene::Start()
 	keyboard = App->tex->Load("textures/keyboard.png"); 
 
 	//title = App->tex->Load("textures/upsidedown_title.png");
-	title = App->tex->Load("textures/upsidedown_title2.png");
+	//title = App->tex->Load("textures/upsidedown_title2.png");
 	//title = App->tex->Load("textures/upsidedown_title3.png");
-	//title = App->tex->Load("textures/upsidedown_title4.png");
+	title = App->tex->Load("textures/upsidedown_title4.png");
 
 	App->audio->PlayMusic("audio/music/Galway.ogg");
 
@@ -120,6 +120,10 @@ bool j1Scene::Update(float dt)
 			else if (iterator->data->funct == Function::EXIT && iterator->data->do_action)
 			{
 				return false;
+			}
+			else if (iterator->data->funct == Function::GITHUB && iterator->data->do_action)
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/JosepLleal/Platformer_Game", NULL, NULL, SW_SHOWNORMAL);
 			}
 			iterator->data->do_action = false;
 		}
@@ -271,8 +275,9 @@ bool j1Scene::PostUpdate()
 	if (actual_level == 0)
 	{
 		App->render->Blit(graphics, 100, 630, &current->GetCurrentFrame(dt_scene), SDL_FLIP_NONE, 0);
-		SDL_Rect title_rect = { 0, 0, 500, 300 };
-		App->render->Blit(title, 275, 0, &title_rect, SDL_FLIP_NONE, 0);
+	
+	/*	App->render->Blit(title, 275, 0, &title_rect, SDL_FLIP_NONE, 0);*/
+		
 	}
 
 	if (actual_level == 3)
@@ -426,8 +431,12 @@ void j1Scene::RespawnEntities()
 void j1Scene::Create_UI_Elements()
 {
 
-	Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, App->gui->GetAtlas(), Function::PLAY);
-	Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, App->gui->GetAtlas(), Function::EXIT);
+	Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, App->gui->GetAtlas(), Function::PLAY);
+	Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, App->gui->GetAtlas(), Function::EXIT);
+	Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, App->gui->GetAtlas(), Function::GITHUB);
+
+	SDL_Rect title_rect = { 0, 0, 500, 300 };
+	App->gui->Create_Image(Element_type::IMAGE, { 275, 0 }, title_rect, title, nullptr);
 
 	App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, "PLAY", { 255,255,255,0 }, App->font->default, Play);
 	App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, "EXIT", { 255,255,255,0 }, App->font->default, Exit);

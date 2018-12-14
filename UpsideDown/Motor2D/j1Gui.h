@@ -32,6 +32,7 @@ enum class Function
 {
 	PLAY,
 	EXIT,
+	GITHUB,
 	NONE
 };
 
@@ -66,7 +67,7 @@ public:
 
 	SDL_Texture* GetAtlas() const;
 
-	Gui_Elements* Create_Button(Element_type element, iPoint position, SDL_Rect rect, SDL_Texture* tex = nullptr, Function function = Function::NONE, Gui_Elements* Parent = nullptr, Button_type button = Button_type::NONE);
+	Gui_Elements* Create_Button(Element_type element, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, SDL_Texture* tex = nullptr, Function function = Function::NONE, Gui_Elements* Parent = nullptr, Button_type button = Button_type::NONE);
 	Gui_Elements* Create_Image(Element_type element, iPoint position, SDL_Rect rect, SDL_Texture* tex = nullptr, Gui_Elements* Parent = nullptr);
 	Gui_Elements* Create_Label(Element_type element, iPoint position, SDL_Rect rect, const char* Text, SDL_Color Color, _TTF_Font* Font, Gui_Elements* Parent = nullptr);
 
