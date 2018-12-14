@@ -632,6 +632,11 @@ void j1Player::GameMode()
 			current_animation = &jumping;
 			speed.y = jump_force;
 		}
+		else if (invert_gravity == false && flip == true)
+		{
+			current_animation = &jumping;
+			speed.y = -jump_force;
+		}
 		else
 		{
 			current_animation = &jumping;

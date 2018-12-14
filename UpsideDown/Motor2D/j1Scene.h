@@ -61,6 +61,7 @@ public:
 	iPoint Prev_Mouse_Pos;
 
 	bool start_pos = true;
+	bool pause = false;
 
 	bool loading_tutorial = false;
 	bool loading_lvl1 = false;

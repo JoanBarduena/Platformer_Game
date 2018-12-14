@@ -275,10 +275,17 @@ bool j1Scene::PostUpdate()
 	if (actual_level == 0)
 	{
 		App->render->Blit(graphics, 100, 630, &current->GetCurrentFrame(dt_scene), SDL_FLIP_NONE, 0);
-	
-	/*	App->render->Blit(title, 275, 0, &title_rect, SDL_FLIP_NONE, 0);*/
 		
 	}
+	else
+	{
+		if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->fade->IsFading() == false)
+		{
+			pause = !pause;
+		}
+	}
+
+	
 
 	if (actual_level == 3)
 	{
@@ -302,15 +309,18 @@ bool j1Scene::PostUpdate()
 		else
 			current_keySpace = &keySpace;
 
-		App->render->Blit(keyboard, 300, 900, &current_keyA->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
-		App->render->Blit(keyboard, 350, 900, &current_keyD->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 300, 885, &current_keyA->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 350, 885, &current_keyD->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
 		App->render->Blit(keyboard, 2200, 900, &current_keyL->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
 		App->render->Blit(keyboard, 3400, 650, &current_keyL->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
-		App->render->Blit(keyboard, 1100, 900, &current_keySpace->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
-	}
+		App->render->Blit(keyboard, 1100, 885, &current_keySpace->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+		
+		
+	}
+	if (pause)
+		App->render->DrawQuad({ 0,0,(int)App->win->width, (int)App->win->height }, 0, 0, 0, 150, true, false);
+	
 
 	return ret;
 }
