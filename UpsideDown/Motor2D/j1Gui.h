@@ -34,6 +34,7 @@ enum class Function
 	EXIT,
 	GITHUB,
 	SKIP,
+	RESUME,
 	NONE
 };
 

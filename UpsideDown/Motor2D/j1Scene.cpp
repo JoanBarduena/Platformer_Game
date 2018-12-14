@@ -131,6 +131,18 @@ bool j1Scene::Update(float dt)
 				App->fade->FadeToBlack(this, this, 1.3f);
 				loading_lvl1 = true;
 			}
+			else if (iterator->data->funct == Function::RESUME)
+			{
+				pause = !pause;
+				Menu->visible = !Menu->visible;
+				if (Menu->childrens.count() > 0)
+				{
+					for (p2List_item<Gui_Elements*>* child = Menu->childrens.start; child != nullptr; child = child->next)
+					{
+						child->data->visible = !child->data->visible;
+					}
+				}
+			}
 			iterator->data->do_action = false;
 		}
 
@@ -245,6 +257,36 @@ bool j1Scene::Update(float dt)
 	App->audio->SetMusicVolume();
 	App->map->Draw();
 
+	if (actual_level == 3)
+	{
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !pause)
+			current_keyA = &keyA_pressed;
+		else
+			current_keyA = &keyA;
+
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !pause)
+			current_keyD = &keyD_pressed;
+		else
+			current_keyD = &keyD;
+
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT && !pause)
+			current_keyL = &keyL_pressed;
+		else
+			current_keyL = &keyL;
+
+		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !pause)
+			current_keySpace = &keySpace_pressed;
+		else
+			current_keySpace = &keySpace;
+
+		App->render->Blit(keyboard, 300, 885, &current_keyA->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 350, 885, &current_keyD->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 2200, 900, &current_keyL->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 3400, 650, &current_keyL->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+		App->render->Blit(keyboard, 1100, 885, &current_keySpace->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
+
+	}
+
 	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
 	if (App->collision->debug)
 	{
@@ -290,37 +332,7 @@ bool j1Scene::PostUpdate()
 
 	
 
-	if (actual_level == 3)
-	{
-		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && !pause)
-			current_keyA = &keyA_pressed;
-		else
-			current_keyA = &keyA;
-
-		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && !pause)
-			current_keyD = &keyD_pressed;
-		else
-			current_keyD = &keyD;
-
-		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT && !pause)
-			current_keyL = &keyL_pressed;
-		else
-			current_keyL = &keyL;
-
-		if (actual_level == 3 && App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !pause)
-			current_keySpace = &keySpace_pressed;
-		else
-			current_keySpace = &keySpace;
-
-		App->render->Blit(keyboard, 300, 885, &current_keyA->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
-		App->render->Blit(keyboard, 350, 885, &current_keyD->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
-		App->render->Blit(keyboard, 2200, 900, &current_keyL->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
-		App->render->Blit(keyboard, 3400, 650, &current_keyL->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
-		App->render->Blit(keyboard, 1100, 885, &current_keySpace->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
-
-		
-		
-	}
+	
 	
 	
 
@@ -464,13 +476,15 @@ void j1Scene::Create_UI_Elements()
 		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, true, "PLAY", { 255,255,255,0 }, App->font->default, Play);
 		App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, true, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
 	}
-	else if (level_to_load->data->lvl == 3)
+	else if (level_to_load->data->lvl == 3 || level_to_load->data->lvl == 1 || level_to_load->data->lvl == 2)
 	{
-		Skip = App->gui->Create_Button(Element_type::BUTTON, { 800, 700 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true,  App->gui->GetAtlas(), Function::SKIP);
-		Skip_Text = App->gui->Create_Label(Element_type::LABEL, { 3, 6 }, { 0,0,180, 30 }, false, "SKIP TUTORIAL", { 255,255,255,0 }, App->font->default, Skip);
-
-		Menu = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, App->gui->GetAtlas(), Function::PLAY);
-		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,150, 30 }, false, "WINDOW", { 255,255,255,0 }, App->font->default, Menu);
+		if (level_to_load->data->lvl == 3)
+		{
+			Skip = App->gui->Create_Button(Element_type::BUTTON, { 800, 700 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, App->gui->GetAtlas(), Function::SKIP);
+			Skip_Text = App->gui->Create_Label(Element_type::LABEL, { 3, 6 }, { 0,0,180, 30 }, false, "SKIP TUTORIAL", { 255,255,255,0 }, App->font->default, Skip);
+		}
+		Menu = App->gui->Create_Button(Element_type::BUTTON, { 415, 200 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, App->gui->GetAtlas(), Function::RESUME);
+		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, "RESUME", { 255,255,255,0 }, App->font->default, Menu);
 	}
 	
 
