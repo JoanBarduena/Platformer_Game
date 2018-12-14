@@ -445,13 +445,14 @@ void j1Scene::Create_UI_Elements()
 {
 	if (level_to_load->data->lvl == 0)
 	{
+		SDL_Rect title_rect = { 0, 0, 500, 300 };
+		App->gui->Create_Image(Element_type::IMAGE, { 275, 0 }, title_rect, false, title, nullptr);
+
 		Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, App->gui->GetAtlas(), Function::PLAY);
 		Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, App->gui->GetAtlas(), Function::EXIT);
 		Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, App->gui->GetAtlas(), Function::GITHUB);
 
-		SDL_Rect title_rect = { 0, 0, 500, 300 };
-		App->gui->Create_Image(Element_type::IMAGE, { 275, 0 }, title_rect, title, nullptr);
-
+	
 		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, "PLAY", { 255,255,255,0 }, App->font->default, Play);
 		App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
 	}

@@ -110,10 +110,10 @@ Gui_Elements* j1Gui::Create_Button(Element_type element, iPoint position, SDL_Re
 	return elem;
 }
 
-Gui_Elements* j1Gui::Create_Image(Element_type element, iPoint position, SDL_Rect rect, SDL_Texture* tex, Gui_Elements* Parent)
+Gui_Elements* j1Gui::Create_Image(Element_type element, iPoint position, SDL_Rect rect, bool dragable, SDL_Texture* tex, Gui_Elements* Parent)
 {
 	Gui_Elements* elem = nullptr;
-	elem = new Gui_Image(element, position, rect, Parent, tex);
+	elem = new Gui_Image(element, position, rect, dragable, tex, Parent);
 
 	if (elem != nullptr)
 		List_elem.add(elem);

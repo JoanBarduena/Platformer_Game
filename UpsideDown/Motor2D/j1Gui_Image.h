@@ -6,7 +6,7 @@
 class Gui_Image :public Gui_Elements
 {
 public:
-	Gui_Image(Element_type type, iPoint position, SDL_Rect rect, Gui_Elements* Parent, SDL_Texture* tex);
+	Gui_Image(Element_type type, iPoint position, SDL_Rect rect, bool dragable, SDL_Texture* tex, Gui_Elements* Parent);
 
 	~Gui_Image();
 

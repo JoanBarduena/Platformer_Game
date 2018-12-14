@@ -1,12 +1,13 @@
 #include "j1Gui_Image.h"
 
-Gui_Image::Gui_Image(Element_type type, iPoint position, SDL_Rect rect, Gui_Elements* Parent, SDL_Texture* tex) : Gui_Elements(type, position, rect, Parent, tex)
+Gui_Image::Gui_Image(Element_type type, iPoint position, SDL_Rect rect, bool Dragable, SDL_Texture* tex, Gui_Elements* Parent) : Gui_Elements(type, position, rect, Parent, tex)
 {
 	pos.x = position.x;
 	pos.y = position.y;
 	texture = tex;
 	Rect = rect;
 	parent = Parent;
+	dragable = Dragable;
 
 	if (parent != nullptr)
 	{
@@ -21,8 +22,6 @@ Gui_Image::Gui_Image(Element_type type, iPoint position, SDL_Rect rect, Gui_Elem
 		GlobalPos.y = pos.y;
 
 	}
-
-	dragable = true;
 
 }
 

@@ -66,7 +66,7 @@ bool Gui_Button::PreUpdate()
 	{
 		clicking_left = true;
 	}
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && hovering)
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && hovering && clicking_left)
 	{
 		clicking_left = false;
 		do_action = true;
