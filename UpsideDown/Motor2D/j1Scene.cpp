@@ -272,7 +272,7 @@ bool j1Scene::PostUpdate()
 
 	for (p2List_item<Gui_Elements*>* iterator = App->gui->List_elem.start; iterator!=nullptr; iterator = iterator->next)
 	{
-		if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true)
+		if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true && App->fade->IsFadingOut() == false)
 		{
 			if (iterator->data->funct == Function::PLAY)
 			{
@@ -305,9 +305,8 @@ bool j1Scene::PostUpdate()
 					}
 				}
 			}
-			iterator->data->do_action = false;
 		}
-
+		iterator->data->do_action = false;
 	}
 	// -------------------------------------------------------------------------------------------
 	
@@ -367,12 +366,12 @@ void j1Scene::Level_Load(uint number)
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
 		RespawnEntities();
-		Create_UI_Elements();
 
 		App->entityManager->AddPlayer();
 		App->entityManager->Start();
 		App->entityManager->player->Start();
 		
+		Create_UI_Elements();
 
 		actual_level = level_to_load->data->lvl;
 	}
@@ -386,20 +385,21 @@ void j1Scene::Level_Load(uint number)
 		if (level_to_load->data->lvl != 3)
 			App->entityManager->DestroyEnemies();
 
+		App->gui->Delete_UI_Elements(); 
+
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
 		if (level_to_load->data->lvl != 3)
 			RespawnEntities();
 
+		Create_UI_Elements(); 
+
 		App->entityManager->Start();
 	}
 	else if ((actual_level == 3 && level_to_load->data->lvl == 1) || (actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1))
 	{
-		if (actual_level == 3)
-		{
-			App->gui->Delete_This_Element(Skip);
-			App->gui->Delete_This_Element(Skip_Text);
-		}
+
+		App->gui->Delete_UI_Elements(); 
 		
 		App->entityManager->player->CleanUp();
 		if (actual_level != 3)
@@ -409,6 +409,7 @@ void j1Scene::Level_Load(uint number)
 		
 		App->map->Load(level_to_load->data->mapPath.GetString());
 		RespawnEntities();
+		Create_UI_Elements(); 
 		App->entityManager->Start();
 		actual_level = level_to_load->data->lvl;
 	}
@@ -417,6 +418,7 @@ void j1Scene::Level_Load(uint number)
 		App->entityManager->CleanUp();
 		App->entityManager->DestroyEnemies();
 		App->entityManager->DestroyPlayer();
+		App->gui->Delete_UI_Elements(); 
 		App->map->Load(level_to_load->data->mapPath.GetString());
 		App->render->camera.x = -50;
 		App->render->camera.y = -300;
@@ -482,9 +484,21 @@ void j1Scene::Create_UI_Elements()
 			Skip = App->gui->Create_Button(Element_type::BUTTON, { 800, 700 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, App->gui->GetAtlas(), Function::SKIP);
 			Skip_Text = App->gui->Create_Label(Element_type::LABEL, { 3, 6 }, { 0,0,180, 30 }, false, "SKIP TUTORIAL", { 255,255,255,0 }, App->font->default, Skip);
 		}
+		if (level_to_load->data->lvl == 1 || level_to_load->data->lvl == 2)
+		{
+			if (App->entityManager->player->lifes == 5)
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 21, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+			if (App->entityManager->player->lifes == 4)
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 81, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+			if (App->entityManager->player->lifes == 3)
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 141, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+			if (App->entityManager->player->lifes == 2)
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 202, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+			if (App->entityManager->player->lifes == 1)
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 261, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+		}
+		
 		Menu = App->gui->Create_Button(Element_type::BUTTON, { 415, 200 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, App->gui->GetAtlas(), Function::RESUME);
 		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, "RESUME", { 255,255,255,0 }, App->font->default, Menu);
 	}
-	
-
 }

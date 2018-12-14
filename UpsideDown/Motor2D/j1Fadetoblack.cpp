@@ -87,3 +87,8 @@ bool j1FadeToBlack::IsFading() const
 {
 	return current_step == fade_step::fade_to_black;
 }
+
+bool j1FadeToBlack::IsFadingOut() const
+{
+	return current_step == fade_step::fade_from_black; 
+}

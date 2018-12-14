@@ -15,6 +15,7 @@ public:
 	bool PostUpdate();
 	bool FadeToBlack(j1Module* module_off, j1Module* module_on, float time = 2.0f);
 	bool IsFading() const; 
+	bool IsFadingOut() const; 
 
 private:
 

@@ -683,7 +683,8 @@ void j1Player::GameMode()
 		if (can_move)
 		{
 			App->audio->PlayFx(death_fx);
-			lifes--; 
+			if(App->scene->actual_level != 3)
+				lifes--; 
 		}
 			
 		can_move = false; 
