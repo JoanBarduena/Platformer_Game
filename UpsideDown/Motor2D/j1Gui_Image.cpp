@@ -1,27 +1,10 @@
 #include "j1Gui_Image.h"
 
-Gui_Image::Gui_Image(Element_type type, iPoint position, SDL_Rect rect, bool Dragable, SDL_Texture* tex, Gui_Elements* Parent) : Gui_Elements(type, position, rect, Parent, tex)
+Gui_Image::Gui_Image(Element_type type, iPoint position, SDL_Rect rect, bool Visible, bool Dragable, SDL_Texture* tex, Gui_Elements* Parent) : Gui_Elements(type, position, rect, Visible, Parent, tex)
 {
-	pos.x = position.x;
-	pos.y = position.y;
+	
 	texture = tex;
-	Rect = rect;
-	parent = Parent;
 	dragable = Dragable;
-
-	if (parent != nullptr)
-	{
-		parent->childrens.add(this);
-
-		GlobalPos.x = parent->GlobalPos.x + pos.x;
-		GlobalPos.y = parent->GlobalPos.y + pos.y;
-	}
-	else
-	{
-		GlobalPos.x = pos.x;
-		GlobalPos.y = pos.y;
-
-	}
 
 }
 
@@ -41,25 +24,28 @@ bool Gui_Image::Start()
 
 bool Gui_Image::PreUpdate()
 {
+	if (visible)
+	{
+		if (App->scene->Mouse_Pos.x > GlobalPos.x && App->scene->Mouse_Pos.x < GlobalPos.x + Rect.w && App->scene->Mouse_Pos.y > GlobalPos.y && App->scene->Mouse_Pos.y < GlobalPos.y + Rect.h)
+		{
+			hovering = true;
+		}
+		else
+		{
+			hovering = false;
+		}
 
-	if (App->scene->Mouse_Pos.x > GlobalPos.x && App->scene->Mouse_Pos.x < GlobalPos.x + Rect.w && App->scene->Mouse_Pos.y > GlobalPos.y && App->scene->Mouse_Pos.y < GlobalPos.y + Rect.h)
-	{
-		hovering = true;
-	}
-	else
-	{
-		hovering = false;
-	}
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hovering)
+		{
+			clicking_left = true;
+		}
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && clicking_left)
+		{
+			clicking_left = false;
+		}
 
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hovering)
-	{
-		clicking_left = true;
 	}
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && clicking_left)
-	{
-		clicking_left = false;
-	}
-
+	
 	if (clicking_left)
 	{
 
@@ -101,8 +87,8 @@ bool Gui_Image::PreUpdate()
 
 bool Gui_Image::PostUpdate()
 {
-
-	App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+	if(visible)
+		App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
 
 	return true;
 }

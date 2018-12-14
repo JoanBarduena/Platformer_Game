@@ -13,7 +13,7 @@ class Gui_Elements
 {
 public:
 
-	Gui_Elements(Element_type type, iPoint position, SDL_Rect rect, Gui_Elements* Parent = nullptr, SDL_Texture* tex = nullptr);
+	Gui_Elements(Element_type type, iPoint position, SDL_Rect rect, bool Visible, Gui_Elements* Parent = nullptr, SDL_Texture* tex = nullptr);
 
 	virtual ~Gui_Elements();
 
@@ -40,7 +40,7 @@ public:
 	SDL_Texture* texture = nullptr;
 	SDL_Rect Rect;
 
-	bool hovering, clicking_left, do_action, dragable, moving;
+	bool hovering, clicking_left, do_action, dragable, visible;
 
 	Gui_Elements* parent;
 	p2List<Gui_Elements*> childrens;

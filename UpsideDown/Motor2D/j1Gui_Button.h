@@ -6,7 +6,7 @@
 class Gui_Button :public Gui_Elements
 {
 public:
-	Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, SDL_Texture* tex, Function function, Gui_Elements* Parent);
+	Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, bool visible, SDL_Texture* tex, Function function, Gui_Elements* Parent);
 
 	~Gui_Button();
 
