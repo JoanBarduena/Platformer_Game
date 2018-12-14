@@ -75,6 +75,15 @@
       <animation x="1300" y="508" width="63" height="53"/>
       <animation x="1190" y="508" width="63" height="53"/>
     </god_mode_turned>
+    <death speed="0.15f" loop="false">
+      <animation x="870" y="593" width="63" height="51"/>
+      <animation x="966" y="593" width="63" height="51"/>
+      <animation x="1062" y="575" width="63" height="79"/>
+      <animation x="1194" y="575" width="63" height="79"/>
+      <animation x="1315" y="575" width="63" height="79"/>
+      <animation x="1429" y="575" width="63" height="79"/>
+      <animation x="1537" y="575" width="63" height="79"/>
+    </death>
   </player>
   
   <bat>

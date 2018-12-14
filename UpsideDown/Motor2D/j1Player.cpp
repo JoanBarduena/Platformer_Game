@@ -29,8 +29,9 @@ j1Player::j1Player(int x, int y, EntityType Type) : j1Entity(x,y,Type)
 	god_mode_anim.LoadAnimations("player", "god_mode_anim");
 	god_mode_turned.LoadAnimations("player", "god_mode_turned");
 
-	type = Type;
+	death.LoadAnimations("player", "death"); 
 
+	type = Type;
 }
 
 j1Player::~j1Player()
@@ -138,6 +139,8 @@ bool j1Player::Start()
 	}
 	can_move = true;
 	current_animation = &idle;
+	death.Reset(); 
+
 	return true;
 }
 
@@ -386,6 +389,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		{
 			if (god_mode == false)
 			{
+				current_animation = &death; 
 				if(can_move)
 					App->audio->PlayFx(death_fx);
 				can_move = false;

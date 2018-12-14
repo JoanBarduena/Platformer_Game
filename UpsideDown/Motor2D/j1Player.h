@@ -60,7 +60,7 @@ public:
 	//HitBox
 	
 	Animation	 idle, running, jumping, idle_turned, run_turned, jump_turned, falling, falling_turned;
-	Animation	 god_mode_anim, god_mode_turned; 
+	Animation	 god_mode_anim, god_mode_turned, death; 
 
 	//Sounds FX 
 	uint		 jump_fx, run_fx, invert_gravity_fx, death_fx; 
