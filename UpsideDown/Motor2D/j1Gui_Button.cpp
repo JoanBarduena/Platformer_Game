@@ -66,8 +66,6 @@ bool Gui_Button::PreUpdate()
 		{
 			clicking_left = false;
 		}
-		if (do_action)
-			LOG("Button.cpp DO ACTION");
 	}
 	
 

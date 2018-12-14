@@ -274,12 +274,10 @@ bool j1Scene::PostUpdate()
 	{
 		if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true)
 		{
-			LOG("DO_ACTION");
 			if (iterator->data->funct == Function::PLAY)
 			{
 				App->fade->FadeToBlack(this, this, 1.3f);
 				loading_tutorial = true;
-				LOG("PLAY");
 			}
 			else if (iterator->data->funct == Function::EXIT)
 			{
