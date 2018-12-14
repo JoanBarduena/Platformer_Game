@@ -1,7 +1,7 @@
 #include "j1Gui_Button.h"
 
 
-Gui_Button::Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, bool visible, SDL_Texture* tex, Function function, Gui_Elements* Parent) : Gui_Elements(type, position, rect, visible, Parent, tex)
+Gui_Button::Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, bool visible, bool In_Game, SDL_Texture* tex, Function function, Gui_Elements* Parent) : Gui_Elements(type, position, rect, visible, In_Game, Parent, tex)
 {
 	
 	texture = tex;
@@ -43,30 +43,67 @@ bool Gui_Button::PreUpdate()
 
 	if (visible)
 	{
-		if (App->scene->Mouse_Pos.x > GlobalPos.x && App->scene->Mouse_Pos.x < GlobalPos.x + Rect.w && App->scene->Mouse_Pos.y > GlobalPos.y && App->scene->Mouse_Pos.y < GlobalPos.y + Rect.h)
+		if (!in_game)
 		{
-			hovering = true;
+			if (App->scene->Mouse_Pos.x > GlobalPos.x && App->scene->Mouse_Pos.x < GlobalPos.x + Rect.w && App->scene->Mouse_Pos.y > GlobalPos.y && App->scene->Mouse_Pos.y < GlobalPos.y + Rect.h)
+			{
+				hovering = true;
+			}
+			else
+			{
+				hovering = false;
+			}
+
+			if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hovering)
+			{
+				clicking_left = true;
+			}
+			if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && hovering && clicking_left)
+			{
+				clicking_left = false;
+				do_action = true;
+
+			}
+			else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && !hovering)
+			{
+				clicking_left = false;
+			}
 		}
 		else
 		{
-			hovering = false;
-		}
+			if (App->scene->pause == false)
+			{
+				if (App->scene->Mouse_Pos.x > GlobalPos.x && App->scene->Mouse_Pos.x < GlobalPos.x + Rect.w && App->scene->Mouse_Pos.y > GlobalPos.y && App->scene->Mouse_Pos.y < GlobalPos.y + Rect.h)
+				{
+					hovering = true;
+				}
+				else
+				{
+					hovering = false;
+				}
 
-		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hovering)
-		{
-			clicking_left = true;
+				if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hovering)
+				{
+					clicking_left = true;
+				}
+				if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && hovering && clicking_left)
+				{
+					clicking_left = false;
+					do_action = true;
+
+				}
+				else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && !hovering)
+				{
+					clicking_left = false;
+				}
+			}
 		}
-		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && hovering && clicking_left)
-		{
-			clicking_left = false;
-			do_action = true;
-			
-		}
-		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && !hovering)
-		{
-			clicking_left = false;
-		}
+		
+
+		
 	}
+
+
 	
 
 	return true;
@@ -74,7 +111,7 @@ bool Gui_Button::PreUpdate()
 
 bool Gui_Button::PostUpdate()
 {
-	if (visible)
+	if (visible && !in_game)
 	{
 		if (clicking_left == true)
 		{

@@ -6,7 +6,7 @@
 class Gui_Label :public Gui_Elements
 {
 public:
-	Gui_Label(Element_type type, iPoint position, SDL_Rect rect, bool visible, const char* Text, SDL_Color Color, TTF_Font* Font, Gui_Elements* Parent);
+	Gui_Label(Element_type type, iPoint position, SDL_Rect rect, bool visible, bool In_Game, const char* Text, SDL_Color Color, TTF_Font* Font, Gui_Elements* Parent);
 
 	~Gui_Label();
 

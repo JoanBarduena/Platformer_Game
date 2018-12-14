@@ -244,6 +244,14 @@ bool j1Scene::Update(float dt)
 		App->render->Blit(keyboard, 1100, 885, &current_keySpace->GetCurrentFrame(dt_scene), SDL_FLIP_NONE);
 
 	}
+	for (p2List_item<Gui_Elements*>* iterator = App->gui->List_elem.start; iterator != nullptr; iterator = iterator->next)
+	{
+		if (iterator->data->in_game)
+		{
+			iterator->data->Draw_InGame_Element();
+		}
+	}
+
 
 	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
 	if (App->collision->debug)
@@ -467,38 +475,38 @@ void j1Scene::Create_UI_Elements()
 	if (level_to_load->data->lvl == 0)
 	{
 		SDL_Rect title_rect = { 0, 0, 500, 300 };
-		App->gui->Create_Image(Element_type::IMAGE, { 275, 0 }, title_rect, true, false, title, nullptr);
+		App->gui->Create_Image(Element_type::IMAGE, { 275, 0 }, title_rect, true, false, false, title, nullptr);
 
-		Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, App->gui->GetAtlas(), Function::PLAY);
-		Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, App->gui->GetAtlas(), Function::EXIT);
-		Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, true, App->gui->GetAtlas(), Function::GITHUB);
+		Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::PLAY);
+		Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::EXIT);
+		Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, true, false, App->gui->GetAtlas(), Function::GITHUB);
 
 	
-		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, true, "PLAY", { 255,255,255,0 }, App->font->default, Play);
-		App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, true, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
+		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, true, true, "PLAY", { 255,255,255,0 }, App->font->default, Play);
+		App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, true, true, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
 	}
 	else if (level_to_load->data->lvl == 3 || level_to_load->data->lvl == 1 || level_to_load->data->lvl == 2)
 	{
 		if (level_to_load->data->lvl == 3)
 		{
-			Skip = App->gui->Create_Button(Element_type::BUTTON, { 800, 700 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, App->gui->GetAtlas(), Function::SKIP);
-			Skip_Text = App->gui->Create_Label(Element_type::LABEL, { 3, 6 }, { 0,0,180, 30 }, false, "SKIP TUTORIAL", { 255,255,255,0 }, App->font->default, Skip);
+			Skip = App->gui->Create_Button(Element_type::BUTTON, { 800, 700 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, true,  App->gui->GetAtlas(), Function::SKIP);
+			Skip_Text = App->gui->Create_Label(Element_type::LABEL, { 3, 6 }, { 0,0,180, 30 }, false, true, "SKIP TUTORIAL", { 255,255,255,0 }, App->font->default, Skip);
 		}
 		if (level_to_load->data->lvl == 1 || level_to_load->data->lvl == 2)
 		{
 			if (App->entityManager->player->lifes == 5)
-				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 21, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 21, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 			if (App->entityManager->player->lifes == 4)
-				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 81, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 81, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 			if (App->entityManager->player->lifes == 3)
-				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 141, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 141, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 			if (App->entityManager->player->lifes == 2)
-				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 202, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 202, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 			if (App->entityManager->player->lifes == 1)
-				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 261, 143, 56 }, true, false, App->gui->GetAtlas(), nullptr);
+				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 261, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 		}
 		
-		Menu = App->gui->Create_Button(Element_type::BUTTON, { 415, 200 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, App->gui->GetAtlas(), Function::RESUME);
-		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, "RESUME", { 255,255,255,0 }, App->font->default, Menu);
+		Menu = App->gui->Create_Button(Element_type::BUTTON, { 415, 200 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::RESUME);
+		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, true, "RESUME", { 255,255,255,0 }, App->font->default, Menu);
 	}
 }

@@ -13,7 +13,7 @@ class Gui_Elements
 {
 public:
 
-	Gui_Elements(Element_type type, iPoint position, SDL_Rect rect, bool Visible, Gui_Elements* Parent = nullptr, SDL_Texture* tex = nullptr);
+	Gui_Elements(Element_type type, iPoint position, SDL_Rect rect, bool Visible, bool In_Game, Gui_Elements* Parent = nullptr, SDL_Texture* tex = nullptr);
 
 	virtual ~Gui_Elements();
 
@@ -27,6 +27,8 @@ public:
 
 	virtual bool CleanUp() { return true; }
 
+	void Draw_InGame_Element();
+
 
 public:
 
@@ -39,12 +41,15 @@ public:
 
 	SDL_Texture* texture = nullptr;
 	SDL_Rect Rect;
+	SDL_Rect hovering_rect;
+	SDL_Rect clicking_rect;
 
 	bool hovering = false;
 	bool clicking_left = false; 
 	bool do_action = false; 
 	bool dragable = false;
 	bool visible = true;
+	bool in_game = false;
 
 	Gui_Elements* parent = nullptr;
 	p2List<Gui_Elements*> childrens;

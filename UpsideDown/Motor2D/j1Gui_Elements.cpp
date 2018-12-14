@@ -1,6 +1,6 @@
 #include "j1Gui_Elements.h"
 
-Gui_Elements::Gui_Elements(Element_type Type, iPoint position, SDL_Rect rect, bool Visible, Gui_Elements* Parent, SDL_Texture* tex) 
+Gui_Elements::Gui_Elements(Element_type Type, iPoint position, SDL_Rect rect, bool Visible, bool In_Game, Gui_Elements* Parent, SDL_Texture* tex) 
 {
 	pos.x = position.x;
 	pos.y = position.y;
@@ -13,6 +13,7 @@ Gui_Elements::Gui_Elements(Element_type Type, iPoint position, SDL_Rect rect, bo
 	{
 		parent->childrens.add(this);
 		visible = parent->visible;
+		in_game = parent->in_game;
 
 		GlobalPos.x = parent->GlobalPos.x + pos.x;
 		GlobalPos.y = parent->GlobalPos.y + pos.y;
@@ -20,6 +21,7 @@ Gui_Elements::Gui_Elements(Element_type Type, iPoint position, SDL_Rect rect, bo
 	else
 	{
 		visible = Visible;
+		in_game = In_Game;
 
 		GlobalPos.x = pos.x;
 		GlobalPos.y = pos.y;
@@ -27,3 +29,36 @@ Gui_Elements::Gui_Elements(Element_type Type, iPoint position, SDL_Rect rect, bo
 }
 
 Gui_Elements::~Gui_Elements() {}
+
+void Gui_Elements::Draw_InGame_Element()
+{
+	if (visible)
+	{
+		if (type == Element_type::BUTTON)
+		{
+
+			if (clicking_left == true)
+			{
+				App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &clicking_rect, SDL_FLIP_NONE, 0);
+			}
+			else if (hovering == true)
+			{
+				App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &hovering_rect, SDL_FLIP_NONE, 0);
+			}
+			else
+			{
+				App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+			}
+
+		}
+		else if (type == Element_type::LABEL)
+		{
+			App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+		}
+		else if (type == Element_type::IMAGE)
+		{
+			App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+		}
+	}
+	
+}

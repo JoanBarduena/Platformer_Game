@@ -6,7 +6,7 @@
 class Gui_Button :public Gui_Elements
 {
 public:
-	Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, bool visible, SDL_Texture* tex, Function function, Gui_Elements* Parent);
+	Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, bool visible, bool In_Game, SDL_Texture* tex, Function function, Gui_Elements* Parent);
 
 	~Gui_Button();
 
@@ -24,8 +24,6 @@ public:
 
 	Button_type Type = Button_type::NONE;
 
-	SDL_Rect hovering_rect;
-	SDL_Rect clicking_rect;
 
 };
 

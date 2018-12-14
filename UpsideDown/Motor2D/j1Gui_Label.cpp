@@ -1,7 +1,7 @@
 #include "j1Gui_Label.h"
 #include "j1Fonts.h"
 
-Gui_Label::Gui_Label(Element_type type, iPoint position, SDL_Rect rect, bool visible, const char* Text, SDL_Color Color, TTF_Font* Font, Gui_Elements* Parent) : Gui_Elements(type, position, rect, visible, Parent)
+Gui_Label::Gui_Label(Element_type type, iPoint position, SDL_Rect rect, bool visible, bool In_Game, const char* Text, SDL_Color Color, TTF_Font* Font, Gui_Elements* Parent) : Gui_Elements(type, position, rect, visible, In_Game, Parent)
 {
 	
 	text = Text;
@@ -42,7 +42,7 @@ bool Gui_Label::PreUpdate()
 
 bool Gui_Label::PostUpdate() {
 
-	if(visible)
+	if(visible && !in_game)
 		App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
 
 	return true;

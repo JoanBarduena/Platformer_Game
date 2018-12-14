@@ -99,10 +99,10 @@ SDL_Texture* j1Gui::GetAtlas() const
 }
 
 
-Gui_Elements* j1Gui::Create_Button(Element_type element, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, bool visible, SDL_Texture* tex, Function function, Gui_Elements* Parent, Button_type button)
+Gui_Elements* j1Gui::Create_Button(Element_type element, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, bool visible, bool In_Game, SDL_Texture* tex, Function function, Gui_Elements* Parent, Button_type button)
 {
 	Gui_Elements* elem = nullptr;
-	elem = new Gui_Button(element, position, rect, rect_hovering, rect_clicking, visible, tex, function, Parent);
+	elem = new Gui_Button(element, position, rect, rect_hovering, rect_clicking, visible, In_Game, tex, function, Parent);
 
 	if (elem != nullptr)
 		List_elem.add(elem);
@@ -110,10 +110,10 @@ Gui_Elements* j1Gui::Create_Button(Element_type element, iPoint position, SDL_Re
 	return elem;
 }
 
-Gui_Elements* j1Gui::Create_Image(Element_type element, iPoint position, SDL_Rect rect, bool visible, bool dragable, SDL_Texture* tex, Gui_Elements* Parent)
+Gui_Elements* j1Gui::Create_Image(Element_type element, iPoint position, SDL_Rect rect, bool visible, bool In_Game, bool dragable, SDL_Texture* tex, Gui_Elements* Parent)
 {
 	Gui_Elements* elem = nullptr;
-	elem = new Gui_Image(element, position, rect, visible, dragable, tex, Parent);
+	elem = new Gui_Image(element, position, rect, visible, In_Game, dragable, tex, Parent);
 
 	if (elem != nullptr)
 		List_elem.add(elem);
@@ -121,10 +121,10 @@ Gui_Elements* j1Gui::Create_Image(Element_type element, iPoint position, SDL_Rec
 	return elem;
 }
 
-Gui_Elements* j1Gui::Create_Label(Element_type element, iPoint position, SDL_Rect rect, bool visible, const char* Text, SDL_Color Color, _TTF_Font* Font, Gui_Elements* Parent)
+Gui_Elements* j1Gui::Create_Label(Element_type element, iPoint position, SDL_Rect rect, bool visible, bool In_Game, const char* Text, SDL_Color Color, _TTF_Font* Font, Gui_Elements* Parent)
 {
 	Gui_Elements* elem = nullptr;
-	elem = new Gui_Label(element, position, rect, visible, Text, Color, Font, Parent);
+	elem = new Gui_Label(element, position, rect, visible, In_Game, Text, Color, Font, Parent);
 
 	if (elem != nullptr)
 		List_elem.add(elem);

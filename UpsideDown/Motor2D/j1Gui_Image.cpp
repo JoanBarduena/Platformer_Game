@@ -1,6 +1,6 @@
 #include "j1Gui_Image.h"
 
-Gui_Image::Gui_Image(Element_type type, iPoint position, SDL_Rect rect, bool Visible, bool Dragable, SDL_Texture* tex, Gui_Elements* Parent) : Gui_Elements(type, position, rect, Visible, Parent, tex)
+Gui_Image::Gui_Image(Element_type type, iPoint position, SDL_Rect rect, bool Visible, bool In_Game, bool Dragable, SDL_Texture* tex, Gui_Elements* Parent) : Gui_Elements(type, position, rect, Visible, In_Game, Parent, tex)
 {
 	
 	texture = tex;
@@ -79,15 +79,12 @@ bool Gui_Image::PreUpdate()
 		GlobalPos.y = pos.y;
 	}
 
-
-
-
 	return true;
 }
 
 bool Gui_Image::PostUpdate()
 {
-	if(visible)
+	if(visible && !in_game)
 		App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
 
 	return true;
