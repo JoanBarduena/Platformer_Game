@@ -1,11 +1,12 @@
 #include "j1Gui_Elements.h"
 
-Gui_Elements::Gui_Elements(Element_type type, iPoint position, SDL_Rect rect, bool Visible, Gui_Elements* Parent, SDL_Texture* tex) 
+Gui_Elements::Gui_Elements(Element_type Type, iPoint position, SDL_Rect rect, bool Visible, Gui_Elements* Parent, SDL_Texture* tex) 
 {
 	pos.x = position.x;
 	pos.y = position.y;
 	parent = Parent;
 	Rect = rect;
+	type = Type;
 	
 
 	if (parent != nullptr)

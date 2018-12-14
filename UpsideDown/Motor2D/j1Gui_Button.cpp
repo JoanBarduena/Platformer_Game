@@ -10,6 +10,10 @@ Gui_Button::Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Re
 	hovering_rect = rect_hovering;
 	clicking_rect = rect_clicking;
 
+	hovering = false;
+	clicking_left = false;
+	do_action = false;
+
 }
 
 Gui_Button::~Gui_Button() {}
@@ -21,6 +25,9 @@ bool Gui_Button::Awake()
 
 bool Gui_Button::Start()
 {
+
+	
+
 	return true;
 }
 
@@ -53,11 +60,14 @@ bool Gui_Button::PreUpdate()
 		{
 			clicking_left = false;
 			do_action = true;
+			
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && !hovering)
 		{
 			clicking_left = false;
 		}
+		if (do_action)
+			LOG("Button.cpp DO ACTION");
 	}
 	
 

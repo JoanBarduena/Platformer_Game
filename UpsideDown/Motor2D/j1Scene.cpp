@@ -105,49 +105,7 @@ bool j1Scene::Update(float dt)
 
 	dt_scene = dt;
 
-	// Gui ------------------------------------------------------------------------------------------
-	p2List_item<Gui_Elements*>* iterator;
-
-	for (iterator = App->gui->List_elem.start; iterator != nullptr; iterator = iterator->next)
-	{
-		if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action)
-		{
-			if (iterator->data->funct == Function::PLAY )
-			{
-				App->fade->FadeToBlack(this, this, 1.3f);
-				loading_tutorial = true;
-			}
-			else if (iterator->data->funct == Function::EXIT)
-			{
-				return false;
-			}
-			else if (iterator->data->funct == Function::GITHUB)
-			{
-				ShellExecuteA(NULL, "open", "https://github.com/JosepLleal/Platformer_Game", NULL, NULL, SW_SHOWNORMAL);
-			}
-			else if (iterator->data->funct == Function::SKIP)
-			{
-				start_pos = true;
-				App->fade->FadeToBlack(this, this, 1.3f);
-				loading_lvl1 = true;
-			}
-			else if (iterator->data->funct == Function::RESUME)
-			{
-				pause = !pause;
-				Menu->visible = !Menu->visible;
-				if (Menu->childrens.count() > 0)
-				{
-					for (p2List_item<Gui_Elements*>* child = Menu->childrens.start; child != nullptr; child = child->next)
-					{
-						child->data->visible = !child->data->visible;
-					}
-				}
-			}
-			iterator->data->do_action = false;
-		}
-
-	}
-	// -------------------------------------------------------------------------------------------
+	
 
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && !pause)
 	{
@@ -308,6 +266,52 @@ bool j1Scene::PostUpdate()
 	BROFILER_CATEGORY("Collision PostUpdate", Profiler::Color::Red);
 
 	bool ret = true;
+
+	// Gui ------------------------------------------------------------------------------------------
+
+
+	for (p2List_item<Gui_Elements*>* iterator = App->gui->List_elem.start; iterator!=nullptr; iterator = iterator->next)
+	{
+		if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true)
+		{
+			LOG("DO_ACTION");
+			if (iterator->data->funct == Function::PLAY)
+			{
+				App->fade->FadeToBlack(this, this, 1.3f);
+				loading_tutorial = true;
+				LOG("PLAY");
+			}
+			else if (iterator->data->funct == Function::EXIT)
+			{
+				return false;
+			}
+			else if (iterator->data->funct == Function::GITHUB)
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/JosepLleal/Platformer_Game", NULL, NULL, SW_SHOWNORMAL);
+			}
+			else if (iterator->data->funct == Function::SKIP)
+			{
+				start_pos = true;
+				App->fade->FadeToBlack(this, this, 1.3f);
+				loading_lvl1 = true;
+			}
+			else if (iterator->data->funct == Function::RESUME)
+			{
+				pause = !pause;
+				Menu->visible = !Menu->visible;
+				if (Menu->childrens.count() > 0)
+				{
+					for (p2List_item<Gui_Elements*>* child = Menu->childrens.start; child != nullptr; child = child->next)
+					{
+						child->data->visible = !child->data->visible;
+					}
+				}
+			}
+			iterator->data->do_action = false;
+		}
+
+	}
+	// -------------------------------------------------------------------------------------------
 	
 	if (actual_level == 0)
 	{
@@ -329,12 +333,6 @@ bool j1Scene::PostUpdate()
 			}
 		}
 	}
-
-	
-
-	
-	
-	
 
 	return ret;
 }
@@ -382,8 +380,11 @@ void j1Scene::Level_Load(uint number)
 	}
 	else if (actual_level == level_to_load->data->lvl)
 	{
-		App->entityManager->player->CleanUp();
-
+		if (actual_level != 0)
+		{
+			App->entityManager->player->CleanUp();
+		}
+	
 		if (level_to_load->data->lvl != 3)
 			App->entityManager->DestroyEnemies();
 

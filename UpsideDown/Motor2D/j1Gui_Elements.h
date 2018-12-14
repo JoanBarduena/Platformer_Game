@@ -30,9 +30,9 @@ public:
 
 public:
 
-	Element_type type;
+	Element_type type = Element_type::NONE;
 
-	Function funct;
+	Function funct = Function::NONE;
 
 	iPoint pos;
 	iPoint GlobalPos;
@@ -40,9 +40,13 @@ public:
 	SDL_Texture* texture = nullptr;
 	SDL_Rect Rect;
 
-	bool hovering, clicking_left, do_action, dragable, visible;
+	bool hovering = false;
+	bool clicking_left = false; 
+	bool do_action = false; 
+	bool dragable = false;
+	bool visible = true;
 
-	Gui_Elements* parent;
+	Gui_Elements* parent = nullptr;
 	p2List<Gui_Elements*> childrens;
 };
 

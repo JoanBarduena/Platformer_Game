@@ -100,10 +100,10 @@ private:
 	SDL_Texture *graphics;
 	SDL_Texture *title;
 
-	Gui_Elements* Skip;
-	Gui_Elements* Skip_Text;
+	Gui_Elements* Skip = nullptr;
+	Gui_Elements* Skip_Text = nullptr;
 
-	Gui_Elements* Menu;
+	Gui_Elements* Menu = nullptr;
 	
 };
 

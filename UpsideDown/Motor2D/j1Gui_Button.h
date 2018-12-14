@@ -22,7 +22,7 @@ public:
 
 public:
 
-	Button_type Type;
+	Button_type Type = Button_type::NONE;
 
 	SDL_Rect hovering_rect;
 	SDL_Rect clicking_rect;
