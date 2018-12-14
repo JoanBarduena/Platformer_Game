@@ -277,6 +277,14 @@ bool j1Scene::PostUpdate()
 		if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->fade->IsFading() == false)
 		{
 			pause = !pause;
+			Menu->visible = !Menu->visible;
+			if (Menu->childrens.count() > 0)
+			{
+				for (p2List_item<Gui_Elements*>* child = Menu->childrens.start; child != nullptr; child = child->next)
+				{
+					child->data->visible = !child->data->visible;
+				}
+			}
 		}
 	}
 
@@ -460,6 +468,9 @@ void j1Scene::Create_UI_Elements()
 	{
 		Skip = App->gui->Create_Button(Element_type::BUTTON, { 800, 700 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true,  App->gui->GetAtlas(), Function::SKIP);
 		Skip_Text = App->gui->Create_Label(Element_type::LABEL, { 3, 6 }, { 0,0,180, 30 }, false, "SKIP TUTORIAL", { 255,255,255,0 }, App->font->default, Skip);
+
+		Menu = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, App->gui->GetAtlas(), Function::PLAY);
+		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,150, 30 }, false, "WINDOW", { 255,255,255,0 }, App->font->default, Menu);
 	}
 	
 

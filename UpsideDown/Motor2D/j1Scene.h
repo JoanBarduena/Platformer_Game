@@ -102,6 +102,8 @@ private:
 
 	Gui_Elements* Skip;
 	Gui_Elements* Skip_Text;
+
+	Gui_Elements* Menu;
 	
 };
 
