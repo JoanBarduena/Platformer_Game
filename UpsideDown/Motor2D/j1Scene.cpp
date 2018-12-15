@@ -277,8 +277,7 @@ bool j1Scene::PostUpdate()
 
 	// Gui ------------------------------------------------------------------------------------------
 
-
-	for (p2List_item<Gui_Elements*>* iterator = App->gui->List_elem.start; iterator!=nullptr; iterator = iterator->next)
+	for (p2List_item<Gui_Elements*>* iterator = App->gui->List_elem.start; iterator != nullptr; iterator = iterator->next)
 	{
 		if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true && App->fade->IsFadingOut() == false)
 		{
@@ -301,27 +300,36 @@ bool j1Scene::PostUpdate()
 				App->fade->FadeToBlack(this, this, 1.3f);
 				loading_lvl1 = true;
 			}
-			else if (iterator->data->funct == Function::RESUME)
+		
+		}
+		iterator->data->do_action = false;
+		if (iterator->data->type == Element_type::IMAGE)
+		{
+			if (iterator->data == Menu)
 			{
-				pause = !pause;
-				Menu->visible = !Menu->visible;
-				if (Menu->childrens.count() > 0)
+				for (p2List_item<Gui_Elements*>* iterator = Menu->childrens.start; iterator != nullptr; iterator = iterator->next)
 				{
-					for (p2List_item<Gui_Elements*>* child = Menu->childrens.start; child != nullptr; child = child->next)
+					if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true && App->fade->IsFadingOut() == false)
 					{
-						child->data->visible = !child->data->visible;
+						if (iterator->data->funct == Function::RESUME)
+						{
+							pause = !pause;
+							Menu->visible = !Menu->visible;
+
+						}
 					}
+					iterator->data->do_action = false;
 				}
 			}
 		}
-		iterator->data->do_action = false;
 	}
 	// -------------------------------------------------------------------------------------------
-	
+
+
 	if (actual_level == 0)
 	{
 		App->render->Blit(graphics, 100, 630, &current->GetCurrentFrame(dt_scene), SDL_FLIP_NONE, 0);
-		
+
 	}
 	else
 	{
@@ -329,13 +337,6 @@ bool j1Scene::PostUpdate()
 		{
 			pause = !pause;
 			Menu->visible = !Menu->visible;
-			if (Menu->childrens.count() > 0)
-			{
-				for (p2List_item<Gui_Elements*>* child = Menu->childrens.start; child != nullptr; child = child->next)
-				{
-					child->data->visible = !child->data->visible;
-				}
-			}
 		}
 	}
 
@@ -506,7 +507,12 @@ void j1Scene::Create_UI_Elements()
 				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 261, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 		}
 		
-		Menu = App->gui->Create_Button(Element_type::BUTTON, { 415, 200 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::RESUME);
-		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, true, "RESUME", { 255,255,255,0 }, App->font->default, Menu);
+		Menu = App->gui->Create_Image(Element_type::IMAGE, { 415, 200 }, { 1234, 391, 309, 394 }, false, false, true, App->gui->GetAtlas());
+		Resume = App->gui->Create_Button(Element_type::BUTTON, { 55, 50 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::RESUME, Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, false, "RESUME", { 255,255,255,0 }, App->font->default, Resume);
+		//App->gui->Create_Button(Element_type::BUTTON, { 415, 300 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, App->gui->GetAtlas(), Function::SAVE, Menu); 
+		//App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, "RESUME", { 255,255,255,0 }, App->font->default, Save);
+
+
 	}
 }

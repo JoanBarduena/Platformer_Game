@@ -38,6 +38,8 @@ bool Gui_Button::PreUpdate()
 	{
 		GlobalPos.x = parent->GlobalPos.x + pos.x;
 		GlobalPos.y = parent->GlobalPos.y + pos.y;
+		
+		visible = parent->visible;
 
 	}
 

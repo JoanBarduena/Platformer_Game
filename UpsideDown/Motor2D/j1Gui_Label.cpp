@@ -30,6 +30,7 @@ bool Gui_Label::PreUpdate()
 	{
 		GlobalPos.x = parent->GlobalPos.x + pos.x;
 		GlobalPos.y = parent->GlobalPos.y + pos.y;
+		visible = parent->visible;
 	}
 	else
 	{

@@ -103,7 +103,9 @@ private:
 	Gui_Elements* Skip = nullptr;
 	Gui_Elements* Skip_Text = nullptr;
 
+	Gui_Elements* Resume = nullptr;
 	Gui_Elements* Menu = nullptr;
+
 	
 };
 
