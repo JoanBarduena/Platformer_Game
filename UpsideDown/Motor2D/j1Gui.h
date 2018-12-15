@@ -37,6 +37,7 @@ enum class Function
 	RESUME,
 	LOAD,
 	SAVE,
+	SETTINGS,
 	MENU,
 	NONE
 };

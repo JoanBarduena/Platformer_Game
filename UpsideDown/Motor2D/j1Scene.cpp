@@ -114,6 +114,7 @@ bool j1Scene::Update(float dt)
 		{
 			if (iterator->data->funct == Function::PLAY)
 			{
+				App->entityManager->player->lifes = 3;
 				App->fade->FadeToBlack(this, this, 1.3f);
 				loading_tutorial = true;
 			}
@@ -122,6 +123,12 @@ bool j1Scene::Update(float dt)
 				start_pos = false;
 				App->fade->FadeToBlack(this, this, 1.0f);
 				loading_saved_game = true;
+			}
+			else if (iterator->data->funct == Function::SETTINGS )
+			{
+				pause = !pause;
+				Main_Menu->visible = !Main_Menu->visible;
+				Settings_Menu->visible = !Settings_Menu->visible;
 			}
 			else if (iterator->data->funct == Function::EXIT)
 			{
@@ -153,16 +160,22 @@ bool j1Scene::Update(float dt)
 							pause = !pause;
 							Menu->visible = !Menu->visible;
 						}
+						else if (iterator->data->funct == Function::LOAD && saved_game)
+						{
+							start_pos = false;
+							App->fade->FadeToBlack(this, this, 1.0f);
+							loading_saved_game = true;
+						}
 						else if (iterator->data->funct == Function::SAVE && actual_level != 3)
 						{
 							start_pos = false;
 							App->SaveGame();
 						}
-						else if (iterator->data->funct == Function::LOAD && saved_game )
+						
+						else if (iterator->data->funct == Function::SETTINGS)
 						{
-							start_pos = false;
-							App->fade->FadeToBlack(this, this, 1.0f);
-							loading_saved_game = true;
+							Menu->visible = !Menu->visible;
+							Settings_Menu->visible = !Settings_Menu->visible;
 						}
 						else if (iterator->data->funct == Function::MENU)
 						{
@@ -193,11 +206,7 @@ bool j1Scene::Update(float dt)
 
 	if (actual_level == 0)
 	{
-		App->render->camera.x -= 3*dt;
-		if (App->render->camera.x < -5350)
-		{
-			App->render->camera.x = -50;
-		}
+		App->entityManager->player->position.x = 150;
 	}
 
 	//F1 Starts form the very first level 
@@ -351,10 +360,37 @@ bool j1Scene::PostUpdate()
 
 	bool ret = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->fade->IsFading() == false && actual_level!=0)
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->fade->IsFading() == false)
 	{
-		pause = !pause;
-		Menu->visible = !Menu->visible;
+		if (actual_level != 0)
+		{
+			if (Menu->visible)
+			{
+				pause = !pause;
+				Menu->visible = !Menu->visible;
+			}
+			else if (!Menu->visible && !Settings_Menu->visible)
+			{
+				pause = !pause;
+				Menu->visible = !Menu->visible;
+			}
+			else if (!Menu->visible && Settings_Menu->visible)
+			{
+				Menu->visible = !Menu->visible;
+				Settings_Menu->visible = !Settings_Menu->visible;
+			}
+		}
+		else
+		{
+			if (Settings_Menu->visible == true)
+			{
+				Settings_Menu->visible = !Settings_Menu->visible;
+				Main_Menu->visible = !Main_Menu->visible;
+				pause = !pause;
+			}
+		}
+		
+		
 	}
 	
 
@@ -496,18 +532,25 @@ void j1Scene::Create_UI_Elements()
 {
 	if (level_to_load->data->lvl == 0)
 	{
-		SDL_Rect title_rect = { 0, 0, 500, 300 };
-		App->gui->Create_Image(Element_type::IMAGE, { 275, 0 }, title_rect, true, false, false, title, nullptr);
 
-		Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::PLAY);
-		Gui_Elements* Load_Game = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::LOAD);
-		Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 600 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::EXIT);
-		Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, true, false, App->gui->GetAtlas(), Function::GITHUB);
+		Main_Menu = App->gui->Create_Image(Element_type::IMAGE, { 0, 0 }, {4000, 4000, (int)App->win->width, (int)App->win->height}, true, false, false, App->gui->GetAtlas(), nullptr);
+
+		SDL_Rect title_rect = { 0, 0, 500, 300 };
+		App->gui->Create_Image(Element_type::IMAGE, { 275, -20 }, title_rect, true, false, false, title, Main_Menu);
+
+		Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 300 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::PLAY, Main_Menu);
+		Gui_Elements* Load_Game = App->gui->Create_Button(Element_type::BUTTON, { 415, 370 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::LOAD, Main_Menu);
+		Gui_Elements* MainMenu_Settings = App->gui->Create_Button(Element_type::BUTTON, { 415, 440 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::SETTINGS, Main_Menu);
+		Gui_Elements* Credits = App->gui->Create_Button(Element_type::BUTTON, { 415, 510 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::NONE, Main_Menu);
+		Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 580 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::EXIT, Main_Menu);
+		//Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, true, false, App->gui->GetAtlas(), Function::GITHUB);
 
 	
 		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, true, true, "PLAY", { 255,255,255,0 }, App->font->default, Play);
-		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, true, true, "LOAD GAME", { 255,255,255,0 }, App->font->default, Load_Game);
-		App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, true, true, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
+		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, { 0,0,120, 30 }, true, true, "CONTINUE", { 255,255,255,0 }, App->font->default, Load_Game);
+		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, { 0,0,120, 30 }, true, true, "SETTINGS", { 255,255,255,0 }, App->font->default, MainMenu_Settings);
+		App->gui->Create_Label(Element_type::LABEL, { 40, 6 }, { 0,0,100, 30 }, true, true, "CREDITS", { 255,255,255,0 }, App->font->default, Credits);
+		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,70, 30 }, true, true, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
 	}
 	else if (level_to_load->data->lvl == 3 || level_to_load->data->lvl == 1 || level_to_load->data->lvl == 2)
 	{
@@ -531,8 +574,8 @@ void j1Scene::Create_UI_Elements()
 		}
 		
 		Menu = App->gui->Create_Image(Element_type::IMAGE, { 355, 200 }, { 1230, 387, 315, 402 }, false, false, false, App->gui->GetAtlas());
-
-		Resume = App->gui->Create_Button(Element_type::BUTTON, { 62, 50 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::RESUME, Menu);
+		
+		Gui_Elements* Resume = App->gui->Create_Button(Element_type::BUTTON, { 62, 50 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::RESUME, Menu);
 		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, false, "RESUME", { 255,255,255,0 }, App->font->default, Resume);
 
 		Gui_Elements* Load = App->gui->Create_Button(Element_type::BUTTON, { 62, 120 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::LOAD, Menu);
@@ -541,10 +584,15 @@ void j1Scene::Create_UI_Elements()
 		Gui_Elements* Save = App->gui->Create_Button(Element_type::BUTTON, { 62, 190 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::SAVE, Menu);
 		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, false, false, "SAVE GAME", { 255,255,255,0 }, App->font->default, Save);
 
-		Gui_Elements* Main_Menu = App->gui->Create_Button(Element_type::BUTTON, { 62, 300 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::MENU, Menu);
+		Gui_Elements* Settings = App->gui->Create_Button(Element_type::BUTTON, { 62, 260 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::SETTINGS, Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, { 0,0,120, 30 }, false, false, "SETTINGS", { 255,255,255,0 }, App->font->default, Settings);
+
+		Gui_Elements* Main_Menu = App->gui->Create_Button(Element_type::BUTTON, { 62, 320 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::MENU, Menu);
 		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, false, false, "MAIN MENU", { 255,255,255,0 }, App->font->default, Main_Menu);
 		
 
 
 	}
+	Settings_Menu = App->gui->Create_Image(Element_type::IMAGE, { 205, 160 }, { 1552, 387, 611, 442 }, false, false, false, App->gui->GetAtlas());
+
 }
