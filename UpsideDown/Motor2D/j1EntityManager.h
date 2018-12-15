@@ -45,6 +45,7 @@ public:
 	void CreateEntity(int x, int y, EntityType type);
 
 	void DestroyEnemies();
+	void DestroyAllEntities(); 
 	void DestroyThisEntity(j1Entity* entity);
 	void DestroyPlayer();
 	

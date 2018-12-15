@@ -463,7 +463,8 @@ void j1Scene::Level_Load(uint number)
 		App->gui->Delete_UI_Elements();
 		App->entityManager->player->CleanUp();
 		App->map->Load(level_to_load->data->mapPath.GetString());
-		RespawnEntities();
+		RespawnEnemies();
+		RespawnCoinsHearts(); 
 		App->entityManager->Start();
 		App->entityManager->player->Start();
 				
@@ -473,18 +474,19 @@ void j1Scene::Level_Load(uint number)
 	}
 	else if (actual_level == level_to_load->data->lvl)
 	{
-		
 		App->entityManager->player->CleanUp();
 	
 		if (level_to_load->data->lvl != 3)
 			App->entityManager->DestroyEnemies();
+
+		App->entityManager->CleanUp(); 
 
 		App->gui->Delete_UI_Elements(); 
 
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
 		if (level_to_load->data->lvl != 3)
-			RespawnEntities();
+			RespawnEnemies();
 
 		Create_UI_Elements(); 
 
@@ -492,24 +494,24 @@ void j1Scene::Level_Load(uint number)
 	}
 	else if ((actual_level == 3 && level_to_load->data->lvl == 1) || (actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1) || (actual_level == 3 && level_to_load->data->lvl == 2))
 	{
-
 		App->gui->Delete_UI_Elements(); 
 		
 		App->entityManager->player->CleanUp();
 		if (actual_level != 3)
 		{
-			App->entityManager->DestroyEnemies();
+			App->entityManager->DestroyAllEntities();
 		}
 		
 		App->map->Load(level_to_load->data->mapPath.GetString());
-		RespawnEntities();
+		RespawnEnemies();
+		RespawnCoinsHearts(); 
 		Create_UI_Elements(); 
 		App->entityManager->Start();
 		actual_level = level_to_load->data->lvl;
 	}
 	else if ((actual_level > 0) && (level_to_load->data->lvl == 0))
 	{
-		App->entityManager->DestroyEnemies();
+		App->entityManager->DestroyAllEntities();
 		App->entityManager->player->CleanUp();
 		App->gui->Delete_UI_Elements(); 
 		App->map->Load(level_to_load->data->mapPath.GetString());
@@ -532,7 +534,7 @@ void j1Scene::Level_Load(uint number)
 
 }
 
-void j1Scene::RespawnEntities()
+void j1Scene::RespawnEnemies()
 {
 	if (level_to_load->data->lvl == 1)
 	{
@@ -542,10 +544,6 @@ void j1Scene::RespawnEntities()
 		App->entityManager->CreateEntity(5874, 116, BAT);
 		App->entityManager->CreateEntity(2430, 537, BAT);
 		App->entityManager->CreateEntity(3770, 450, BAT);
-
-		App->entityManager->CreateEntity(800, 950, COIN);
-		App->entityManager->CreateEntity(900, 950, COIN);
-		App->entityManager->CreateEntity(300, 950, HEART);
 	}
 	else if (level_to_load->data->lvl == 2)
 	{
@@ -555,6 +553,40 @@ void j1Scene::RespawnEntities()
 		App->entityManager->CreateEntity(1875, 167, BAT);
 		App->entityManager->CreateEntity(5291, 248, BAT);
 		App->entityManager->CreateEntity(6052, 483, BAT);
+	}
+}
+
+void j1Scene::RespawnCoinsHearts()
+{
+	if (level_to_load->data->lvl == 1)
+	{
+		App->entityManager->CreateEntity(2215, 940, COIN);
+		App->entityManager->CreateEntity(2589, 815, COIN);
+		App->entityManager->CreateEntity(3378, 561, COIN);
+		App->entityManager->CreateEntity(3532, 561, COIN);
+		App->entityManager->CreateEntity(4265, 1052, COIN);
+		App->entityManager->CreateEntity(5055, 889, COIN);
+		App->entityManager->CreateEntity(5695, 585, COIN);
+		App->entityManager->CreateEntity(5807, 585, COIN);
+		App->entityManager->CreateEntity(5352, 107, COIN);
+		App->entityManager->CreateEntity(800, 950, COIN);
+
+		App->entityManager->CreateEntity(4386, 144, HEART);
+	}
+	else if (level_to_load->data->lvl == 2)
+	{
+		App->entityManager->CreateEntity(2077, 103, COIN);
+		App->entityManager->CreateEntity(1738, 409, COIN);
+		App->entityManager->CreateEntity(959, 222, COIN);
+		App->entityManager->CreateEntity(4378, 183, COIN);
+		App->entityManager->CreateEntity(3722, 354, COIN);
+		App->entityManager->CreateEntity(3861, 500, COIN);
+		App->entityManager->CreateEntity(3861, 690, COIN);
+		App->entityManager->CreateEntity(3861, 780, COIN);
+		App->entityManager->CreateEntity(5702, 776, COIN);
+		App->entityManager->CreateEntity(2570, 924, COIN);
+
+		App->entityManager->CreateEntity(3640, 782, HEART);
 	}
 }
 

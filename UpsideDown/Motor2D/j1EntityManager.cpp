@@ -135,10 +135,11 @@ void j1EntityManager::AddPlayer()
 	entities.add(player);
 }
 
+//Destroys only enemies (Smashers and bats)
 void j1EntityManager::DestroyEnemies()
 {
 	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next) {
-		if (iterator->data->type != EntityType::PLAYER)
+		if (iterator->data->type != EntityType::PLAYER && iterator->data->type != EntityType::COIN && iterator->data->type != EntityType::HEART)
 		{
 			iterator->data->CleanUp();
 			entities.del(iterator);
@@ -147,12 +148,25 @@ void j1EntityManager::DestroyEnemies()
 			LOG("deleting enemy");
 		}
 	}
-	
 }
 
+void j1EntityManager::DestroyAllEntities()
+{
+	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next) {
+		if (iterator->data->type != EntityType::PLAYER)
+		{
+			iterator->data->CleanUp();
+			entities.del(iterator);
+			RELEASE(iterator->data);
+
+			LOG("deleting entity");
+		}
+	}
+
+}
 void j1EntityManager::DestroyThisEntity(j1Entity* entity)
 {
-	for (p2List_item<j1Entity*>* iterator = entities.start; iterator; iterator = iterator->next)
+	for (p2List_item<j1Entity*>* iterator = entities.start; iterator != nullptr; iterator = iterator->next)
 	{
 		if (iterator->data == entity)
 		{

@@ -9,20 +9,31 @@
 	<fonts />
 	<entityManager>
 		<player>
-			<position x="208.517365" y="930" />
+			<position x="8" y="930" />
 			<invert_gravity value="false" />
-			<current_level value="2" />
+			<current_level value="1" />
 			<god_mode value="false" />
 			<lifes value="3" />
 		</player>
 		<entities>
 			<entity position_x="0" position_y="0" />
-			<entity position_x="630" position_y="783.642029" />
-			<entity position_x="3620" position_y="793.051392" />
-			<entity position_x="4272" position_y="833.051392" />
-			<entity position_x="1875" position_y="167" />
-			<entity position_x="5291" position_y="248" />
-			<entity position_x="6052" position_y="483" />
+			<entity position_x="2060" position_y="966.288879" />
+			<entity position_x="4125" position_y="1056.28772" />
+			<entity position_x="5571" position_y="855.701904" />
+			<entity position_x="5874" position_y="116" />
+			<entity position_x="2430" position_y="537" />
+			<entity position_x="3770" position_y="450" />
+			<entity position_x="2215" position_y="940" />
+			<entity position_x="2589" position_y="815" />
+			<entity position_x="3378" position_y="561" />
+			<entity position_x="3532" position_y="561" />
+			<entity position_x="4265" position_y="1052" />
+			<entity position_x="5055" position_y="889" />
+			<entity position_x="5695" position_y="585" />
+			<entity position_x="5807" position_y="585" />
+			<entity position_x="5352" position_y="107" />
+			<entity position_x="800" position_y="950" />
+			<entity position_x="4386" position_y="144" />
 		</entities>
 	</entityManager>
 	<gui />

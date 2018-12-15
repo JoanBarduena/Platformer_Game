@@ -48,7 +48,8 @@ public:
 
 	//Load Level
 	void Level_Load(uint number = 0);
-	void RespawnEntities(); 
+	void RespawnEnemies();
+	void RespawnCoinsHearts(); 
 	void Create_UI_Elements();
 
 public:
@@ -109,8 +110,6 @@ private:
 	Gui_Elements* Slider_Music = nullptr;
 
 	Gui_Elements* Main_Menu = nullptr;
-
-
 	
 };
 
