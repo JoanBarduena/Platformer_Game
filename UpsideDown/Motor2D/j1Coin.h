@@ -33,6 +33,8 @@ public:
 	Animation idle;
 	float dt_coin;
 
+	uint coin_fx; 
+
 };
 
 #endif // __j1COIN_H__

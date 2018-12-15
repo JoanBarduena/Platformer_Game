@@ -8,6 +8,7 @@
 #include "p2DynArray.h"
 #include "j1Timer.h"
 #include "p2Log.h"
+#include "j1Audio.h"
 
 struct SDL_Texture;
 struct Collider; 

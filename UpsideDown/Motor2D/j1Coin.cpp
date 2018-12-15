@@ -35,8 +35,10 @@ bool j1Coin::Start()
 	}
 	if (collider == nullptr)
 	{
-		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 20, 20 }, COLLIDER_COIN, App->entityManager);
+		collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 28, 26 }, COLLIDER_COIN, App->entityManager);
 	}
+
+	coin_fx = App->audio->LoadFx("audio/fx/get_coin.wav");
 
 	position.x = start_pos.x;
 	position.y = start_pos.y;
@@ -85,6 +87,7 @@ void j1Coin::OnCollision(Collider* c1, Collider* c2)
 {
 	if (c2->type == COLLIDER_PLAYER)
 	{
+		App->audio->PlayFx(coin_fx); 
 		App->entityManager->DestroyThisEntity(this);
 		App->gui->Delete_UI_Elements(); 
 		App->scene->Create_UI_Elements();
