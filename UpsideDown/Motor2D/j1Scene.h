@@ -68,6 +68,7 @@ public:
 	bool loading_lvl1 = false;
 	bool loading_lvl2 = false;
 	bool loading_menu = false;
+	bool saved_game = false;
 	bool loading_saved_game = false;
 
 private:

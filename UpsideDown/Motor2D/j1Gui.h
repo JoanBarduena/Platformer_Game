@@ -35,7 +35,9 @@ enum class Function
 	GITHUB,
 	SKIP,
 	RESUME,
+	LOAD,
 	SAVE,
+	MENU,
 	NONE
 };
 

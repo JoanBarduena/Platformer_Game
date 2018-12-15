@@ -76,25 +76,25 @@ public:
 
 	int lifes; 
 
-	bool flip;				//if player is going left (-speed.x)
-	bool touching_above;	//if player is touching from above
-	bool touching_bottom;	//if player is touching from bottom
-	bool touching_right;	//if player is touching from right
-	bool touching_left;		//if player is touching from left
-	bool is_jumping;		//if player is jumping (speed.y < 0)
-	bool is_falling;		//if player is falling (speed.y > 0)		
+	bool flip = false;				//if player is going left (-speed.x)
+	bool touching_above = false;	//if player is touching from above
+	bool touching_bottom = false;	//if player is touching from bottom
+	bool touching_right = false;	//if player is touching from right
+	bool touching_left = false;		//if player is touching from left
+	bool is_jumping = false;		//if player is jumping (speed.y < 0)
+	bool is_falling = false;		//if player is falling (speed.y > 0)		
 
-	bool win1;
-	bool win2;
-	bool wintutorial; 
-	bool can_move;
+	bool win1 = false;
+	bool win2 = false;
+	bool wintutorial = false;
+	bool can_move = false;
 	
-	bool invert_gravity;
+	bool invert_gravity = false;
 	bool can_invert = true;
 	bool god_mode = false;
 
-	bool camera_goes_left;
-	bool camera_goes_right;
+	bool camera_goes_left = false;
+	bool camera_goes_right = false;
 
 	bool initial_pos = true;
 	bool player_starts = true; 

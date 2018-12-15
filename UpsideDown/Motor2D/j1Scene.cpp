@@ -105,13 +105,83 @@ bool j1Scene::Update(float dt)
 
 	dt_scene = dt;
 
-	
+	// Gui Logic ------------------------------------------------------------------------------------------
+
+	for (p2List_item<Gui_Elements*>* iterator = App->gui->List_elem.start; iterator != nullptr; iterator = iterator->next)
+	{
+		if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true && App->fade->IsFadingOut() == false)
+		{
+			if (iterator->data->funct == Function::PLAY)
+			{
+				App->fade->FadeToBlack(this, this, 1.3f);
+				loading_tutorial = true;
+			}
+			else if (iterator->data->funct == Function::LOAD && saved_game)
+			{
+				start_pos = false;
+				App->fade->FadeToBlack(this, this, 1.0f);
+				loading_saved_game = true;
+			}
+			else if (iterator->data->funct == Function::EXIT)
+			{
+				return false;
+			}
+			else if (iterator->data->funct == Function::GITHUB)
+			{
+				ShellExecuteA(NULL, "open", "https://github.com/JosepLleal/Platformer_Game", NULL, NULL, SW_SHOWNORMAL);
+			}
+			else if (iterator->data->funct == Function::SKIP)
+			{
+				start_pos = true;
+				App->fade->FadeToBlack(this, this, 1.3f);
+				loading_lvl1 = true;
+			}
+
+		}
+		iterator->data->do_action = false;
+		if (iterator->data->type == Element_type::IMAGE)
+		{
+			if (iterator->data == Menu)
+			{
+				for (p2List_item<Gui_Elements*>* iterator = Menu->childrens.start; iterator != nullptr; iterator = iterator->next)
+				{
+					if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true && App->fade->IsFadingOut() == false)
+					{
+						if (iterator->data->funct == Function::RESUME)
+						{
+							pause = !pause;
+							Menu->visible = !Menu->visible;
+						}
+						else if (iterator->data->funct == Function::SAVE && actual_level != 3)
+						{
+							start_pos = false;
+							App->SaveGame();
+						}
+						else if (iterator->data->funct == Function::LOAD && saved_game )
+						{
+							start_pos = false;
+							App->fade->FadeToBlack(this, this, 1.0f);
+							loading_saved_game = true;
+						}
+						else if (iterator->data->funct == Function::MENU)
+						{
+							App->fade->FadeToBlack(this, this, 1.3f);
+							loading_menu = true;
+						}
+					}
+					iterator->data->do_action = false;
+				}
+			}
+		}
+	}
+	// -------------------------------------------------------------------------------------------
 
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && !pause)
 	{
 		start_pos = false;
 		App->fade->FadeToBlack(this, this, 1.0f);
-		loading_saved_game = true; 
+		loading_saved_game = true;
+
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && !pause)
 	{
@@ -193,6 +263,8 @@ bool j1Scene::Update(float dt)
 		if (loading_menu == true)
 		{
 			Level_Load(0); 
+			if (pause)
+				pause = false;
 			loading_menu = false; 
 		}
 		if (loading_lvl1 == true)
@@ -207,7 +279,10 @@ bool j1Scene::Update(float dt)
 		}
 		if (loading_saved_game == true)
 		{
+
 			App->LoadGame();
+			if (pause)
+				pause = false;
 			loading_saved_game = false; 
 		}
 	}
@@ -275,57 +350,6 @@ bool j1Scene::PostUpdate()
 
 	bool ret = true;
 
-	// Gui ------------------------------------------------------------------------------------------
-
-	for (p2List_item<Gui_Elements*>* iterator = App->gui->List_elem.start; iterator != nullptr; iterator = iterator->next)
-	{
-		if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true && App->fade->IsFadingOut() == false)
-		{
-			if (iterator->data->funct == Function::PLAY)
-			{
-				App->fade->FadeToBlack(this, this, 1.3f);
-				loading_tutorial = true;
-			}
-			else if (iterator->data->funct == Function::EXIT)
-			{
-				return false;
-			}
-			else if (iterator->data->funct == Function::GITHUB)
-			{
-				ShellExecuteA(NULL, "open", "https://github.com/JosepLleal/Platformer_Game", NULL, NULL, SW_SHOWNORMAL);
-			}
-			else if (iterator->data->funct == Function::SKIP)
-			{
-				start_pos = true;
-				App->fade->FadeToBlack(this, this, 1.3f);
-				loading_lvl1 = true;
-			}
-		
-		}
-		iterator->data->do_action = false;
-		if (iterator->data->type == Element_type::IMAGE)
-		{
-			if (iterator->data == Menu)
-			{
-				for (p2List_item<Gui_Elements*>* iterator = Menu->childrens.start; iterator != nullptr; iterator = iterator->next)
-				{
-					if (iterator->data->type == Element_type::BUTTON && iterator->data->do_action == true && App->fade->IsFadingOut() == false)
-					{
-						if (iterator->data->funct == Function::RESUME)
-						{
-							pause = !pause;
-							Menu->visible = !Menu->visible;
-
-						}
-					}
-					iterator->data->do_action = false;
-				}
-			}
-		}
-	}
-	// -------------------------------------------------------------------------------------------
-
-
 	if (actual_level == 0)
 	{
 		App->render->Blit(graphics, 100, 630, &current->GetCurrentFrame(dt_scene), SDL_FLIP_NONE, 0);
@@ -379,7 +403,7 @@ void j1Scene::Level_Load(uint number)
 		App->entityManager->AddPlayer();
 		App->entityManager->Start();
 		App->entityManager->player->Start();
-		
+				
 		Create_UI_Elements();
 
 		actual_level = level_to_load->data->lvl;
@@ -424,16 +448,15 @@ void j1Scene::Level_Load(uint number)
 	}
 	else if ((actual_level > 0) && (level_to_load->data->lvl == 0))
 	{
-		App->entityManager->CleanUp();
 		App->entityManager->DestroyEnemies();
 		App->entityManager->DestroyPlayer();
 		App->gui->Delete_UI_Elements(); 
 		App->map->Load(level_to_load->data->mapPath.GetString());
 		App->render->camera.x = -50;
 		App->render->camera.y = -300;
-		actual_level = level_to_load->data->lvl;
 		Create_UI_Elements();
-		App->audio->PlayMusic("audio/music/Galway.ogg");
+		actual_level = level_to_load->data->lvl;
+		/*App->audio->PlayMusic("audio/music/Galway.ogg");*/
 	}
 
 	int w, h;
@@ -479,11 +502,13 @@ void j1Scene::Create_UI_Elements()
 		App->gui->Create_Image(Element_type::IMAGE, { 275, 0 }, title_rect, true, false, false, title, nullptr);
 
 		Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 400 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::PLAY);
-		Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::EXIT);
+		Gui_Elements* Load_Game = App->gui->Create_Button(Element_type::BUTTON, { 415, 500 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::LOAD);
+		Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 600 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, true, false, App->gui->GetAtlas(), Function::EXIT);
 		Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, true, false, App->gui->GetAtlas(), Function::GITHUB);
 
 	
 		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, true, true, "PLAY", { 255,255,255,0 }, App->font->default, Play);
+		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, true, true, "LOAD GAME", { 255,255,255,0 }, App->font->default, Load_Game);
 		App->gui->Create_Label(Element_type::LABEL, { 57, 8 }, { 0,0,70, 30 }, true, true, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
 	}
 	else if (level_to_load->data->lvl == 3 || level_to_load->data->lvl == 1 || level_to_load->data->lvl == 2)
@@ -507,11 +532,20 @@ void j1Scene::Create_UI_Elements()
 				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 261, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 		}
 		
-		Menu = App->gui->Create_Image(Element_type::IMAGE, { 415, 200 }, { 1234, 391, 309, 394 }, false, false, true, App->gui->GetAtlas());
-		Resume = App->gui->Create_Button(Element_type::BUTTON, { 55, 50 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::RESUME, Menu);
+		Menu = App->gui->Create_Image(Element_type::IMAGE, { 355, 200 }, { 1230, 387, 315, 402 }, false, false, false, App->gui->GetAtlas());
+
+		Resume = App->gui->Create_Button(Element_type::BUTTON, { 62, 50 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::RESUME, Menu);
 		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, false, "RESUME", { 255,255,255,0 }, App->font->default, Resume);
-		//App->gui->Create_Button(Element_type::BUTTON, { 415, 300 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, App->gui->GetAtlas(), Function::SAVE, Menu); 
-		//App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, "RESUME", { 255,255,255,0 }, App->font->default, Save);
+
+		Gui_Elements* Load = App->gui->Create_Button(Element_type::BUTTON, { 62, 120 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::LOAD, Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, false, false, "LOAD GAME", { 255,255,255,0 }, App->font->default, Load);
+
+		Gui_Elements* Save = App->gui->Create_Button(Element_type::BUTTON, { 62, 190 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::SAVE, Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, false, false, "SAVE GAME", { 255,255,255,0 }, App->font->default, Save);
+
+		Gui_Elements* Main_Menu = App->gui->Create_Button(Element_type::BUTTON, { 62, 300 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 264, 190, 45 }, false, false, App->gui->GetAtlas(), Function::MENU, Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, false, false, "MAIN MENU", { 255,255,255,0 }, App->font->default, Main_Menu);
+		
 
 
 	}

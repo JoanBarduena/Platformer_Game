@@ -404,7 +404,7 @@ void j1App::SaveGame() const
 {
 	// we should be checking if that file actually exist
 	// from the "GetSaveGames" list ... should we overwrite ?
-
+	App->scene->saved_game = true;
 	want_to_save = true;
 }
 

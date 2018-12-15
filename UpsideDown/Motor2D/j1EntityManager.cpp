@@ -167,7 +167,7 @@ void j1EntityManager::DestroyPlayer()
 			iterator->data->CleanUp();
 			entities.del(iterator);
 			RELEASE(iterator->data);
-
+			player = nullptr;
 			LOG("deleting PLAYER");
 		}
 	}
@@ -176,18 +176,18 @@ void j1EntityManager::DestroyPlayer()
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
-	//CleanUp(); 
+
+
+
+	CleanUp(); 
 	if (player != nullptr)
 	{
 		player->Load(data);
 	}
 
-	uint bat_counter = 0;
-	uint smasher_counter = 0;
-
 	pugi::xml_node entities_node = data.child("entities").child("entity");
 
-	for (p2List_item<j1Entity*>* entity = entities.start; entity; entity = entity->next)
+	for (p2List_item<j1Entity*>* entity = entities.start; entity!=nullptr; entity = entity->next)
 	{
 		entity->data->position.x = entities_node.attribute("position_x").as_int();
 	
