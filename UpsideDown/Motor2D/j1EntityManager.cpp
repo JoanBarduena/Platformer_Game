@@ -180,9 +180,6 @@ void j1EntityManager::DestroyPlayer()
 
 bool j1EntityManager::Load(pugi::xml_node& data)
 {
-
-
-
 	CleanUp(); 
 	if (player != nullptr)
 	{
@@ -209,10 +206,6 @@ bool j1EntityManager::Load(pugi::xml_node& data)
 bool j1EntityManager::Save(pugi::xml_node& data) const
 {
 	player->Save(data.append_child("player"));
-
-	//uint bat_counter = 0;
-	//uint smasher_counter = 0;
-	//uint coin_counter = 0; 
 
 	pugi::xml_node entities_node = data.append_child("entities");
 	

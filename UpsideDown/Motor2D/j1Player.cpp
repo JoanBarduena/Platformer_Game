@@ -31,6 +31,8 @@ j1Player::j1Player(int x, int y, EntityType Type) : j1Entity(x,y,Type)
 
 	death.LoadAnimations("player", "death"); 
 
+	healing.LoadAnimations("player", "healing"); 
+
 	type = Type;
 }
 
@@ -144,6 +146,7 @@ bool j1Player::Start()
 	}
 	can_move = true;
 	current_animation = &idle;
+	current_healing = &healing; 
 	death.Reset(); 
 
 	return true;
@@ -179,8 +182,8 @@ bool j1Player::Update(float dt, bool do_logic)
 
 	dt_player = dt;
 
-	/*LOG("POS.X: %f", position.x);
-	LOG("POS.Y: %f", position.y);*/
+	LOG("POS.X: %f", position.x);
+	LOG("POS.Y: %f", position.y);
 
 	//Normal Game Mode
 	if (god_mode == false)
@@ -260,10 +263,31 @@ bool j1Player::PostUpdate()
 		if (invert_gravity == true)
 		{
 			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_VERTICAL);
+			if (is_healing)
+			{
+				if (healing.Finished() == false)
+					App->render->Blit(graphics, position.x, position.y, &current_healing->GetCurrentFrame(dt_player), SDL_FLIP_VERTICAL);
+				else
+				{
+					is_healing = false;
+					healing.Reset();
+				}
+			}
 		}
 		else
 		{
 			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_NONE);
+			if (is_healing)
+			{
+				if (healing.Finished() == false)
+					App->render->Blit(graphics, position.x, position.y, &current_healing->GetCurrentFrame(dt_player), SDL_FLIP_NONE);
+				else
+				{
+					is_healing = false;
+					healing.Reset(); 
+				}
+					
+			}
 		}
 	}
 	else 
@@ -271,10 +295,30 @@ bool j1Player::PostUpdate()
 		if (invert_gravity == false)
 		{
 			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_HORIZONTAL);
+			if (is_healing)
+			{
+				if (healing.Finished() == false)
+					App->render->Blit(graphics, position.x, position.y, &current_healing->GetCurrentFrame(dt_player), SDL_FLIP_HORIZONTAL);
+				else
+				{
+					is_healing = false;
+					healing.Reset();
+				}
+			}
 		}
 		else
 		{
 			App->render->Blit(graphics, position.x, position.y, &current_animation->GetCurrentFrame(dt_player), SDL_FLIP_NONE);
+			if (is_healing)
+			{
+				if (healing.Finished() == false)
+					App->render->Blit(graphics, position.x, position.y, &current_healing->GetCurrentFrame(dt_player), SDL_FLIP_NONE);
+				else
+				{
+					is_healing = false;
+					healing.Reset();
+				}
+			}
 		}
 		
 	}

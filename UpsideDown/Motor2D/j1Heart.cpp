@@ -86,6 +86,8 @@ void j1Heart::OnCollision(Collider* c1, Collider* c2)
 {
 	if (c2->type == COLLIDER_PLAYER)
 	{
+		App->entityManager->player->is_healing = true; 
+
 		if (App->entityManager->player->lifes < 5)
 			App->entityManager->player->lifes++; 
 
