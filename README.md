@@ -65,8 +65,8 @@ https://github.com/JosepLleal/Platformer_Game
 	- Collisions. 
 	- Entities(player). 
 
-##Sprites: 
-Keyboard: https://hyohnoo.itch.io/keyboard-controller-keys
+## Sprites: 
+Keyboard VirtualKeys: https://hyohnoo.itch.io/keyboard-controller-keys
 
 Character: https://rvros.itch.io/animated-pixel-hero
 
@@ -75,6 +75,7 @@ Tileset: https://opengameart.org/content/platformer-tilesets
 Enemy(bat): https://opengameart.org/content/bat-sprite
 Enemy(smasher): https://www.spriters-resource.com/ds_dsi/henryhats/sheet/41281/?source=genre
 Coins: https://donhellsing.itch.io/coin-animation
+Hearts: https://donhellsing.itch.io/heart1
 
 ## Music: 
 Name: "Galway" 

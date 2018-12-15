@@ -117,6 +117,15 @@
       <animation x="210" y="0" width="28" height="26"/>
     </idle>
   </coin>
+  <heart>
+    <idle speed ="0.1f" loop="true">
+      <animation x="0" y="0" width="27" height="25"/>
+      <animation x="28" y="0" width="27" height="25"/>
+      <animation x="56" y="0" width="27" height="25"/>
+      <animation x="84" y="0" width="27" height="25"/>
+      <animation x="116" y="0" width="27" height="25"/>
+    </idle>
+  </heart>
   <keys>
     <keyA speed ="0.0f" loop="false">
       <animation x="142" y="144" width="47" height="45"/>

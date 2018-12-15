@@ -16,6 +16,7 @@ enum EntityType
 	BAT,
 	SMASHER,
 	COIN,
+	HEART, 
 	UNKNOWN
 };
 

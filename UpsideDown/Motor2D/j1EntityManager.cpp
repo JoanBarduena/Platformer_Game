@@ -10,6 +10,7 @@
 #include "j1Bat.h"
 #include "j1Smasher.h"
 #include "j1Coin.h"
+#include "j1Heart.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -119,6 +120,9 @@ void j1EntityManager::CreateEntity(int x, int y, EntityType type)
 		break;
 	case EntityType::COIN:
 		ret = new j1Coin(x, y, type);
+		break;
+	case EntityType::HEART:
+		ret = new j1Heart(x, y, type);
 		break;
 	}
 	if (ret != nullptr)
