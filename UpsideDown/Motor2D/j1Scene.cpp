@@ -82,7 +82,7 @@ bool j1Scene::Start()
 	//title = App->tex->Load("textures/upsidedown_title3.png");
 	title = App->tex->Load("textures/upsidedown_title4.png");
 
-	//App->audio->PlayMusic("audio/music/Galway.ogg");
+	App->audio->PlayMusic("audio/music/Galway.ogg");
 
 	Create_UI_Elements();
 
@@ -325,7 +325,7 @@ bool j1Scene::Update(float dt)
 			loading_saved_game = false; 
 		}
 	}
-		
+	App->audio->masterVolume = Slider_Music->Value_percentage;
 	App->audio->SetMusicVolume();
 	App->map->Draw();
 
@@ -545,6 +545,7 @@ void j1Scene::RespawnEntities()
 
 		App->entityManager->CreateEntity(800, 950, COIN);
 		App->entityManager->CreateEntity(900, 950, COIN);
+		App->entityManager->CreateEntity(300, 950, HEART);
 	}
 	else if (level_to_load->data->lvl == 2)
 	{
@@ -629,7 +630,8 @@ void j1Scene::Create_UI_Elements()
 	Gui_Elements* Esc = App->gui->Create_Button(Element_type::BUTTON, { 586, -10 }, { 460, 463 , 35, 38 }, { 422, 463 , 35, 38 }, { 384, 463 , 35, 38 }, false, false, App->gui->GetAtlas(), Function::RESUME, Settings_Menu);
 	Gui_Elements* X = App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 355, 474, 15, 15 }, false, false, false, App->gui->GetAtlas(), Esc);
 
-	Gui_Elements* Slider_Music = App->gui->Create_Slider(Element_type::SLIDER, { 200, 200 }, { 860,337,190,2 }, false, App->gui->GetAtlas(), Settings_Menu);
+	Slider_Music = App->gui->Create_Slider(Element_type::SLIDER, { 350, 140 }, { 860,337,190,2 }, false, App->gui->GetAtlas(), Settings_Menu);
 	Gui_Elements* SliderButton = App->gui->Create_Image(Element_type::IMAGE, iPoint{ 0, -20 }, { 770, 197, 28, 42 }, false, false, true, App->gui->GetAtlas(), Slider_Music);
+	Gui_Elements* Music_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 120 }, { 0,0,200, 30 }, false, false, "Music Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
 
 }

@@ -6,6 +6,15 @@ Gui_Image::Gui_Image(Element_type type, iPoint position, SDL_Rect rect, bool Vis
 	texture = tex;
 	dragable = Dragable;
 
+	if (parent != nullptr)
+	{
+		if (parent->type == Element_type::SLIDER)
+		{
+			hovering_rect = {723, rect.y, rect.w, rect.h};
+			clicking_rect = {677, rect.y-2, rect.w, rect.h};
+		}
+	}
+
 }
 
 Gui_Image::~Gui_Image() {}
@@ -107,9 +116,36 @@ bool Gui_Image::PreUpdate()
 
 bool Gui_Image::PostUpdate()
 {
-	if(visible && !in_game)
-		App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
-
+	if (visible && !in_game)
+	{
+		if (parent != nullptr)
+		{
+			if (parent->type == Element_type::SLIDER)
+			{
+				if (clicking_left == true)
+				{
+					App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &clicking_rect, SDL_FLIP_NONE, 0);
+				}
+				else if (hovering == true)
+				{
+					App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &hovering_rect, SDL_FLIP_NONE, 0);
+				}
+				else
+				{
+					App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+				}
+			}
+			else
+			{
+				App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+			}
+		}
+		else 
+		{
+			App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+		}
+	}
+		
 	return true;
 }
 

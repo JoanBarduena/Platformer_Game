@@ -106,8 +106,10 @@ private:
 
 	Gui_Elements* Menu = nullptr;
 	Gui_Elements* Settings_Menu = nullptr;
+	Gui_Elements* Slider_Music = nullptr;
 
 	Gui_Elements* Main_Menu = nullptr;
+
 
 	
 };
