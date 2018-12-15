@@ -13,7 +13,7 @@ class Gui_Elements
 {
 public:
 
-	Gui_Elements(Element_type type, iPoint position, SDL_Rect rect, bool Visible, bool In_Game, Gui_Elements* Parent = nullptr, SDL_Texture* tex = nullptr);
+	Gui_Elements(Element_type type, iPoint position, SDL_Rect rect, bool Visible, bool In_Game = false, Gui_Elements* Parent = nullptr, SDL_Texture* tex = nullptr);
 
 	virtual ~Gui_Elements();
 
@@ -38,6 +38,8 @@ public:
 
 	iPoint pos;
 	iPoint GlobalPos;
+
+	int Value_percentage = 0;
 
 	SDL_Texture* texture = nullptr;
 	SDL_Rect Rect;

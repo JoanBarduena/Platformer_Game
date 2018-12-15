@@ -9,16 +9,17 @@
 	<fonts />
 	<entityManager>
 		<player>
-			<position x="91.9949646" y="930" />
+			<position x="208.517365" y="930" />
 			<invert_gravity value="false" />
 			<current_level value="2" />
 			<god_mode value="false" />
+			<lifes value="3" />
 		</player>
 		<entities>
 			<entity position_x="0" position_y="0" />
-			<entity position_x="630" position_y="776.113037" />
-			<entity position_x="3620" position_y="805.521179" />
-			<entity position_x="4272" position_y="825.5224" />
+			<entity position_x="630" position_y="783.642029" />
+			<entity position_x="3620" position_y="793.051392" />
+			<entity position_x="4272" position_y="833.051392" />
 			<entity position_x="1875" position_y="167" />
 			<entity position_x="5291" position_y="248" />
 			<entity position_x="6052" position_y="483" />

@@ -7,6 +7,7 @@
 #include "j1Gui_Image.h"
 #include "j1Gui_Label.h"
 #include "j1GUi_Button.h"
+#include "j1Gui_Slider.h"
 #include "p2List.h"
 
 j1Gui::j1Gui() : j1Module()
@@ -62,7 +63,6 @@ bool j1Gui::PostUpdate()
 
 	if (App->scene->pause)
 		App->render->DrawQuad({ 0,0,(int)App->win->width, (int)App->win->height }, 0, 0, 0, 150, true, false);
-
 
 	for (p2List_item<Gui_Elements*>* iterator = List_elem.start; iterator != nullptr; iterator = iterator->next)
 	{
@@ -125,6 +125,17 @@ Gui_Elements* j1Gui::Create_Label(Element_type element, iPoint position, SDL_Rec
 {
 	Gui_Elements* elem = nullptr;
 	elem = new Gui_Label(element, position, rect, visible, In_Game, Text, Color, Font, Parent);
+
+	if (elem != nullptr)
+		List_elem.add(elem);
+
+	return elem;
+}
+
+Gui_Elements* j1Gui::Create_Slider(Element_type type, iPoint position, SDL_Rect rect, bool visible, SDL_Texture* tex, Gui_Elements* Parent)
+{
+	Gui_Elements* elem = nullptr;
+	elem = new Gui_Slider(type, position, rect, visible, tex, Parent);
 
 	if (elem != nullptr)
 		List_elem.add(elem);

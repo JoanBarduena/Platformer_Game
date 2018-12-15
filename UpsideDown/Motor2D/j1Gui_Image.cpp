@@ -53,9 +53,16 @@ bool Gui_Image::PreUpdate()
 		{
 			if (parent != nullptr)
 			{
-				pos.x = App->scene->Mouse_Pos.x - (App->scene->Prev_Mouse_Pos.x - parent->GlobalPos.x);
-				pos.y = App->scene->Mouse_Pos.y - (App->scene->Prev_Mouse_Pos.y - parent->GlobalPos.y);
-
+				if (parent->type == Element_type::SLIDER)
+				{
+					pos.x = App->scene->Mouse_Pos.x - (Rect.w / 2) - parent->GlobalPos.x;
+				}
+				else
+				{
+					pos.x = App->scene->Mouse_Pos.x - (Rect.w/2);
+					pos.y = App->scene->Mouse_Pos.y - (Rect.h/2);
+				}
+				
 			}
 			else
 			{
@@ -72,6 +79,20 @@ bool Gui_Image::PreUpdate()
 	{
 		GlobalPos.x = parent->GlobalPos.x + pos.x;
 		GlobalPos.y = parent->GlobalPos.y + pos.y;
+
+		if (parent->type == Element_type::SLIDER)
+		{
+			if (GlobalPos.x < parent->GlobalPos.x)
+			{
+				GlobalPos.x = parent->GlobalPos.x;
+			}
+			else if (GlobalPos.x > parent->GlobalPos.x + parent->Rect.w)
+			{
+				GlobalPos.x = parent->GlobalPos.x + parent->Rect.w;
+			}
+				
+			parent->Value_percentage = (((GlobalPos.x - parent->GlobalPos.x) * 100)/ parent->Rect.w - Rect.w) + Rect.w;
+		}
 
 		visible = parent->visible;
 	}
