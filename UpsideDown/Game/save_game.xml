@@ -6,24 +6,30 @@
 	<audio />
 	<map />
 	<pathfinding />
-	<scene />
+	<fonts />
 	<entityManager>
 		<player>
-			<position x="752.837463" y="941.507507" />
+			<position x="325.039612" y="943.612854" />
 			<invert_gravity value="false" />
 			<current_level value="1" />
 			<god_mode value="false" />
 		</player>
-		<smasher1 position_x="2700" position_y="838.109253" />
-		<smasher2 position_x="6020" position_y="897.517395" />
-		<smasher3 position_x="5200" position_y="2936.21265" />
-		<bat1 position_x="450.591278" position_y="863.683777" />
-		<bat2 position_x="2600" position_y="500" />
-		<bat3 position_x="6000" position_y="500" />
+		<entities>
+			<entity position_x="2060" position_y="960.112793" />
+			<entity position_x="4125" position_y="1050.11157" />
+			<entity position_x="5571" position_y="870.112793" />
+			<entity position_x="5874" position_y="116" />
+			<entity position_x="2430" position_y="537" />
+			<entity position_x="3770" position_y="450" />
+			<entity position_x="900" position_y="950" />
+			<entity position_x="0" position_y="0" />
+		</entities>
 	</entityManager>
-	<fade />
+	<gui />
+	<scene />
 	<:anonymous />
+	<fade />
 	<renderer>
-		<camera x="-117" y="-347" />
+		<camera x="-5" y="-347" />
 	</renderer>
 </game_state>
