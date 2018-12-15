@@ -86,6 +86,8 @@ void j1Coin::OnCollision(Collider* c1, Collider* c2)
 	if (c2->type == COLLIDER_PLAYER)
 	{
 		App->entityManager->DestroyThisEntity(this);
+		App->gui->Delete_UI_Elements(); 
+		App->scene->Create_UI_Elements();
 		App->entityManager->player->collected_coins++;
 	}
 }

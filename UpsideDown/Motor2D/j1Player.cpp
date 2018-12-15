@@ -135,7 +135,6 @@ bool j1Player::Start()
 		position.y = Player.position.y;
 		
 		invert_gravity = false; 
-		LOG("HOOOOLAAAA");
 		initial_pos = false;
 	}
 	//Player HitBox
@@ -553,27 +552,30 @@ void j1Player::CameraOnPlayer()
 	uint window_w, window_h;
 	App->win->GetWindowSize(window_w, window_h);
 
-	// for X AXIS 
-	if (position.x >((float)App->render->camera.x * -1) + ((5 * window_w) / 8))
+	if (App->scene->actual_level != 0)
 	{
-		App->render->camera.x -= ceilf(player_speed*dt_player);
-		camera_goes_right = true;
-	}
-	else if (position.x < (App->render->camera.x*-1) + ((3 * window_w) / 8))
-	{
-		App->render->camera.x += (int)player_speed*dt_player;
-		camera_goes_left = true;
-	}
+		// for X AXIS 
+		if (position.x > ((float)App->render->camera.x * -1) + ((5 * window_w) / 8))
+		{
+			App->render->camera.x -= ceilf(player_speed*dt_player);
+			camera_goes_right = true;
+		}
+		else if (position.x < (App->render->camera.x*-1) + ((3 * window_w) / 8))
+		{
+			App->render->camera.x += (int)player_speed*dt_player;
+			camera_goes_left = true;
+		}
 
-	// for Y AXIS
-	if (position.y + 67 > (App->render->camera.y*-1) + ((5 * window_h) / 8))
-	{
-		App->render->camera.y -= 6*dt_player;
-	}
-	else if (position.y < (App->render->camera.y*-1) + ((window_h) / 8))
-	{
-		App->render->camera.y += 6*dt_player;
-	}
+		// for Y AXIS
+		if (position.y + 67 > (App->render->camera.y*-1) + ((5 * window_h) / 8))
+		{
+			App->render->camera.y -= 6 * dt_player;
+		}
+		else if (position.y < (App->render->camera.y*-1) + ((window_h) / 8))
+		{
+			App->render->camera.y += 6 * dt_player;
+		}
+	}		
 }
 
 void j1Player::SetIdleAnimation()
@@ -593,12 +595,14 @@ bool j1Player::Save(pugi::xml_node& data) const
 	pugi::xml_node gravity = data.append_child("invert_gravity");
 	pugi::xml_node level = data.append_child("current_level"); 
 	pugi::xml_node god = data.append_child("god_mode"); 
+	pugi::xml_node life_node = data.append_child("lifes");
 
 	pos.append_attribute("x") = position.x;
 	pos.append_attribute("y") = position.y;
 	gravity.append_attribute("value") = invert_gravity;
 	level.append_attribute("value") = App->scene->level_to_load->data->lvl;
 	god.append_attribute("value") = god_mode; 
+	life_node.append_attribute("value") = lifes; 
 
 	LOG("SAVING PLAYER");
 
@@ -611,8 +615,10 @@ bool j1Player::Load(pugi::xml_node& data)
 	position.x = data.child("player").child("position").attribute("x").as_int();
 	position.y = data.child("player").child("position").attribute("y").as_int();
 	invert_gravity = data.child("player").child("invert_gravity").attribute("value").as_bool();
+	lifes = data.child("player").child("lifes").attribute("value").as_int();
 	App->scene->Level_Load(data.child("player").child("current_level").attribute("value").as_int());
 	god_mode = data.child("player").child("god_mode").attribute("value").as_bool();
+	
 	
 	return true; 
 }
