@@ -135,7 +135,7 @@ bool j1Player::Start()
 		position.y = Player.position.y;
 		
 		invert_gravity = false; 
-
+		LOG("HOOOOLAAAA");
 		initial_pos = false;
 	}
 	//Player HitBox
@@ -186,7 +186,8 @@ bool j1Player::Update(float dt, bool do_logic)
 	//Normal Game Mode
 	if (god_mode == false)
 	{
-		GameMode();
+		if(App->scene->actual_level != 0)
+			GameMode();
 
 		maxSpeed_y = Player.maxSpeed_y;
 
@@ -233,7 +234,8 @@ bool j1Player::Update(float dt, bool do_logic)
 	}
 	else //if not Normal Mode --> God mode
 	{
-		GodMode();
+		if(App->scene->actual_level != 0)
+			GodMode();
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN && App->scene->pause == false)
@@ -284,8 +286,18 @@ bool j1Player::PostUpdate()
 	//applaying movement to the player
 	if (can_move)
 	{
-		position.x += speed.x*dt_player;
-		position.y += speed.y*dt_player;
+		if (App->scene->actual_level != 0)
+		{
+			position.x += speed.x*dt_player;
+			position.y += speed.y*dt_player;
+		}
+		else if (App->scene->actual_level == 0)
+		{
+			position.x == position.x;
+			position.y == position.y;
+		}
+		
+		
 	}
 
 	CameraOnPlayer();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="36" tilewidth="32" tileheight="32" nextobjectid="35">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="36" tilewidth="32" tileheight="32" nextobjectid="41">
  <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32" tilecount="256" columns="16">
   <image source="tileset_p1.png" width="512" height="512"/>
   <terraintypes>
@@ -18,13 +18,13 @@
  <tileset firstgid="257" name="meta" tilewidth="32" tileheight="32" tilecount="2" columns="2">
   <image source="meta.png" width="64" height="32"/>
  </tileset>
- <imagelayer name="clouds" offsetx="-3.03031" offsety="-103.03">
+ <imagelayer name="clouds" offsetx="-6" offsety="-57.58">
   <image source="clouds_map1.png" width="1920" height="1352"/>
   <properties>
    <property name="speed" type="float" value="1.5"/>
   </properties>
  </imagelayer>
- <layer name="Capa de patrones 1" width="200" height="36">
+ <layer name="Capa de Patrones 1" width="200" height="36">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -6028,17 +6028,17 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="3"/>
+   <tile gid="0"/>
+   <tile gid="1"/>
+   <tile gid="3"/>
+   <tile gid="0"/>
+   <tile gid="1"/>
+   <tile gid="3"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="1"/>
+   <tile gid="3"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -7229,6 +7229,6 @@
   </data>
  </layer>
  <objectgroup name="Capa de Objetos 1">
-  <object id="34" type="floor" x="-1.33333" y="993.333" width="6401.33" height="157.333"/>
+  <object id="40" type="floor" x="2" y="994" width="6402" height="160"/>
  </objectgroup>
 </map>

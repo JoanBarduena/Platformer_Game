@@ -53,7 +53,6 @@ bool j1Scene::Start()
 	App->map->Load(levels_list.start->data->mapPath.GetString());
 	
 	//Loading animations
-	player_running.LoadAnimations("player", "running");
 	keyA.LoadAnimations("keys", "keyA"); 
 	keyA_pressed.LoadAnimations("keys", "keyA_pressed");
 	keyD.LoadAnimations("keys", "keyD");
@@ -73,8 +72,10 @@ bool j1Scene::Start()
 	current = &player_running;
 
 	debug_tex = App->tex->Load("maps/pathfinding_debug.png");
-	graphics = App->tex->Load("textures/adventurer.png");
 	keyboard = App->tex->Load("textures/keyboard.png"); 
+
+	App->entityManager->AddPlayer();
+	App->entityManager->player->Start();
 
 	//title = App->tex->Load("textures/upsidedown_title.png");
 	//title = App->tex->Load("textures/upsidedown_title2.png");
@@ -183,7 +184,7 @@ bool j1Scene::Update(float dt)
 		loading_saved_game = true;
 
 	}
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && !pause)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && !pause && actual_level!=0 && actual_level != 3)
 	{
 		start_pos = false; 
 		App->SaveGame();
@@ -350,19 +351,12 @@ bool j1Scene::PostUpdate()
 
 	bool ret = true;
 
-	if (actual_level == 0)
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->fade->IsFading() == false && actual_level!=0)
 	{
-		App->render->Blit(graphics, 100, 630, &current->GetCurrentFrame(dt_scene), SDL_FLIP_NONE, 0);
-
+		pause = !pause;
+		Menu->visible = !Menu->visible;
 	}
-	else
-	{
-		if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->fade->IsFading() == false)
-		{
-			pause = !pause;
-			Menu->visible = !Menu->visible;
-		}
-	}
+	
 
 	return ret;
 }
@@ -384,23 +378,27 @@ void j1Scene::Level_Load(uint number)
 	}
 	level_to_load = lvl;
 
-	if (actual_level > 0)
+	
+
+	if (start_pos)
 	{
-		if (start_pos)
+		App->entityManager->player->initial_pos = true;
+	}	
+	else
+	{
+		if(level_to_load==0)
 			App->entityManager->player->initial_pos = true;
 		else
 			App->entityManager->player->initial_pos = false;
 	}
+		
 
 	if (actual_level == 0 && level_to_load->data->lvl > 0)
 	{
 		App->gui->Delete_UI_Elements();
-
+		App->entityManager->player->CleanUp();
 		App->map->Load(level_to_load->data->mapPath.GetString());
-
 		RespawnEntities();
-
-		App->entityManager->AddPlayer();
 		App->entityManager->Start();
 		App->entityManager->player->Start();
 				
@@ -410,10 +408,8 @@ void j1Scene::Level_Load(uint number)
 	}
 	else if (actual_level == level_to_load->data->lvl)
 	{
-		if (actual_level != 0)
-		{
-			App->entityManager->player->CleanUp();
-		}
+		
+		App->entityManager->player->CleanUp();
 	
 		if (level_to_load->data->lvl != 3)
 			App->entityManager->DestroyEnemies();
@@ -429,7 +425,7 @@ void j1Scene::Level_Load(uint number)
 
 		App->entityManager->Start();
 	}
-	else if ((actual_level == 3 && level_to_load->data->lvl == 1) || (actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1))
+	else if ((actual_level == 3 && level_to_load->data->lvl == 1) || (actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1) || (actual_level == 3 && level_to_load->data->lvl == 2))
 	{
 
 		App->gui->Delete_UI_Elements(); 
@@ -449,12 +445,14 @@ void j1Scene::Level_Load(uint number)
 	else if ((actual_level > 0) && (level_to_load->data->lvl == 0))
 	{
 		App->entityManager->DestroyEnemies();
-		App->entityManager->DestroyPlayer();
+		App->entityManager->player->CleanUp();
 		App->gui->Delete_UI_Elements(); 
 		App->map->Load(level_to_load->data->mapPath.GetString());
 		App->render->camera.x = -50;
 		App->render->camera.y = -300;
 		Create_UI_Elements();
+		App->entityManager->player->initial_pos = true;
+		App->entityManager->player->Start();
 		actual_level = level_to_load->data->lvl;
 		/*App->audio->PlayMusic("audio/music/Galway.ogg");*/
 	}
