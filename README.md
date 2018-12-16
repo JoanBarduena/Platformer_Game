@@ -13,7 +13,7 @@ The game has been made using C++ (using SDL and pugi libraires) and the maps hav
 
 **SPACE** - Jump.
 
-**F** - Invert Gravity.
+**L** - Invert Gravity.
 
 ## Debug Keys:
 **F1** - Start from the very first level.
@@ -22,9 +22,15 @@ The game has been made using C++ (using SDL and pugi libraires) and the maps hav
 
 **F3** - Start from the second level.
 
+**F4** - Back to main menu.
+
 **F5** - Save the current state.
 
 **F6** - Load the previous state (even across levels).
+
+**F7** - Go to tutorial level.
+
+**F8** - Debug UI rects. 
 
 **F9** - To view colliders and pathfinding.
 
@@ -35,6 +41,9 @@ The game has been made using C++ (using SDL and pugi libraires) and the maps hav
 ## Github repository:
 https://github.com/JosepLleal/Platformer_Game
 
+## Web
+https://joseplleal.github.io/Platformer_Game/
+
 ## Authors:
 - Josep Lleal Sirvent
 	-[Josep's GitHub Link](https://github.com/JosepLleal)
@@ -42,13 +51,14 @@ https://github.com/JosepLleal/Platformer_Game
 	-[Joan's GitHub Link](https://github.com/JoanBarduena)
 
 ## Innovation:
-- Level_load: Instead of creating 2 scenes, we develop a Stuct Level with an Int (level) and a Sting (MapPath.tmx). So if the int is "1" the map loaded will be "map1.tmx". 
+- Level_load: Instead of creating 2 scenes, we developed a Stuct Level with an Int (level) and a String (MapPath.tmx). So if the int is "1" the map loaded will be "map1.tmx". 
 
 ## Tasklist: 
 - Josep Lleal:
 	- Pathfinding.
 	- Entities (smasher, bat).
-	- UML File. 
+	- UML Files.
+	- Gui.
 
 - Joan Barduena:
 	- God Mode.
@@ -56,6 +66,7 @@ https://github.com/JosepLleal/Platformer_Game
 	- Sounds.
 	- Map improvements.
 	- Animations. 
+	- In-Game UI.
 
 - Both members:
 	- Brofiler. 
