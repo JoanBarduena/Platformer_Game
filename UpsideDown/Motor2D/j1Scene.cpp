@@ -88,7 +88,7 @@ bool j1Scene::Start()
 	App->audio->sfxVolume = Slider_FX->Value_percentage;
 	App->audio->SetMusicVolume();
 	App->audio->SetSfxVolume();
-	App->audio->PlayMusic("audio/music/Galway.ogg");
+	App->audio->PlayMusic("audio/music/main_menu.ogg");
 
 	return true;
 }
@@ -119,6 +119,7 @@ bool j1Scene::Update(float dt)
 			if (iterator->data->funct == Function::PLAY)
 			{
 				App->entityManager->player->lifes = 3;
+				App->entityManager->player->player_score = 0; 
 				if (actual_level == 0)
 				{
 					App->fade->FadeToBlack(this, this, 1.3f);
@@ -540,6 +541,7 @@ void j1Scene::Level_Load(uint number)
 
 	if (actual_level == 0 && level_to_load->data->lvl > 0)
 	{
+		App->audio->PlayMusic("audio/music/Galway.ogg");
 		App->gui->Delete_UI_Elements();
 		App->entityManager->player->CleanUp();
 		App->map->Load(level_to_load->data->mapPath.GetString());
@@ -596,6 +598,7 @@ void j1Scene::Level_Load(uint number)
 	}
 	else if ((actual_level > 0) && (level_to_load->data->lvl == 0))
 	{
+		App->audio->PlayMusic("audio/music/main_menu.ogg");
 		App->entityManager->DestroyAllEntities();
 		Coins = nullptr; 
 		Timer = nullptr; 
@@ -698,7 +701,7 @@ void j1Scene::Create_UI_Elements()
 		//Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, true, false, App->gui->GetAtlas(), Function::GITHUB);
 
 	
-		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, true, true, "PLAY", { 255,255,255,0 }, App->font->default, Play);
+		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, true, true, "NEW GAME", { 255,255,255,0 }, App->font->default, Play);
 		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, true, true, "CONTINUE", { 255,255,255,0 }, App->font->default, Load_Game);
 		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, true, true, "SETTINGS", { 255,255,255,0 }, App->font->default, MainMenu_Settings);
 		App->gui->Create_Label(Element_type::LABEL, { 40, 6 }, true, true, "CREDITS", { 255,255,255,0 }, App->font->default, Credits);

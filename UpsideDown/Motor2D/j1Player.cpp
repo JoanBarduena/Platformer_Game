@@ -501,9 +501,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	{
 		if (App->scene->actual_level == 3)
 			wintutorial = true;
-		else 
+		else
+		{
 			win1 = true;
-
+			player_score += 1000; 
+		}
+			
 		can_move = false;
 		
 	}
@@ -660,6 +663,7 @@ bool j1Player::Save(pugi::xml_node& data) const
 	pugi::xml_node life_node = data.append_child("lifes");
 	pugi::xml_node timer_node = data.append_child("timer"); 
 	pugi::xml_node coins_node = data.append_child("coins");
+	pugi::xml_node score_node = data.append_child("score"); 
 
 	pos.append_attribute("x") = position.x;
 	pos.append_attribute("y") = position.y;
@@ -669,6 +673,7 @@ bool j1Player::Save(pugi::xml_node& data) const
 	life_node.append_attribute("value") = lifes; 
 	timer_node.append_attribute("value") = timer; 
 	coins_node.append_attribute("value") = collected_coins; 
+	score_node.append_attribute("value") = player_score; 
 
 	LOG("SAVING PLAYER");
 
@@ -686,6 +691,7 @@ bool j1Player::Load(pugi::xml_node& data)
 	god_mode = data.child("player").child("god_mode").attribute("value").as_bool();
 	saved_timer = data.child("player").child("timer").attribute("value").as_int();
 	collected_coins = data.child("player").child("coins").attribute("value").as_int(); 
+	player_score = data.child("player").child("score").attribute("value").as_int(); 
 
 	if (!App->scene->from_menu)
 	{
