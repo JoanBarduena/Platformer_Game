@@ -267,15 +267,13 @@ bool j1Player::PostUpdate()
 			timer = game_time.Read(); 
 
 		paused_timer = timer;
-		LOG("TIMER: %i", timer / 1000);
 	}
 	else
 	{
-		timer = paused_timer; //4 
+		timer = paused_timer;
 
 		game_time.Start();
 		game_time.DefineStartTime(-paused_timer);
-		LOG("TIMER: %i", timer / 1000);
 	}
 
 	if (flip == false)

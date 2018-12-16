@@ -276,6 +276,9 @@ bool j1Scene::Update(float dt)
 	if (Timer != nullptr)
 		Timer->SetHour(App->entityManager->player->timer); 
 
+	if (Score_num != nullptr)
+		Score_num->ValuetoString(App->entityManager->player->player_score, Score_num->text);
+
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && !pause)
 	{
@@ -588,6 +591,7 @@ void j1Scene::Level_Load(uint number)
 		App->entityManager->DestroyAllEntities();
 		Coins = nullptr; 
 		Timer = nullptr; 
+		Score_num = nullptr;
 		App->entityManager->player->CleanUp();
 		App->gui->Delete_UI_Elements();
 		App->map->Load(level_to_load->data->mapPath.GetString());
@@ -718,10 +722,13 @@ void j1Scene::Create_UI_Elements()
 			if (App->entityManager->player->lifes == 1)
 				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 261, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 
-			Gui_Elements* Coin = App->gui->Create_Image(Element_type::IMAGE, {890, 18}, {648, 33, 56, 52}, true, true, false, App->gui->GetAtlas(), nullptr); 
-			Coins = App->gui->Create_Label(Element_type::LABEL, { 80, 0 }, true, true, "0", { 255, 255, 255, 0 }, App->font->bigger, Coin);
+			Gui_Elements* Coin = App->gui->Create_Image(Element_type::IMAGE, {870, 18}, {648, 33, 56, 52}, true, true, false, App->gui->GetAtlas(), nullptr); 
+			Coins = App->gui->Create_Label(Element_type::LABEL, { 70, -18 }, true, true, "0", { 255, 255, 255, 0 }, App->font->bigger, Coin);
 
-			Timer = App->gui->Create_Label(Element_type::LABEL, { 360, 20 }, true, true, "0", { 255, 255, 255, 0 }, App->font->bigger, nullptr);
+			Timer = App->gui->Create_Label(Element_type::LABEL, { 360, 0 }, true, true, "0", { 255, 255, 255, 0 }, App->font->bigger, nullptr);
+			
+			Gui_Elements* Score = App->gui->Create_Label(Element_type::LABEL, { 820, 720 }, true, true, "SCORE:", { 255, 255, 255, 0 }, App->font->default, nullptr);
+			Score_num = App->gui->Create_Label(Element_type::LABEL, {100, 0 }, true, true, "0", { 255, 255, 255, 0 }, App->font->default, Score);
 		}
 		
 		Menu = App->gui->Create_Image(Element_type::IMAGE, { 355, 200 }, { 8, 459, 315, 402 }, false, false, false, App->gui->GetAtlas());

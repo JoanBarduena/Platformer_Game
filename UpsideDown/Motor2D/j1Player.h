@@ -114,6 +114,8 @@ public:
 	int saved_timer = 0;
 	int paused_timer = 0;
 
+	int player_score = 0; 
+
 	p2SString folder;
 	p2List_item<ImageLayer*>* image = nullptr;
 };

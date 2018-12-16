@@ -90,6 +90,7 @@ void j1Coin::OnCollision(Collider* c1, Collider* c2)
 		App->audio->PlayFx(coin_fx); 
 		App->entityManager->DestroyThisEntity(this);
 		App->entityManager->player->collected_coins++;
+		App->entityManager->player->player_score += 100; 
 	}
 }
 

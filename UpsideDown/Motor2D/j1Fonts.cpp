@@ -38,7 +38,7 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 		int big_size = conf.child("bigger_font").attribute("size").as_int(BIGGER_FONT_SIZE);
 
 		default = Load(path, size);
-		bigger = Load(path_credits, big_size);
+		bigger = Load(path, big_size);
 		smaller = Load(path, size2);
 		Credits = Load(path_credits, size2);
 	}
