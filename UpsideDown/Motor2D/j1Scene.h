@@ -114,6 +114,8 @@ private:
 
 	Gui_Elements* Coins = nullptr; 
 
+	Gui_Elements* Timer = nullptr; 
+
 	Gui_Elements* Slider_FX = nullptr;
 	Gui_Elements* Slider_FX_Value = nullptr;
 	Gui_Elements* Button_FX = nullptr;

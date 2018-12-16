@@ -19,7 +19,6 @@ public:
 	bool PostUpdate();
 
 	bool CleanUp();
-
 };
 
 

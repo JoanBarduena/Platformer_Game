@@ -95,3 +95,53 @@ void Gui_Elements::ValuetoString(int value, p2SString text)
 	Rect.w = width;
 	Rect.h = height;
 }
+
+void Gui_Elements::SetHour(int milisec)
+{
+	int sec = milisec / 1000.0f; //from milisecond to sec
+	int min = sec / 60.0f; //from seconds to minutes 
+	int hour = min / 60.0f; //from minutes to hours
+
+	p2SString time;
+ 
+	int sec_print = sec; 
+
+	if (min > 0)
+		sec_print -= min * 60;
+
+	if (hour >= 10 && min >= 10 && sec_print >= 10) {
+		time.create("%i : %i : %i", hour, min, sec_print);
+	}
+	else if (hour < 10 && min >= 10 && sec_print >= 10) {
+		time.create("0%i : %i : %i", hour, min, sec_print);
+	}
+	else if (hour >= 10 && min < 10 && sec_print >= 10) {
+		time.create("%i : 0%i : %i", hour, min, sec_print);
+	}
+	else if (hour >= 10 && min >= 10 && sec_print < 10) {
+		time.create("%i : %i : 0%i", hour, min, sec_print);
+	}
+	else if (hour >= 10 && min < 10 && sec_print < 10) {
+		time.create("%i : 0%i : 0%i", hour, min, sec_print);
+	}
+	else if (hour < 10 && min >= 10 && sec_print < 10) {
+		time.create("0%i : %i : 0%i", hour, min, sec_print);
+	}
+	else if (hour < 10 && min < 10 && sec_print >= 10) {
+		time.create("0%i : 0%i : %i", hour, min, sec_print);
+	}
+	else {
+		time.create("0%i : 0%i : 0%i", hour, min, sec_print);
+	}
+
+	text.create(time.GetString());
+
+	App->tex->UnLoad(texture);
+
+	texture = App->font->Print(text.GetString(), color, font);
+
+	int width = 0, height = 0;
+	App->font->CalcSize(this->text.GetString(), width, height, font);
+	Rect.w = width;
+	Rect.h = height;
+}

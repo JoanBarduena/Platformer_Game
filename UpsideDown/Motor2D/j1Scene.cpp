@@ -273,6 +273,9 @@ bool j1Scene::Update(float dt)
 	if(Coins != nullptr)
 		Coins->ValuetoString(App->entityManager->player->collected_coins, Coins->text);
 
+	if (Timer != nullptr)
+		Timer->SetHour(App->entityManager->player->timer); 
+
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && !pause)
 	{
@@ -584,6 +587,7 @@ void j1Scene::Level_Load(uint number)
 	{
 		App->entityManager->DestroyAllEntities();
 		Coins = nullptr; 
+		Timer = nullptr; 
 		App->entityManager->player->CleanUp();
 		App->gui->Delete_UI_Elements();
 		App->map->Load(level_to_load->data->mapPath.GetString());
@@ -716,6 +720,8 @@ void j1Scene::Create_UI_Elements()
 
 			Gui_Elements* Coin = App->gui->Create_Image(Element_type::IMAGE, {890, 18}, {648, 33, 56, 52}, true, true, false, App->gui->GetAtlas(), nullptr); 
 			Coins = App->gui->Create_Label(Element_type::LABEL, { 80, 0 }, true, true, "0", { 255, 255, 255, 0 }, App->font->bigger, Coin);
+
+			Timer = App->gui->Create_Label(Element_type::LABEL, { 360, 20 }, true, true, "0", { 255, 255, 255, 0 }, App->font->bigger, nullptr);
 		}
 		
 		Menu = App->gui->Create_Image(Element_type::IMAGE, { 355, 200 }, { 8, 459, 315, 402 }, false, false, false, App->gui->GetAtlas());

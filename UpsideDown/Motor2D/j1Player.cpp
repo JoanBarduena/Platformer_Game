@@ -661,6 +661,7 @@ bool j1Player::Save(pugi::xml_node& data) const
 	pugi::xml_node god = data.append_child("god_mode"); 
 	pugi::xml_node life_node = data.append_child("lifes");
 	pugi::xml_node timer_node = data.append_child("timer"); 
+	pugi::xml_node coins_node = data.append_child("coins");
 
 	pos.append_attribute("x") = position.x;
 	pos.append_attribute("y") = position.y;
@@ -669,6 +670,7 @@ bool j1Player::Save(pugi::xml_node& data) const
 	god.append_attribute("value") = god_mode; 
 	life_node.append_attribute("value") = lifes; 
 	timer_node.append_attribute("value") = timer; 
+	coins_node.append_attribute("value") = collected_coins; 
 
 	LOG("SAVING PLAYER");
 
@@ -685,14 +687,13 @@ bool j1Player::Load(pugi::xml_node& data)
 	App->scene->Level_Load(data.child("player").child("current_level").attribute("value").as_int());
 	god_mode = data.child("player").child("god_mode").attribute("value").as_bool();
 	saved_timer = data.child("player").child("timer").attribute("value").as_int();
-	
+	collected_coins = data.child("player").child("coins").attribute("value").as_int(); 
+
 	if (!App->scene->from_menu)
 	{
 		game_time.Start();
 		game_time.DefineStartTime(-saved_timer);
 	}
-
-	LOG("SAVING TIMER: %d", saved_timer);
 
 	return true; 
 }

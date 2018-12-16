@@ -33,6 +33,8 @@ public:
 
 	void ValuetoString(int value, p2SString text);
 
+	void SetHour(int milisec);
+
 
 public:
 
