@@ -73,6 +73,8 @@ public:
 	bool saved_game = false;
 	bool loading_saved_game = false;
 
+	bool from_menu = false; 
+
 private:
 
 	float dt_scene;

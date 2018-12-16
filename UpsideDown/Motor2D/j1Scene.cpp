@@ -535,6 +535,8 @@ void j1Scene::Level_Load(uint number)
 
 		Create_UI_Elements();
 
+		from_menu = true; 
+
 		actual_level = level_to_load->data->lvl;
 	}
 	else if (actual_level == level_to_load->data->lvl)
@@ -555,6 +557,8 @@ void j1Scene::Level_Load(uint number)
 
 		Create_UI_Elements();
 
+		from_menu = false; 
+
 		App->entityManager->Start();
 	}
 	else if ((actual_level == 3 && level_to_load->data->lvl == 1) || (actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1) || (actual_level == 3 && level_to_load->data->lvl == 2))
@@ -572,6 +576,7 @@ void j1Scene::Level_Load(uint number)
 		RespawnCoinsHearts();
 		Create_UI_Elements();
 		App->entityManager->Start();
+		from_menu = false;
 		actual_level = level_to_load->data->lvl;
 	}
 	else if ((actual_level > 0) && (level_to_load->data->lvl == 0))
@@ -585,6 +590,7 @@ void j1Scene::Level_Load(uint number)
 		Create_UI_Elements();
 		App->entityManager->player->initial_pos = true;
 		App->entityManager->player->Start();
+		from_menu = false;
 		actual_level = level_to_load->data->lvl;
 		/*App->audio->PlayMusic("audio/music/Galway.ogg");*/
 	}
