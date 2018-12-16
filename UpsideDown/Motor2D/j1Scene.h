@@ -73,9 +73,13 @@ public:
 	bool saved_game = false;
 	bool loading_saved_game = false;
 
-	
+	j1Timer game_time;
+	int	loading_time = 0;
 
 private:
+
+	int timer = 0;
+	int paused_timer = 0;
 	
 	float dt_scene;
 

@@ -90,6 +90,11 @@ bool j1Scene::Start()
 	App->audio->SetSfxVolume();
 	App->audio->PlayMusic("audio/music/Galway.ogg");
 
+	if (loading_time != 0)
+		timer = loading_time;
+
+	LOG("TIMER: %i", timer);
+
 	return true;
 }
 
@@ -486,7 +491,19 @@ bool j1Scene::PostUpdate()
 		
 		
 	}
-	
+
+	if ((actual_level == 1 || actual_level == 2) && !pause)
+	{
+		timer = game_time.Read();
+		paused_timer = timer;
+		LOG("TIMER: %i", timer/1000);
+	}
+	else
+	{
+		timer = paused_timer;
+		game_time.Start();
+		game_time.DefineStartTime(-paused_timer);
+	}
 
 	return ret;
 }
@@ -508,20 +525,20 @@ void j1Scene::Level_Load(uint number)
 	}
 	level_to_load = lvl;
 
-	
+
 
 	if (start_pos)
 	{
 		App->entityManager->player->initial_pos = true;
-	}	
+	}
 	else
 	{
-		if(level_to_load==0)
+		if (level_to_load == 0)
 			App->entityManager->player->initial_pos = true;
 		else
 			App->entityManager->player->initial_pos = false;
 	}
-		
+
 
 	if (actual_level == 0 && level_to_load->data->lvl > 0)
 	{
@@ -529,56 +546,68 @@ void j1Scene::Level_Load(uint number)
 		App->entityManager->player->CleanUp();
 		App->map->Load(level_to_load->data->mapPath.GetString());
 		RespawnEnemies();
-		RespawnCoinsHearts(); 
+		RespawnCoinsHearts();
 		App->entityManager->Start();
 		App->entityManager->player->Start();
-				
+
 		Create_UI_Elements();
 
 		actual_level = level_to_load->data->lvl;
+
+		game_time.Start();
+		game_time.DefineStartTime(-loading_time);
 	}
 	else if (actual_level == level_to_load->data->lvl)
 	{
 		App->entityManager->player->CleanUp();
-	
+
 		if (level_to_load->data->lvl != 3)
 			App->entityManager->DestroyEnemies();
 
-		App->entityManager->CleanUp(); 
+		App->entityManager->CleanUp();
 
-		App->gui->Delete_UI_Elements(); 
+		App->gui->Delete_UI_Elements();
 
 		App->map->Load(level_to_load->data->mapPath.GetString());
 
 		if (level_to_load->data->lvl != 3)
 			RespawnEnemies();
 
-		Create_UI_Elements(); 
+		Create_UI_Elements();
 
 		App->entityManager->Start();
+
+		game_time.Start();
+		game_time.DefineStartTime(-loading_time);
 	}
 	else if ((actual_level == 3 && level_to_load->data->lvl == 1) || (actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1) || (actual_level == 3 && level_to_load->data->lvl == 2))
 	{
-		App->gui->Delete_UI_Elements(); 
-		
+		App->gui->Delete_UI_Elements();
+
 		App->entityManager->player->CleanUp();
 		if (actual_level != 3)
 		{
 			App->entityManager->DestroyAllEntities();
 		}
-		
+
 		App->map->Load(level_to_load->data->mapPath.GetString());
 		RespawnEnemies();
-		RespawnCoinsHearts(); 
-		Create_UI_Elements(); 
+		RespawnCoinsHearts();
+		Create_UI_Elements();
 		App->entityManager->Start();
 		actual_level = level_to_load->data->lvl;
+
+		if (actual_level == 3)
+		{
+			game_time.Start();
+			game_time.DefineStartTime(-loading_time);
+		}
 	}
 	else if ((actual_level > 0) && (level_to_load->data->lvl == 0))
 	{
 		App->entityManager->DestroyAllEntities();
 		App->entityManager->player->CleanUp();
-		App->gui->Delete_UI_Elements(); 
+		App->gui->Delete_UI_Elements();
 		App->map->Load(level_to_load->data->mapPath.GetString());
 		App->render->camera.x = -50;
 		App->render->camera.y = -300;
@@ -596,8 +625,8 @@ void j1Scene::Level_Load(uint number)
 		App->pathfinding->SetMap(w, h, data);
 	}
 	RELEASE_ARRAY(data);
-
 }
+
 
 void j1Scene::RespawnEnemies()
 {
