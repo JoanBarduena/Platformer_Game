@@ -6,6 +6,9 @@ The game has been made using C++ (using SDL and pugi libraires) and the maps hav
 To download the last release of UpsideDown click [here](https://github.com/JosepLleal/Platformer_Game/releases/download/1.0/Upside_Down.zip).
 
 ## Authors:
+
+![](team_photo.jpeg)
+
 - Josep Lleal Sirvent
 	-[Josep's GitHub Link](https://github.com/JosepLleal)
 - Joan Barduena Reyes
