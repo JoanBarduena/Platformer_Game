@@ -79,7 +79,7 @@ public:
 
 	Gui_Elements* Create_Button(Element_type element, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, bool visible, bool In_Game, SDL_Texture* tex = nullptr, Function function = Function::NONE, Gui_Elements* Parent = nullptr, Button_type button = Button_type::NONE);
 	Gui_Elements* Create_Image(Element_type element, iPoint position, SDL_Rect rect, bool visible, bool In_Game, bool dragable, SDL_Texture* tex = nullptr, Gui_Elements* Parent = nullptr);
-	Gui_Elements* Create_Label(Element_type element, iPoint position, SDL_Rect rect, bool visible, bool In_Game, const char* Text, SDL_Color Color, _TTF_Font* Font, Gui_Elements* Parent = nullptr);
+	Gui_Elements* Create_Label(Element_type element, iPoint position, SDL_Rect rect, bool visible, bool In_Game, p2SString Text, SDL_Color Color, _TTF_Font* Font, Gui_Elements* Parent = nullptr);
 	Gui_Elements* Create_Slider(Element_type type, iPoint position, SDL_Rect rect, bool visible, SDL_Texture* tex = nullptr, Gui_Elements* Parent = nullptr);
 
 	void Delete_UI_Elements();

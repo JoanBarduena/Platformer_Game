@@ -32,7 +32,9 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 	{
 		const char* path = conf.child("default_font").attribute("file").as_string(DEFAULT_FONT);
 		int size = conf.child("default_font").attribute("size").as_int(DEFAULT_FONT_SIZE);
+		int size2 = conf.child("smaller_font").attribute("size").as_int(SMALLER_FONT_SIZE);
 		default = Load(path, size);
+		smaller = Load(path, size2);
 	}
 
 	return ret;

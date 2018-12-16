@@ -1,5 +1,6 @@
 #include "p2Defs.h"
 #include "p2Log.h"
+#include "string"
 #include "j1App.h"
 #include "j1Input.h"
 #include "j1Render.h"
@@ -264,6 +265,9 @@ bool j1Scene::Update(float dt)
 		}
 	}
 	// -------------------------------------------------------------------------------------------
+
+	Slider_Music_Value->ValuetoString(Slider_Music->Value_percentage, Slider_Music_Value->text);
+	Slider_FX_Value->ValuetoString(Slider_FX->Value_percentage, Slider_FX_Value->text);
 
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && !pause)
@@ -732,10 +736,13 @@ void j1Scene::Create_UI_Elements()
 	Slider_Music = App->gui->Create_Slider(Element_type::SLIDER, { 350, 140 }, { 860,337,190,2 }, false, App->gui->GetAtlas(), Settings_Menu);
 	Button_Music = App->gui->Create_Image(Element_type::IMAGE, { Music_Slider_pos, -20 }, { 770, 197, 28, 42 }, false, false, true, App->gui->GetAtlas(), Slider_Music);
 	Gui_Elements* Music_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 120 }, { 0,0,180, 30 }, false, false, "Music Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
+	Slider_Music_Value = App->gui->Create_Label(Element_type::LABEL, { 490, 80 }, { 0,0,50, 24 }, false, false, "0%%", { 100,40, 0,0 }, App->font->smaller, Settings_Menu);
 
-	Slider_FX = App->gui->Create_Slider(Element_type::SLIDER, { 350, 200 }, { 860,337,190,2 }, false, App->gui->GetAtlas(), Settings_Menu);
+
+	Slider_FX = App->gui->Create_Slider(Element_type::SLIDER, { 350, 230 }, { 860,337,190,2 }, false, App->gui->GetAtlas(), Settings_Menu);
 	Button_FX = App->gui->Create_Image(Element_type::IMAGE, { FX_Slider_pos, -20 }, { 770, 197, 28, 42 }, false, false, true, App->gui->GetAtlas(), Slider_FX);
-	Gui_Elements* FX_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 180 }, { 0,0,140, 30 }, false, false, "FX Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
+	Gui_Elements* FX_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 210 }, { 0,0,140, 30 }, false, false, "FX Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
+	Slider_FX_Value = App->gui->Create_Label(Element_type::LABEL, { 490, 170 }, { 0,0,50, 24 }, false, false, "0%%", { 100,40, 0,0 }, App->font->smaller, Settings_Menu);
 
 	Gui_Elements* Apply = App->gui->Create_Button(Element_type::BUTTON, { 200, 380 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, false, false, App->gui->GetAtlas(), Function::APPLY, Settings_Menu);
 	App->gui->Create_Label(Element_type::LABEL, { 50, 6 }, { 0,0,90, 30 }, false, false, "APPLY", { 255,255,255,0 }, App->font->default, Apply);

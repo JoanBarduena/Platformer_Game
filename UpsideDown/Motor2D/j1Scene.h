@@ -111,12 +111,14 @@ private:
 	Gui_Elements* Menu = nullptr;
 
 	Gui_Elements* Slider_FX = nullptr;
+	Gui_Elements* Slider_FX_Value = nullptr;
 	Gui_Elements* Button_FX = nullptr;
 	int FX_Slider_pos = 95;
 
 	Gui_Elements* Slider_Music = nullptr;
+	Gui_Elements* Slider_Music_Value = nullptr;
 	Gui_Elements* Button_Music = nullptr;
-	int Music_Slider_pos = 95;
+	int Music_Slider_pos = 35;
 
 	Gui_Elements* Main_Menu = nullptr;
 

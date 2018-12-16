@@ -7,6 +7,7 @@
 
 #define DEFAULT_FONT "fonts/heavy_data.ttf"
 #define DEFAULT_FONT_SIZE 30
+#define SMALLER_FONT_SIZE 24
 
 struct SDL_Texture;
 struct _TTF_Font;
@@ -38,6 +39,7 @@ public:
 
 	p2List<_TTF_Font*>	fonts;
 	_TTF_Font*			default;
+	_TTF_Font*			smaller;
 };
 
 

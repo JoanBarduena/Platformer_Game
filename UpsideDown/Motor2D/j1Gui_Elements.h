@@ -31,12 +31,19 @@ public:
 
 	void Show_Debug_Rect();
 
+	void ValuetoString(int value, p2SString text);
+
 
 public:
 
 	Element_type type = Element_type::NONE;
 
 	Function funct = Function::NONE;
+
+
+	p2SString text;
+	SDL_Color color;
+	TTF_Font* font;
 
 	iPoint pos;
 	iPoint GlobalPos;

@@ -1,4 +1,5 @@
 #include "j1Gui_Elements.h"
+#include "j1Textures.h"
 
 Gui_Elements::Gui_Elements(Element_type Type, iPoint position, SDL_Rect rect, bool Visible, bool In_Game, Gui_Elements* Parent, SDL_Texture* tex) 
 {
@@ -72,4 +73,23 @@ void Gui_Elements::Draw_InGame_Element()
 		}
 	}
 	
+}
+
+void Gui_Elements::ValuetoString(int value, p2SString text)
+{
+	std::string s = std::to_string(value);
+
+	std::string t("%%");
+	s += t;
+
+	text = s.c_str();
+
+	App->tex->UnLoad(texture);
+
+	texture = App->font->Print(text.GetString(), color, font);
+
+	int width = 0, height = 0;
+	App->font->CalcSize(text.GetString(), width, height, App->font->default);
+	Rect.w = width;
+	Rect.h = height;
 }

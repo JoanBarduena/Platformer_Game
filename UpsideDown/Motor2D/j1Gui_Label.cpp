@@ -1,14 +1,14 @@
 #include "j1Gui_Label.h"
 #include "j1Fonts.h"
 
-Gui_Label::Gui_Label(Element_type type, iPoint position, SDL_Rect rect, bool visible, bool In_Game, const char* Text, SDL_Color Color, TTF_Font* Font, Gui_Elements* Parent) : Gui_Elements(type, position, rect, visible, In_Game, Parent)
+Gui_Label::Gui_Label(Element_type type, iPoint position, SDL_Rect rect, bool visible, bool In_Game, p2SString Text, SDL_Color Color, TTF_Font* Font, Gui_Elements* Parent) : Gui_Elements(type, position, rect, visible, In_Game, Parent)
 {
 	
 	text = Text;
 	color = Color;
 	font = Font;
 
-	texture = App->font->Print(text, color, font);
+	texture = App->font->Print(this->text.GetString(), color, font);
 
 }
 
@@ -71,3 +71,4 @@ bool Gui_Label::CleanUp() {
 
 	return true;
 }
+
