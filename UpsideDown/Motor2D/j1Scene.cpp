@@ -151,7 +151,7 @@ bool j1Scene::Update(float dt)
 			}
 			else if (iterator->data->funct == Function::GITHUB)
 			{
-				ShellExecuteA(NULL, "open", "https://github.com/JosepLleal/Platformer_Game", NULL, NULL, SW_SHOWNORMAL);
+				ShellExecuteA(NULL, "open", "https://joseplleal.github.io/Platformer_Game/", NULL, NULL, SW_SHOWNORMAL);
 			}
 			else if (iterator->data->funct == Function::SKIP)
 			{
@@ -463,7 +463,7 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
-	BROFILER_CATEGORY("Collision PostUpdate", Profiler::Color::Red);
+	BROFILER_CATEGORY("Scene PostUpdate", Profiler::Color::Red);
 
 	bool ret = true;
 
@@ -700,7 +700,7 @@ void j1Scene::Create_UI_Elements()
 		Gui_Elements* MainMenu_Settings = App->gui->Create_Button(Element_type::BUTTON, { 415, 440 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, true, false, App->gui->GetAtlas(), Function::SETTINGS, Main_Menu);
 		Gui_Elements* Credits = App->gui->Create_Button(Element_type::BUTTON, { 415, 510 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, true, false, App->gui->GetAtlas(), Function::CREDITS, Main_Menu);
 		Gui_Elements* Exit = App->gui->Create_Button(Element_type::BUTTON, { 415, 580 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, true, false, App->gui->GetAtlas(), Function::EXIT, Main_Menu);
-		//Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, true, false, App->gui->GetAtlas(), Function::GITHUB);
+		Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 630, 580 }, { 650, 117 , 45, 49 }, { 699, 117 , 45, 49 }, { 748, 113 , 45, 53 }, true, false, App->gui->GetAtlas(), Function::GITHUB);
 
 	
 		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, true, true, "NEW GAME", { 255,255,255,0 }, App->font->default, Play);

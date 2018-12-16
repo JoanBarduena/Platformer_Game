@@ -47,6 +47,7 @@ bool j1Gui::Start()
 // Update all guis
 bool j1Gui::PreUpdate()
 {
+	BROFILER_CATEGORY("Gui PreUpdate", Profiler::Color::Blue);
 	bool ret = true;
 
 	for (p2List_item<Gui_Elements*>* iterator = List_elem.start; iterator != nullptr; iterator = iterator->next)
@@ -62,6 +63,8 @@ bool j1Gui::PreUpdate()
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
+	BROFILER_CATEGORY("Gui PostUpdate", Profiler::Color::Red);
+
 	bool ret = true;
 
 	if (App->scene->pause)
