@@ -14,12 +14,13 @@
 			<current_level value="1" />
 			<god_mode value="false" />
 			<lifes value="3" />
+			<timer value="5720" />
 		</player>
 		<entities>
 			<entity position_x="0" position_y="0" />
-			<entity position_x="2060" position_y="965.28894" />
-			<entity position_x="4125" position_y="1055.28772" />
-			<entity position_x="5571" position_y="855.290161" />
+			<entity position_x="2060" position_y="967.99469" />
+			<entity position_x="4125" position_y="1057.4054" />
+			<entity position_x="5571" position_y="857.995911" />
 			<entity position_x="5874" position_y="116" />
 			<entity position_x="2430" position_y="537" />
 			<entity position_x="3770" position_y="450" />

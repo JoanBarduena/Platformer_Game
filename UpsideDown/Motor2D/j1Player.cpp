@@ -85,8 +85,11 @@ void j1Player::LoadValues()
 	Player.godmode_hitbox = player.child("godmode_hitbox").attribute("value").as_int();
 
 	//Initial player lifes
-	if(player_starts)
-		Player.player_lifes = player.child("lifes").attribute("value").as_int(); 
+	if (player_starts)
+	{
+		Player.player_lifes = player.child("lifes").attribute("value").as_int();
+	}
+		
 }
 
 bool j1Player::Start()
@@ -677,6 +680,8 @@ bool j1Player::Load(pugi::xml_node& data)
 	god_mode = data.child("player").child("god_mode").attribute("value").as_bool();
 	timer = data.child("player").child("timer").attribute("value").as_int(); 
 	
+	LOG("SAVING TIMER: %d", timer);
+
 	return true; 
 }
 
