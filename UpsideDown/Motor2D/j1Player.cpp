@@ -254,6 +254,21 @@ bool j1Player::PostUpdate()
 {
 	BROFILER_CATEGORY("Player PostUpdate", Profiler::Color::Red);
 
+	//TIMER 
+	if ((App->scene->actual_level == 1 || App->scene->actual_level == 2) && !App->scene->pause)
+	{
+		timer = game_time.Read();
+		paused_timer = timer;
+		LOG("TIMER: %i", timer / 1000);
+	}
+	else
+	{
+		timer = paused_timer;
+		game_time.Start();
+		game_time.DefineStartTime(-paused_timer);
+		LOG("TIMER: %i", timer / 1000);
+	}
+
 	if (flip == false)
 	{
 		if (invert_gravity == true)

@@ -90,11 +90,6 @@ bool j1Scene::Start()
 	App->audio->SetSfxVolume();
 	App->audio->PlayMusic("audio/music/Galway.ogg");
 
-	if (loading_time != 0)
-		timer = loading_time;
-
-	LOG("TIMER: %i", timer);
-
 	return true;
 }
 
@@ -492,19 +487,6 @@ bool j1Scene::PostUpdate()
 		
 	}
 
-	if ((actual_level == 1 || actual_level == 2) && !pause)
-	{
-		timer = game_time.Read();
-		paused_timer = timer;
-		LOG("TIMER: %i", timer/1000);
-	}
-	else
-	{
-		timer = paused_timer;
-		game_time.Start();
-		game_time.DefineStartTime(-paused_timer);
-	}
-
 	return ret;
 }
 
@@ -553,9 +535,6 @@ void j1Scene::Level_Load(uint number)
 		Create_UI_Elements();
 
 		actual_level = level_to_load->data->lvl;
-
-		game_time.Start();
-		game_time.DefineStartTime(-loading_time);
 	}
 	else if (actual_level == level_to_load->data->lvl)
 	{
@@ -576,9 +555,6 @@ void j1Scene::Level_Load(uint number)
 		Create_UI_Elements();
 
 		App->entityManager->Start();
-
-		game_time.Start();
-		game_time.DefineStartTime(-loading_time);
 	}
 	else if ((actual_level == 3 && level_to_load->data->lvl == 1) || (actual_level == 1 && level_to_load->data->lvl == 2) || (actual_level == 2 && level_to_load->data->lvl == 1) || (actual_level == 3 && level_to_load->data->lvl == 2))
 	{
@@ -596,12 +572,6 @@ void j1Scene::Level_Load(uint number)
 		Create_UI_Elements();
 		App->entityManager->Start();
 		actual_level = level_to_load->data->lvl;
-
-		if (actual_level == 3)
-		{
-			game_time.Start();
-			game_time.DefineStartTime(-loading_time);
-		}
 	}
 	else if ((actual_level > 0) && (level_to_load->data->lvl == 0))
 	{

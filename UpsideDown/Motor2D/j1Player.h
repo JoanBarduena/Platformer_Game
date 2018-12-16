@@ -108,6 +108,11 @@ public:
 	int jump_force;
 	int collected_coins = 0;
 
+	//Timer values 
+	j1Timer game_time;
+	int timer = 0;
+	int paused_timer = 0;
+
 	p2SString folder;
 	p2List_item<ImageLayer*>* image = nullptr;
 };
