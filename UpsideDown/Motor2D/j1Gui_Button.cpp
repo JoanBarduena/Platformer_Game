@@ -1,4 +1,5 @@
 #include "j1Gui_Button.h"
+#include "j1Audio.h"
 
 
 Gui_Button::Gui_Button(Element_type type, iPoint position, SDL_Rect rect, SDL_Rect rect_hovering, SDL_Rect rect_clicking, bool visible, bool In_Game, SDL_Texture* tex, Function function, Gui_Elements* Parent) : Gui_Elements(type, position, rect, visible, In_Game, Parent, tex)
@@ -50,10 +51,17 @@ bool Gui_Button::PreUpdate()
 			if (App->scene->Mouse_Pos.x > GlobalPos.x && App->scene->Mouse_Pos.x < GlobalPos.x + Rect.w && App->scene->Mouse_Pos.y > GlobalPos.y && App->scene->Mouse_Pos.y < GlobalPos.y + Rect.h)
 			{
 				hovering = true;
+				if (hover_fx)
+				{
+					App->audio->PlayFx(App->gui->FX_Hover);
+					hover_fx = false;
+				}
+					
 			}
 			else
 			{
 				hovering = false;
+				hover_fx = true;
 			}
 
 			if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN && hovering)
@@ -64,6 +72,7 @@ bool Gui_Button::PreUpdate()
 			{
 				clicking_left = false;
 				do_action = true;
+				App->audio->PlayFx(App->gui->FX_Click);
 
 			}
 			else if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && !hovering)

@@ -1,5 +1,6 @@
 #include "j1Render.h"
 #include "j1Textures.h"
+#include "j1Audio.h"
 #include "j1Input.h"
 #include "j1Window.h"
 #include "j1Gui.h"
@@ -34,6 +35,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.GetString());
+	FX_Click = App->audio->LoadFx("audio/fx/ui/click1.wav");
+	FX_Hover = App->audio->LoadFx("audio/fx/ui/rollover2.wav");
 
 	bool ret = true;
 

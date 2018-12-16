@@ -91,6 +91,7 @@ private:
 
 public:
 	p2List<Gui_Elements*> List_elem;
+	uint FX_Click, FX_Hover;
 
 
 };

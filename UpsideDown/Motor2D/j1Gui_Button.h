@@ -24,6 +24,7 @@ public:
 
 	Button_type Type = Button_type::NONE;
 
+	bool hover_fx = true;
 
 };
 
