@@ -270,6 +270,9 @@ bool j1Scene::Update(float dt)
 	Slider_Music_Value->ValuetoString(Slider_Music->Value_percentage, Slider_Music_Value->text);
 	Slider_FX_Value->ValuetoString(Slider_FX->Value_percentage, Slider_FX_Value->text);
 
+	if(Coins != nullptr)
+		Coins->ValuetoString(App->entityManager->player->collected_coins, Coins->text);
+
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && !pause)
 	{
@@ -484,10 +487,8 @@ bool j1Scene::PostUpdate()
 				pause = !pause;
 			}
 		}
-		
-		
 	}
-
+	
 	return ret;
 }
 
@@ -710,6 +711,9 @@ void j1Scene::Create_UI_Elements()
 				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 202, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 			if (App->entityManager->player->lifes == 1)
 				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 261, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
+
+			Gui_Elements* Coin = App->gui->Create_Image(Element_type::IMAGE, {870, 18}, {648, 33, 56, 52}, true, true, false, App->gui->GetAtlas(), nullptr); 
+			Coins = App->gui->Create_Label(Element_type::LABEL, { 50, 0 }, { 0,0,50, 24 }, true, true, "0%% / 20", { 100, 40, 0, 0 }, App->font->smaller, Coin);
 		}
 		
 		Menu = App->gui->Create_Image(Element_type::IMAGE, { 355, 200 }, { 8, 459, 315, 402 }, false, false, false, App->gui->GetAtlas());
