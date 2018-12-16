@@ -124,10 +124,10 @@ Gui_Elements* j1Gui::Create_Image(Element_type element, iPoint position, SDL_Rec
 	return elem;
 }
 
-Gui_Elements* j1Gui::Create_Label(Element_type element, iPoint position, SDL_Rect rect, bool visible, bool In_Game, p2SString Text, SDL_Color Color, _TTF_Font* Font, Gui_Elements* Parent)
+Gui_Elements* j1Gui::Create_Label(Element_type element, iPoint position, bool visible, bool In_Game, p2SString Text, SDL_Color Color, _TTF_Font* Font, Gui_Elements* Parent)
 {
 	Gui_Elements* elem = nullptr;
-	elem = new Gui_Label(element, position, rect, visible, In_Game, Text, Color, Font, Parent);
+	elem = new Gui_Label(element, position, visible, In_Game, Text, Color, Font, Parent);
 
 	if (elem != nullptr )
 		List_elem.add(elem);

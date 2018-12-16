@@ -682,11 +682,11 @@ void j1Scene::Create_UI_Elements()
 		//Gui_Elements* GitHub = App->gui->Create_Button(Element_type::BUTTON, { 946, 690 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, { 19, 789 , 77, 77 }, true, false, App->gui->GetAtlas(), Function::GITHUB);
 
 	
-		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,77, 30 }, true, true, "PLAY", { 255,255,255,0 }, App->font->default, Play);
-		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, { 0,0,120, 30 }, true, true, "CONTINUE", { 255,255,255,0 }, App->font->default, Load_Game);
-		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, { 0,0,120, 30 }, true, true, "SETTINGS", { 255,255,255,0 }, App->font->default, MainMenu_Settings);
-		App->gui->Create_Label(Element_type::LABEL, { 40, 6 }, { 0,0,100, 30 }, true, true, "CREDITS", { 255,255,255,0 }, App->font->default, Credits);
-		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, { 0,0,70, 30 }, true, true, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
+		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, true, true, "PLAY", { 255,255,255,0 }, App->font->default, Play);
+		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, true, true, "CONTINUE", { 255,255,255,0 }, App->font->default, Load_Game);
+		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, true, true, "SETTINGS", { 255,255,255,0 }, App->font->default, MainMenu_Settings);
+		App->gui->Create_Label(Element_type::LABEL, { 40, 6 }, true, true, "CREDITS", { 255,255,255,0 }, App->font->default, Credits);
+		App->gui->Create_Label(Element_type::LABEL, { 57, 6 }, true, true, "EXIT", { 255,255,255,0 }, App->font->default, Exit);
 
 		Credits_Menu = App->gui->Create_Image(Element_type::IMAGE, { 120, 80 }, { 621, 377, 785, 568 }, false, false, false, App->gui->GetAtlas());
 
@@ -699,7 +699,7 @@ void j1Scene::Create_UI_Elements()
 		if (level_to_load->data->lvl == 3)
 		{
 			Skip = App->gui->Create_Button(Element_type::BUTTON, { 800, 700 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, true, true,  App->gui->GetAtlas(), Function::SKIP);
-			Skip_Text = App->gui->Create_Label(Element_type::LABEL, { 3, 6 }, { 0,0,180, 30 }, false, true, "SKIP TUTORIAL", { 255,255,255,0 }, App->font->default, Skip);
+			Skip_Text = App->gui->Create_Label(Element_type::LABEL, { 3, 6 }, false, true, "SKIP TUTORIAL", { 255,255,255,0 }, App->font->default, Skip);
 		}
 		if (level_to_load->data->lvl == 1 || level_to_load->data->lvl == 2)
 		{
@@ -715,25 +715,25 @@ void j1Scene::Create_UI_Elements()
 				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 261, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 
 			Gui_Elements* Coin = App->gui->Create_Image(Element_type::IMAGE, {890, 18}, {648, 33, 56, 52}, true, true, false, App->gui->GetAtlas(), nullptr); 
-			Coins = App->gui->Create_Label(Element_type::LABEL, { 80, 0 }, { 0,0, 100, 50 }, true, true, "0", { 255, 255, 255, 0 }, App->font->bigger, Coin);
+			Coins = App->gui->Create_Label(Element_type::LABEL, { 80, 0 }, true, true, "0", { 255, 255, 255, 0 }, App->font->bigger, Coin);
 		}
 		
 		Menu = App->gui->Create_Image(Element_type::IMAGE, { 355, 200 }, { 8, 459, 315, 402 }, false, false, false, App->gui->GetAtlas());
 		
 		Gui_Elements* Resume = App->gui->Create_Button(Element_type::BUTTON, { 62, 45 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, false, false, App->gui->GetAtlas(), Function::RESUME, Menu);
-		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, { 0,0,110, 30 }, false, false, "RESUME", { 255,255,255,0 }, App->font->default, Resume);
+		App->gui->Create_Label(Element_type::LABEL, { 35, 6 }, false, false, "RESUME", { 255,255,255,0 }, App->font->default, Resume);
 
 		Gui_Elements* Load = App->gui->Create_Button(Element_type::BUTTON, { 62, 115 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, false, false, App->gui->GetAtlas(), Function::LOAD, Menu);
-		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, false, false, "LOAD GAME", { 255,255,255,0 }, App->font->default, Load);
+		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, false, false, "LOAD GAME", { 255,255,255,0 }, App->font->default, Load);
 
 		Gui_Elements* Save = App->gui->Create_Button(Element_type::BUTTON, { 62, 185 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, false, false, App->gui->GetAtlas(), Function::SAVE, Menu);
-		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, false, false, "SAVE GAME", { 255,255,255,0 }, App->font->default, Save);
+		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, false, false, "SAVE GAME", { 255,255,255,0 }, App->font->default, Save);
 
 		Gui_Elements* Settings = App->gui->Create_Button(Element_type::BUTTON, { 62, 255 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, false, false, App->gui->GetAtlas(), Function::SETTINGS, Menu);
-		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, { 0,0,120, 30 }, false, false, "SETTINGS", { 255,255,255,0 }, App->font->default, Settings);
+		App->gui->Create_Label(Element_type::LABEL, { 30, 6 }, false, false, "SETTINGS", { 255,255,255,0 }, App->font->default, Settings);
 
 		Gui_Elements* Main_Menu = App->gui->Create_Button(Element_type::BUTTON, { 62, 325 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, false, false, App->gui->GetAtlas(), Function::MENU, Menu);
-		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, { 0,0,140, 30 }, false, false, "MAIN MENU", { 255,255,255,0 }, App->font->default, Main_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 25, 6 }, false, false, "MAIN MENU", { 255,255,255,0 }, App->font->default, Main_Menu);
 
 		Gui_Elements* Esc = App->gui->Create_Button(Element_type::BUTTON, { 290, -10 }, { 460, 463 , 35, 38 }, { 422, 463 , 35, 38 }, { 384, 463 , 35, 38 }, false, false, App->gui->GetAtlas(), Function::RESUME, Menu);
 		Gui_Elements* X = App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 355, 474, 15, 15 }, false, false, false, App->gui->GetAtlas(), Esc);
@@ -747,15 +747,15 @@ void j1Scene::Create_UI_Elements()
 
 	Slider_Music = App->gui->Create_Slider(Element_type::SLIDER, { 350, 140 }, { 860,337,190,2 }, false, App->gui->GetAtlas(), Settings_Menu);
 	Button_Music = App->gui->Create_Image(Element_type::IMAGE, { Music_Slider_pos, -20 }, { 770, 197, 28, 42 }, false, false, true, App->gui->GetAtlas(), Slider_Music);
-	Gui_Elements* Music_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 120 }, { 0,0,180, 30 }, false, false, "Music Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
-	Slider_Music_Value = App->gui->Create_Label(Element_type::LABEL, { 490, 80 }, { 0,0,50, 24 }, false, false, "0%%", { 100,40, 0,0 }, App->font->smaller, Settings_Menu);
+	Gui_Elements* Music_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 120 }, false, false, "Music Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
+	Slider_Music_Value = App->gui->Create_Label(Element_type::LABEL, { 490, 80 }, false, false, "0%%", { 100,40, 0,0 }, App->font->smaller, Settings_Menu);
 
 
 	Slider_FX = App->gui->Create_Slider(Element_type::SLIDER, { 350, 230 }, { 860,337,190,2 }, false, App->gui->GetAtlas(), Settings_Menu);
 	Button_FX = App->gui->Create_Image(Element_type::IMAGE, { FX_Slider_pos, -20 }, { 770, 197, 28, 42 }, false, false, true, App->gui->GetAtlas(), Slider_FX);
-	Gui_Elements* FX_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 210 }, { 0,0,140, 30 }, false, false, "FX Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
-	Slider_FX_Value = App->gui->Create_Label(Element_type::LABEL, { 490, 170 }, { 0,0,50, 24 }, false, false, "0%%", { 100,40, 0,0 }, App->font->smaller, Settings_Menu);
+	Gui_Elements* FX_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 210 }, false, false, "FX Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
+	Slider_FX_Value = App->gui->Create_Label(Element_type::LABEL, { 490, 170 }, false, false, "0%%", { 100,40, 0,0 }, App->font->smaller, Settings_Menu);
 
 	Gui_Elements* Apply = App->gui->Create_Button(Element_type::BUTTON, { 200, 380 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, false, false, App->gui->GetAtlas(), Function::APPLY, Settings_Menu);
-	App->gui->Create_Label(Element_type::LABEL, { 50, 6 }, { 0,0,90, 30 }, false, false, "APPLY", { 255,255,255,0 }, App->font->default, Apply);
+	App->gui->Create_Label(Element_type::LABEL, { 50, 6 }, false, false, "APPLY", { 255,255,255,0 }, App->font->default, Apply);
 }
