@@ -9,7 +9,7 @@
 #define CREDITS_FONT "fonts/Munro.ttf"
 #define BIGGER_FONT_SIZE 70
 #define DEFAULT_FONT_SIZE 30
-#define SMALLER_FONT_SIZE 24
+#define SMALLER_FONT_SIZE 15
 
 struct SDL_Texture;
 struct _TTF_Font;

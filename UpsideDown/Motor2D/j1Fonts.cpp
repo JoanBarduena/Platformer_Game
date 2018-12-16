@@ -39,7 +39,7 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 
 		default = Load(path, size);
 		bigger = Load(path, big_size);
-		smaller = Load(path, size2);
+		smaller = Load(path, size);
 		Credits = Load(path_credits, size2);
 	}
 

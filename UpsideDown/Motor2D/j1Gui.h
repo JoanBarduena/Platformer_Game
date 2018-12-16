@@ -35,6 +35,8 @@ enum class Function
 	PLAY,
 	EXIT,
 	GITHUB,
+	GITHUB_JOSEP,
+	GITHUB_JOAN,
 	SKIP,
 	RESUME,
 	LOAD,

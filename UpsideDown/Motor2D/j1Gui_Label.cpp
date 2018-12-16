@@ -11,7 +11,7 @@ Gui_Label::Gui_Label(Element_type type, iPoint position, bool visible, bool In_G
 	texture = App->font->Print(this->text.GetString(), color, font);
 
 	int width = 0, height = 0;
-	App->font->CalcSize(this->text.GetString(), width, height, App->font->default);
+	App->font->CalcSize(this->text.GetString(), width, height,font);
 	Rect.w = width;
 	Rect.h = height;
 }

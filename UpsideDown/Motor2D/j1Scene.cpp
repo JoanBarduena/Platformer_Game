@@ -260,6 +260,14 @@ bool j1Scene::Update(float dt)
 							Credits_Menu->visible = !Credits_Menu->visible;
 							Main_Menu->visible = !Main_Menu->visible;
 						}
+						else if (iterator->data->funct == Function::GITHUB_JOAN)
+						{
+							ShellExecuteA(NULL, "open", "https://github.com/JoanBarduena", NULL, NULL, SW_SHOWNORMAL);
+						}
+						else if (iterator->data->funct == Function::GITHUB_JOSEP)
+						{
+							ShellExecuteA(NULL, "open", "https://github.com/JosepLleal", NULL, NULL, SW_SHOWNORMAL);
+						}
 					}
 				}
 			}
@@ -680,7 +688,7 @@ void j1Scene::Create_UI_Elements()
 		Main_Menu = App->gui->Create_Image(Element_type::IMAGE, { 0, 0 }, {4000, 4000, (int)App->win->width, (int)App->win->height}, true, false, false, App->gui->GetAtlas(), nullptr);
 
 		SDL_Rect title_rect = { 0, 0, 500, 300 };
-		App->gui->Create_Image(Element_type::IMAGE, { 275, -20 }, title_rect, true, false, true, title, Main_Menu);
+		App->gui->Create_Image(Element_type::IMAGE, { 275, -20 }, title_rect, true, false, false, title, Main_Menu);
 
 		Gui_Elements* Play = App->gui->Create_Button(Element_type::BUTTON, { 415, 300 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, true, false, App->gui->GetAtlas(), Function::PLAY, Main_Menu);
 		Gui_Elements* Load_Game = App->gui->Create_Button(Element_type::BUTTON, { 415, 370 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, true, false, App->gui->GetAtlas(), Function::LOAD, Main_Menu);
@@ -700,6 +708,26 @@ void j1Scene::Create_UI_Elements()
 
 		Gui_Elements* Esc = App->gui->Create_Button(Element_type::BUTTON, { 765, -10 }, { 460, 463 , 35, 38 }, { 422, 463 , 35, 38 }, { 384, 463 , 35, 38 }, false, false, App->gui->GetAtlas(), Function::RESUME, Credits_Menu);
 		Gui_Elements* X = App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 355, 474, 15, 15 }, false, false, false, App->gui->GetAtlas(), Esc);
+
+		App->gui->Create_Label(Element_type::LABEL, { 37, 40 }, true, true, "MIT License", { 100,40, 0 ,0 }, App->font->default, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 90 }, true, true, "Copyright (c) 2018 Josep Lleal and Joan Barduena", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 110 }, true, true, "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 130 }, true, true, "files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy,", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 150 }, true, true, "modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the ", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 170 }, true, true, "Software is furnished to do so, subject to the following conditions:", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 200 }, true, true, "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 230 }, true, true, "THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT ", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 250 }, true, true, "LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 270 }, true, true, "NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, ", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 290 }, true, true, "WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE ", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 37, 310 }, true, true, "SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", { 100,40, 0 ,0 }, App->font->Credits, Credits_Menu);
+
+		App->gui->Create_Label(Element_type::LABEL, { 37, 350 }, true, true, "The Team:", { 100,40, 0 ,0 }, App->font->default, Credits_Menu);
+
+		App->gui->Create_Button(Element_type::BUTTON, { 100, 450 }, { 650, 117 , 45, 49 }, { 699, 117 , 45, 49 }, { 748, 113 , 45, 53 }, false, false, App->gui->GetAtlas(), Function::GITHUB_JOAN, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 170, 460 }, true, true, "Joan Barduena", { 100,40, 0 ,0 }, App->font->default, Credits_Menu);
+		App->gui->Create_Button(Element_type::BUTTON, { 430, 450 }, { 650, 117 , 45, 49 }, { 699, 117 , 45, 49 }, { 748, 113 , 45, 53 }, false, false, App->gui->GetAtlas(), Function::GITHUB_JOSEP, Credits_Menu);
+		App->gui->Create_Label(Element_type::LABEL, { 500, 460 }, true, true, "Josep Lleal", { 100,40, 0 ,0 }, App->font->default, Credits_Menu);
 
 	}
 	else if (level_to_load->data->lvl == 3 || level_to_load->data->lvl == 1 || level_to_load->data->lvl == 2)
@@ -771,4 +799,6 @@ void j1Scene::Create_UI_Elements()
 
 	Gui_Elements* Apply = App->gui->Create_Button(Element_type::BUTTON, { 200, 380 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, false, false, App->gui->GetAtlas(), Function::APPLY, Settings_Menu);
 	App->gui->Create_Label(Element_type::LABEL, { 50, 6 }, false, false, "APPLY", { 255,255,255,0 }, App->font->default, Apply);
+
+	
 }
