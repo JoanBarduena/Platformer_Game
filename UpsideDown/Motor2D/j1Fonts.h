@@ -6,6 +6,7 @@
 #include "SDL\include\SDL_pixels.h"
 
 #define DEFAULT_FONT "fonts/heavy_data.ttf"
+#define CREDITS_FONT "fonts/Munro.ttf"
 #define DEFAULT_FONT_SIZE 30
 #define SMALLER_FONT_SIZE 24
 
@@ -35,11 +36,13 @@ public:
 
 	bool CalcSize(const char* text, int& width, int& height, _TTF_Font* font = NULL) const;
 
+
 public:
 
 	p2List<_TTF_Font*>	fonts;
 	_TTF_Font*			default;
 	_TTF_Font*			smaller;
+	_TTF_Font*			Credits;
 };
 
 

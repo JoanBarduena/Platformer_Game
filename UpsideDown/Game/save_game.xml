@@ -9,18 +9,18 @@
 	<fonts />
 	<entityManager>
 		<player>
-			<position x="229.516113" y="930" />
-			<invert_gravity value="false" />
+			<position x="1521.96716" y="470.04538" />
+			<invert_gravity value="true" />
 			<current_level value="1" />
 			<god_mode value="false" />
 			<lifes value="3" />
-			<timer value="6177" />
+			<timer value="5350" />
 		</player>
 		<entities>
 			<entity position_x="0" position_y="0" />
-			<entity position_x="2060" position_y="959.289307" />
-			<entity position_x="4125" position_y="1049.28809" />
-			<entity position_x="5571" position_y="869.289307" />
+			<entity position_x="2060" position_y="950.93689" />
+			<entity position_x="4125" position_y="1060.34631" />
+			<entity position_x="5571" position_y="860.93689" />
 			<entity position_x="5874" position_y="116" />
 			<entity position_x="2430" position_y="537" />
 			<entity position_x="3770" position_y="450" />
@@ -33,7 +33,6 @@
 			<entity position_x="5695" position_y="585" />
 			<entity position_x="5807" position_y="585" />
 			<entity position_x="5352" position_y="107" />
-			<entity position_x="800" position_y="950" />
 			<entity position_x="4386" position_y="144" />
 		</entities>
 	</entityManager>
@@ -42,6 +41,6 @@
 	<:anonymous />
 	<fade />
 	<renderer>
-		<camera x="-5" y="-347" />
+		<camera x="-891" y="-347" />
 	</renderer>
 </game_state>
