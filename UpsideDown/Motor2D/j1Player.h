@@ -87,6 +87,7 @@ public:
 	bool is_jumping = false;		//if player is jumping (speed.y < 0)
 	bool is_falling = false;		//if player is falling (speed.y > 0)		
 
+	bool apply_score = false;
 	bool win1 = false;
 	bool win2 = false;
 	bool wintutorial = false;

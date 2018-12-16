@@ -504,7 +504,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		else
 		{
 			win1 = true;
-			player_score += 1000; 
 		}
 			
 		can_move = false;
@@ -592,6 +591,12 @@ void j1Player::Check_Collision()
 	if (win1 == true)
 	{
 		App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
+		if (apply_score)
+		{
+			player_score += 1000;
+			apply_score = !apply_score;
+		}
+			
 		initial_pos = true;
 		App->scene->start_pos = true;
 		App->scene->loading_lvl2 = true; 
@@ -601,7 +606,7 @@ void j1Player::Check_Collision()
 		App->fade->FadeToBlack(App->scene, App->scene, 1.3f);
 		initial_pos = true;
 		App->scene->start_pos = true;
-		App->scene->loading_lvl1 = true; 
+		App->scene-> loading_menu = true; 
 	}
 	if (wintutorial == true)
 	{

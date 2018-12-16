@@ -617,6 +617,8 @@ void j1Scene::Level_Load(uint number)
 		/*App->audio->PlayMusic("audio/music/Galway.ogg");*/
 	}
 
+	App->entityManager->player->apply_score = true;
+
 	int w, h;
 	uchar* data = NULL;
 	if (App->map->CreateWalkabilityMap(w, h, &data))

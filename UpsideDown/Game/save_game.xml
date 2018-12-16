@@ -9,30 +9,34 @@
 	<fonts />
 	<entityManager>
 		<player>
-			<position x="255.455719" y="930" />
+			<position x="5796.4458" y="413.899902" />
 			<invert_gravity value="false" />
 			<current_level value="1" />
-			<god_mode value="false" />
-			<lifes value="1" />
-			<timer value="32613" />
-			<coins value="3" />
+			<god_mode value="true" />
+			<lifes value="4" />
+			<timer value="10315" />
+			<coins value="29" />
+			<score value="3900" />
 		</player>
 		<entities>
 			<entity position_x="0" position_y="0" />
-			<entity position_x="3378" position_y="561" />
-			<entity position_x="3532" position_y="561" />
-			<entity position_x="4265" position_y="1052" />
-			<entity position_x="5055" position_y="889" />
-			<entity position_x="5695" position_y="585" />
-			<entity position_x="5807" position_y="585" />
-			<entity position_x="5352" position_y="107" />
-			<entity position_x="4386" position_y="144" />
-			<entity position_x="2060" position_y="962.347961" />
-			<entity position_x="4125" position_y="1052.3468" />
-			<entity position_x="5571" position_y="872.347961" />
-			<entity position_x="5874" position_y="116" />
-			<entity position_x="2430" position_y="537" />
-			<entity position_x="3770" position_y="450" />
+			<entity position_x="2166" position_y="20868.1016" />
+			<entity position_x="3906" position_y="20958.1016" />
+			<entity position_x="5006.78174" position_y="20758.1016" />
+			<entity position_x="5691.46826" position_y="361.874878" />
+			<entity position_x="3998" position_y="580" />
+			<entity position_x="3830" position_y="566" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
+			<entity position_x="0" position_y="0" />
 		</entities>
 	</entityManager>
 	<gui />
@@ -40,6 +44,6 @@
 	<:anonymous />
 	<fade />
 	<renderer>
-		<camera x="-5" y="-347" />
+		<camera x="-5161" y="-47" />
 	</renderer>
 </game_state>
