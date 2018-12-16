@@ -80,7 +80,9 @@ void Gui_Elements::ValuetoString(int value, p2SString text)
 	std::string s = std::to_string(value);
 
 	std::string t("%%");
-	s += t;
+	
+	if(parent == App->scene->Settings_Menu)
+		s += t;
 
 	text = s.c_str();
 
@@ -89,7 +91,7 @@ void Gui_Elements::ValuetoString(int value, p2SString text)
 	texture = App->font->Print(text.GetString(), color, font);
 
 	int width = 0, height = 0;
-	App->font->CalcSize(text.GetString(), width, height, App->font->default);
+	App->font->CalcSize(text.GetString(), width, height, font);
 	Rect.w = width;
 	Rect.h = height;
 }

@@ -7,6 +7,7 @@
 
 #define DEFAULT_FONT "fonts/heavy_data.ttf"
 #define CREDITS_FONT "fonts/Munro.ttf"
+#define BIGGER_FONT_SIZE 70
 #define DEFAULT_FONT_SIZE 30
 #define SMALLER_FONT_SIZE 24
 
@@ -41,6 +42,7 @@ public:
 
 	p2List<_TTF_Font*>	fonts;
 	_TTF_Font*			default;
+	_TTF_Font*			bigger; 
 	_TTF_Font*			smaller;
 	_TTF_Font*			Credits;
 };

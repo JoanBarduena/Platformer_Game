@@ -75,6 +75,8 @@ public:
 
 	bool from_menu = false; 
 
+	Gui_Elements* Settings_Menu = nullptr;
+
 private:
 
 	float dt_scene;
@@ -124,7 +126,6 @@ private:
 
 	Gui_Elements* Main_Menu = nullptr;
 
-	Gui_Elements* Settings_Menu = nullptr;
 	Gui_Elements* Credits_Menu = nullptr;
 	
 };

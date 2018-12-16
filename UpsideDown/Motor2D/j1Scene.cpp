@@ -583,6 +583,7 @@ void j1Scene::Level_Load(uint number)
 	else if ((actual_level > 0) && (level_to_load->data->lvl == 0))
 	{
 		App->entityManager->DestroyAllEntities();
+		Coins = nullptr; 
 		App->entityManager->player->CleanUp();
 		App->gui->Delete_UI_Elements();
 		App->map->Load(level_to_load->data->mapPath.GetString());
@@ -591,6 +592,7 @@ void j1Scene::Level_Load(uint number)
 		Create_UI_Elements();
 		App->entityManager->player->initial_pos = true;
 		App->entityManager->player->Start();
+		App->entityManager->player->collected_coins = 0; 
 		from_menu = false;
 		actual_level = level_to_load->data->lvl;
 		/*App->audio->PlayMusic("audio/music/Galway.ogg");*/
@@ -712,8 +714,8 @@ void j1Scene::Create_UI_Elements()
 			if (App->entityManager->player->lifes == 1)
 				App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 1551, 261, 143, 56 }, true, true, false, App->gui->GetAtlas(), nullptr);
 
-			Gui_Elements* Coin = App->gui->Create_Image(Element_type::IMAGE, {870, 18}, {648, 33, 56, 52}, true, true, false, App->gui->GetAtlas(), nullptr); 
-			Coins = App->gui->Create_Label(Element_type::LABEL, { 50, 0 }, { 0,0,50, 24 }, true, true, "0%% / 20", { 100, 40, 0, 0 }, App->font->smaller, Coin);
+			Gui_Elements* Coin = App->gui->Create_Image(Element_type::IMAGE, {890, 18}, {648, 33, 56, 52}, true, true, false, App->gui->GetAtlas(), nullptr); 
+			Coins = App->gui->Create_Label(Element_type::LABEL, { 80, 0 }, { 0,0, 100, 50 }, true, true, "0", { 255, 255, 255, 0 }, App->font->bigger, Coin);
 		}
 		
 		Menu = App->gui->Create_Image(Element_type::IMAGE, { 355, 200 }, { 8, 459, 315, 402 }, false, false, false, App->gui->GetAtlas());
