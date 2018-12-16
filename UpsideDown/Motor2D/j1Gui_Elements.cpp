@@ -17,6 +17,7 @@ Gui_Elements::Gui_Elements(Element_type Type, iPoint position, SDL_Rect rect, bo
 
 		GlobalPos.x = parent->GlobalPos.x + pos.x;
 		GlobalPos.y = parent->GlobalPos.y + pos.y;
+
 	}
 	else
 	{
@@ -26,9 +27,19 @@ Gui_Elements::Gui_Elements(Element_type Type, iPoint position, SDL_Rect rect, bo
 		GlobalPos.x = pos.x;
 		GlobalPos.y = pos.y;
 	}
+
+	debug_rect.x = GlobalPos.x;
+	debug_rect.y = GlobalPos.y;
+	debug_rect.w = rect.w;
+	debug_rect.h = rect.h;
 }
 
 Gui_Elements::~Gui_Elements() {}
+
+void Gui_Elements::Show_Debug_Rect()
+{
+	App->render->DrawQuad(debug_rect, 255, 0, 0, 255, false, false);
+}
 
 void Gui_Elements::Draw_InGame_Element()
 {
@@ -51,13 +62,13 @@ void Gui_Elements::Draw_InGame_Element()
 			}
 
 		}
-		else if (type == Element_type::LABEL)
+		else
 		{
 			App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
 		}
-		else if (type == Element_type::IMAGE)
+		if (App->scene->debug_UI)
 		{
-			App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+			Show_Debug_Rect();
 		}
 	}
 	

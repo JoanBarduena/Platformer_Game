@@ -243,37 +243,12 @@ bool j1Scene::Update(float dt)
 	}
 	// -------------------------------------------------------------------------------------------
 
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && !pause)
-	{
-		start_pos = false;
-		App->fade->FadeToBlack(this, this, 1.0f);
-		loading_saved_game = true;
-
-	}
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && !pause && actual_level!=0 && actual_level != 3)
-	{
-		start_pos = false; 
-		App->SaveGame();
-	}
-		
-
-	if (actual_level == 0)
-	{
-		App->entityManager->player->position.x = 150;
-	}
-
 	//F1 Starts form the very first level 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && !pause)
 	{
 		start_pos = true;
 		App->fade->FadeToBlack(this, this, 1.3f);
 		loading_lvl1 = true;
-	}
-	
-	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && !pause)
-	{
-		//counter for animation speed
-		App->caped_frames = !App->caped_frames;
 	}
 
 	//F2 Starts from the beginning of the current level
@@ -288,34 +263,60 @@ bool j1Scene::Update(float dt)
 		else
 		{
 			App->fade->FadeToBlack(this, this, 1.3f);
-			loading_lvl1 = true; 
+			loading_lvl1 = true;
 		}
 	}
+
 	//F3 Starts the second level  
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN && !pause)
 	{
 		start_pos = true;
 		App->fade->FadeToBlack(this, this, 1.3f);
-		loading_lvl2 = true; 
+		loading_lvl2 = true;
 	}
-
+	//F4 Go to main menu
 	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN && !pause)
 	{
 		App->fade->FadeToBlack(this, this, 1.3f);
-		loading_menu = true; 
+		loading_menu = true;
 	}
+	//F5 SAVE
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN && !pause && actual_level != 0 && actual_level != 3)
+	{
+		start_pos = false;
+		App->SaveGame();
+	}
+	//F6 LOAD
+	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN && !pause)
+	{
+		start_pos = false;
+		App->fade->FadeToBlack(this, this, 1.0f);
+		loading_saved_game = true;
 
+	}
+	
 	//Load Tutorial 
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN && !pause)
 	{
-		if(actual_level == 0)
-		{ 
+		if (actual_level == 0)
+		{
 			App->fade->FadeToBlack(this, this, 1.3f);
 			loading_tutorial = true;
 		}
 	}
 
-	LOG("POsition: %i", Music_Slider_pos);
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN && !pause)
+	{
+		debug_UI = !debug_UI;
+	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN && !pause)
+	{
+		App->caped_frames = !App->caped_frames;
+	}
+
+	
+	
 
 	//From fade to levels
 	if (App->fade->IsFading() == false)
@@ -392,7 +393,11 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-
+	if (actual_level == 0)
+	{
+		App->entityManager->player->position.x = 150;
+	}
+	
 	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
 	if (App->collision->debug)
 	{
@@ -404,6 +409,8 @@ bool j1Scene::Update(float dt)
 	}
 
 	App->input->GetMousePosition(Mouse_Pos.x, Mouse_Pos.y);
+
+
 	
 	return true;
 }

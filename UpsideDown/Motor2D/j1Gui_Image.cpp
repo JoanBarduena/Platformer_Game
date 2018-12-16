@@ -112,6 +112,9 @@ bool Gui_Image::PreUpdate()
 		GlobalPos.y = pos.y;
 	}
 
+	debug_rect.x = GlobalPos.x;
+	debug_rect.y = GlobalPos.y;
+
 	return true;
 }
 
@@ -144,6 +147,10 @@ bool Gui_Image::PostUpdate()
 		else 
 		{
 			App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+		}
+		if (App->scene->debug_UI)
+		{
+			Show_Debug_Rect();
 		}
 	}
 		

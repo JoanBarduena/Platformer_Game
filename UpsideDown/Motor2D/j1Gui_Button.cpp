@@ -44,6 +44,9 @@ bool Gui_Button::PreUpdate()
 
 	}
 
+	debug_rect.x = GlobalPos.x;
+	debug_rect.y = GlobalPos.y;
+
 	if (visible)
 	{
 		if (!in_game)
@@ -136,7 +139,12 @@ bool Gui_Button::PostUpdate()
 		{
 			App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
 		}
+		if (App->scene->debug_UI)
+		{
+			Show_Debug_Rect();
+		}
 	}
+	
 	
 
 	return true;

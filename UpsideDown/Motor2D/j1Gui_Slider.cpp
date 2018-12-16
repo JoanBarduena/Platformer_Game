@@ -32,7 +32,10 @@ bool Gui_Slider::PreUpdate()
 
 	}
 	
-	
+	debug_rect.x = GlobalPos.x;
+	debug_rect.y = GlobalPos.y;
+
+	SliderValue = (float)Value_percentage / 100;
 
 	return true;
 }
@@ -40,10 +43,16 @@ bool Gui_Slider::PreUpdate()
 bool Gui_Slider::PostUpdate()
 {
 
-	SliderValue = (float)Value_percentage / 100;
-
-	if(visible)
+	if (visible)
+	{
 		App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
+		if (App->scene->debug_UI)
+		{
+			Show_Debug_Rect();
+		}
+	}
+		
+	
 
 	return true;
 }

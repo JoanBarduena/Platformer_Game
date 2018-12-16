@@ -29,6 +29,8 @@ public:
 
 	void Draw_InGame_Element();
 
+	void Show_Debug_Rect();
+
 
 public:
 
@@ -45,6 +47,7 @@ public:
 	SDL_Rect Rect;
 	SDL_Rect hovering_rect;
 	SDL_Rect clicking_rect;
+	SDL_Rect debug_rect;
 
 	bool hovering = false;
 	bool clicking_left = false; 

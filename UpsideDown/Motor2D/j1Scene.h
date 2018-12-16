@@ -64,6 +64,7 @@ public:
 
 	bool start_pos = true;
 	bool pause = false;
+	bool debug_UI = false;
 
 	bool loading_tutorial = false;
 	bool loading_lvl1 = false;
