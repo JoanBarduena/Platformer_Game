@@ -12,6 +12,7 @@ Gui_Image::Gui_Image(Element_type type, iPoint position, SDL_Rect rect, bool Vis
 		{
 			hovering_rect = {723, rect.y, rect.w, rect.h};
 			clicking_rect = {677, rect.y-2, rect.w, rect.h};
+			parent->Value_percentage = (((GlobalPos.x - parent->GlobalPos.x) * 100) / parent->Rect.w - rect.w) + rect.w;
 		}
 	}
 

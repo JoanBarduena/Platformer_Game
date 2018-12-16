@@ -82,9 +82,12 @@ bool j1Scene::Start()
 	//title = App->tex->Load("textures/upsidedown_title3.png");
 	title = App->tex->Load("textures/upsidedown_title4.png");
 
-	App->audio->PlayMusic("audio/music/Galway.ogg");
-
 	Create_UI_Elements();
+	App->audio->musicVolume = Slider_Music->Value_percentage;
+	App->audio->sfxVolume = Slider_FX->Value_percentage;
+	App->audio->SetMusicVolume();
+	App->audio->SetSfxVolume();
+	App->audio->PlayMusic("audio/music/Galway.ogg");
 
 	return true;
 }
@@ -210,6 +213,27 @@ bool j1Scene::Update(float dt)
 								Settings_Menu->visible = !Settings_Menu->visible;
 							}
 
+
+						}
+						else if (iterator->data->funct == Function::APPLY)
+						{
+							if (actual_level == 0)
+							{
+								pause = !pause;
+								Settings_Menu->visible = !Settings_Menu->visible;
+								Main_Menu->visible = !Main_Menu->visible;
+							}
+							else
+							{
+								Menu->visible = !Menu->visible;
+								Settings_Menu->visible = !Settings_Menu->visible;
+							}
+							Music_Slider_pos = (Slider_Music->Rect.w * Slider_Music->Value_percentage)/100;
+							FX_Slider_pos = (Slider_FX->Rect.w * Slider_FX->Value_percentage) / 100;
+							App->audio->musicVolume = Slider_Music->Value_percentage;
+							App->audio->sfxVolume = Slider_FX->Value_percentage;
+							App->audio->SetMusicVolume();
+							App->audio->SetSfxVolume();
 						}
 					}
 					
@@ -291,6 +315,8 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
+	LOG("POsition: %i", Music_Slider_pos);
+
 	//From fade to levels
 	if (App->fade->IsFading() == false)
 	{
@@ -325,8 +351,8 @@ bool j1Scene::Update(float dt)
 			loading_saved_game = false; 
 		}
 	}
-	App->audio->masterVolume = Slider_Music->Value_percentage;
-	App->audio->SetMusicVolume();
+	
+
 	App->map->Draw();
 
 	if (actual_level == 3)
@@ -663,7 +689,13 @@ void j1Scene::Create_UI_Elements()
 	Gui_Elements* X = App->gui->Create_Image(Element_type::IMAGE, { 10, 10 }, { 355, 474, 15, 15 }, false, false, false, App->gui->GetAtlas(), Esc);
 
 	Slider_Music = App->gui->Create_Slider(Element_type::SLIDER, { 350, 140 }, { 860,337,190,2 }, false, App->gui->GetAtlas(), Settings_Menu);
-	Gui_Elements* SliderButton = App->gui->Create_Image(Element_type::IMAGE, iPoint{ 0, -20 }, { 770, 197, 28, 42 }, false, false, true, App->gui->GetAtlas(), Slider_Music);
-	Gui_Elements* Music_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 120 }, { 0,0,200, 30 }, false, false, "Music Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
+	Button_Music = App->gui->Create_Image(Element_type::IMAGE, { Music_Slider_pos, -20 }, { 770, 197, 28, 42 }, false, false, true, App->gui->GetAtlas(), Slider_Music);
+	Gui_Elements* Music_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 120 }, { 0,0,180, 30 }, false, false, "Music Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
 
+	Slider_FX = App->gui->Create_Slider(Element_type::SLIDER, { 350, 200 }, { 860,337,190,2 }, false, App->gui->GetAtlas(), Settings_Menu);
+	Button_FX = App->gui->Create_Image(Element_type::IMAGE, { FX_Slider_pos, -20 }, { 770, 197, 28, 42 }, false, false, true, App->gui->GetAtlas(), Slider_FX);
+	Gui_Elements* FX_Volume = App->gui->Create_Label(Element_type::LABEL, { 100, 180 }, { 0,0,140, 30 }, false, false, "FX Volume", { 100,40, 0,0 }, App->font->default, Settings_Menu);
+
+	Gui_Elements* Apply = App->gui->Create_Button(Element_type::BUTTON, { 200, 380 }, { 1070, 260 , 190, 49 }, { 650, 260, 190, 49 }, { 860, 260, 190, 49 }, false, false, App->gui->GetAtlas(), Function::APPLY, Settings_Menu);
+	App->gui->Create_Label(Element_type::LABEL, { 50, 6 }, { 0,0,90, 30 }, false, false, "APPLY", { 255,255,255,0 }, App->font->default, Apply);
 }

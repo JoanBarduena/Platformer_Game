@@ -72,6 +72,8 @@ public:
 	bool saved_game = false;
 	bool loading_saved_game = false;
 
+	Gui_Elements* Settings_Menu = nullptr;
+
 private:
 	
 	float dt_scene;
@@ -106,8 +108,14 @@ private:
 	Gui_Elements* Skip_Text = nullptr;
 
 	Gui_Elements* Menu = nullptr;
-	Gui_Elements* Settings_Menu = nullptr;
+
+	Gui_Elements* Slider_FX = nullptr;
+	Gui_Elements* Button_FX = nullptr;
+	int FX_Slider_pos = 95;
+
 	Gui_Elements* Slider_Music = nullptr;
+	Gui_Elements* Button_Music = nullptr;
+	int Music_Slider_pos = 95;
 
 	Gui_Elements* Main_Menu = nullptr;
 	

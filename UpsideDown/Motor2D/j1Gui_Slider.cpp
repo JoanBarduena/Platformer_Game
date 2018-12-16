@@ -42,8 +42,6 @@ bool Gui_Slider::PostUpdate()
 
 	SliderValue = (float)Value_percentage / 100;
 
-	LOG("%f", SliderValue);
-
 	if(visible)
 		App->render->Blit(texture, GlobalPos.x, GlobalPos.y, &Rect, SDL_FLIP_NONE, 0);
 

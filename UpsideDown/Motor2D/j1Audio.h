@@ -38,15 +38,20 @@ public:
 	{
 		return Mix_VolumeMusic(masterVolume * (musicVolume * MIX_MAX_VOLUME / 100) / 100);
 	}
+	uint SetSfxVolume() const {
+		return Mix_Volume(-1, masterVolume * (sfxVolume * MIX_MAX_VOLUME / 100) / 100);
+	}
 public:
 
 	unsigned short masterVolume = 100;
 	unsigned short musicVolume = 30;
+	unsigned short sfxVolume = 30;
 
 private:
 
 	_Mix_Music*			music;
 	p2List<Mix_Chunk*>	fx;
+	
 };
 
 #endif // __j1AUDIO_H__

@@ -126,7 +126,7 @@ Gui_Elements* j1Gui::Create_Label(Element_type element, iPoint position, SDL_Rec
 	Gui_Elements* elem = nullptr;
 	elem = new Gui_Label(element, position, rect, visible, In_Game, Text, Color, Font, Parent);
 
-	if (elem != nullptr)
+	if (elem != nullptr )
 		List_elem.add(elem);
 
 	return elem;
@@ -137,7 +137,7 @@ Gui_Elements* j1Gui::Create_Slider(Element_type type, iPoint position, SDL_Rect 
 	Gui_Elements* elem = nullptr;
 	elem = new Gui_Slider(type, position, rect, visible, tex, Parent);
 
-	if (elem != nullptr)
+	if (elem != nullptr )
 		List_elem.add(elem);
 
 	return elem;
@@ -145,12 +145,12 @@ Gui_Elements* j1Gui::Create_Slider(Element_type type, iPoint position, SDL_Rect 
 
 void j1Gui::Delete_UI_Elements()
 {
-	for (p2List_item<Gui_Elements*>* iterator = List_elem.start; iterator != nullptr; iterator = iterator->next) {
-		
-		iterator->data->CleanUp();
-		List_elem.del(iterator);
-		RELEASE(iterator->data);
-
+	for (p2List_item<Gui_Elements*>* iterator = List_elem.start; iterator != nullptr; iterator = iterator->next) 
+	{
+			iterator->data->CleanUp();
+			List_elem.del(iterator);
+			RELEASE(iterator->data);
+	
 		LOG("deleting UI elements");
 		
 	}

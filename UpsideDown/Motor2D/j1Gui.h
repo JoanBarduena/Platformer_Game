@@ -41,6 +41,7 @@ enum class Function
 	SAVE,
 	SETTINGS,
 	MENU,
+	APPLY,
 	NONE
 };
 
