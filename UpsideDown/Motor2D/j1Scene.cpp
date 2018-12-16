@@ -193,6 +193,7 @@ bool j1Scene::Update(float dt)
 						}
 						else if (iterator->data->funct == Function::MENU)
 						{
+							App->entityManager->player->paused_timer = 0; 
 							App->fade->FadeToBlack(this, this, 1.3f);
 							loading_menu = true;
 						}

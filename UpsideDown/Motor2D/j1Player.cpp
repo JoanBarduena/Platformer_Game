@@ -651,6 +651,7 @@ bool j1Player::Save(pugi::xml_node& data) const
 	pugi::xml_node level = data.append_child("current_level"); 
 	pugi::xml_node god = data.append_child("god_mode"); 
 	pugi::xml_node life_node = data.append_child("lifes");
+	pugi::xml_node timer_node = data.append_child("timer"); 
 
 	pos.append_attribute("x") = position.x;
 	pos.append_attribute("y") = position.y;
@@ -658,6 +659,7 @@ bool j1Player::Save(pugi::xml_node& data) const
 	level.append_attribute("value") = App->scene->level_to_load->data->lvl;
 	god.append_attribute("value") = god_mode; 
 	life_node.append_attribute("value") = lifes; 
+	timer_node.append_attribute("value") = timer; 
 
 	LOG("SAVING PLAYER");
 
@@ -673,7 +675,7 @@ bool j1Player::Load(pugi::xml_node& data)
 	lifes = data.child("player").child("lifes").attribute("value").as_int();
 	App->scene->Level_Load(data.child("player").child("current_level").attribute("value").as_int());
 	god_mode = data.child("player").child("god_mode").attribute("value").as_bool();
-	
+	timer = data.child("player").child("timer").attribute("value").as_int(); 
 	
 	return true; 
 }
