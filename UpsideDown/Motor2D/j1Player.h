@@ -111,6 +111,7 @@ public:
 	//Timer values 
 	j1Timer game_time;
 	int timer = 0;
+	int saved_timer = 0;
 	int paused_timer = 0;
 
 	p2SString folder;

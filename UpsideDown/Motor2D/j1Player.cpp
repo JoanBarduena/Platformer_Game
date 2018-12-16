@@ -260,7 +260,7 @@ bool j1Player::PostUpdate()
 	//TIMER 
 	if ((App->scene->actual_level == 1 || App->scene->actual_level == 2) && !App->scene->pause)
 	{
-		timer = game_time.Read();
+		timer = game_time.Read() + saved_timer;
 		paused_timer = timer;
 		LOG("TIMER: %i", timer / 1000);
 	}
@@ -678,9 +678,9 @@ bool j1Player::Load(pugi::xml_node& data)
 	lifes = data.child("player").child("lifes").attribute("value").as_int();
 	App->scene->Level_Load(data.child("player").child("current_level").attribute("value").as_int());
 	god_mode = data.child("player").child("god_mode").attribute("value").as_bool();
-	timer = data.child("player").child("timer").attribute("value").as_int(); 
+	saved_timer = data.child("player").child("timer").attribute("value").as_int();
 	
-	LOG("SAVING TIMER: %d", timer);
+	LOG("SAVING TIMER: %d", saved_timer);
 
 	return true; 
 }

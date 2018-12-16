@@ -118,11 +118,11 @@ bool j1Scene::Update(float dt)
 		{
 			if (iterator->data->funct == Function::PLAY)
 			{
-				LOG("CLICKING");
 				App->entityManager->player->lifes = 3;
 				if (actual_level == 0)
 				{
 					App->fade->FadeToBlack(this, this, 1.3f);
+					App->entityManager->player->saved_timer = 0;
 					loading_tutorial = true;
 				}
 			}
