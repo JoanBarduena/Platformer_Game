@@ -2,7 +2,7 @@
 In this repository there is a platformer video game made by two second year students of the Videogame Design and Development degree.
 The game has been made using C++ (using SDL and pugi libraires) and the maps have been created using Tiled.
 
- ## How to play
+## How to play
 The game is quite simple. You must reach the end of each level (there are two) collecting all the coins and avoiding enemies. You start with three lives but you can collect 1 life in every level. Game controls:
 
 ~~~
@@ -37,7 +37,7 @@ To download the last release of UpsideDown click [here](https://github.com/Josep
 
 ![](App.jpg)
 
- ## Gameplay
+## Gameplay
  
  <iframe width="560" height="315" src="https://www.youtube.com/embed/ToQxuUxstRU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
