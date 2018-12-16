@@ -33,6 +33,14 @@ To download the last release of UpsideDown click [here](https://github.com/Josep
 - Joan Barduena Reyes
 	-[Joan's GitHub Link](https://github.com/JoanBarduena)
 
+## Main core subsystems of the game
+
+![](App.jpg)
+
+ ## Gameplay
+ 
+ <iframe width="560" height="315" src="https://www.youtube.com/embed/ToQxuUxstRU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Innovation:
 - Level_load: Instead of creating 2 scenes, we develop a Stuct Level with an Int (level) and a Sting (MapPath.tmx). So if the int is "1" the map loaded will be "map1.tmx". 
 
