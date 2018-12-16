@@ -52,6 +52,10 @@ bool Gui_Label::PreUpdate()
 	debug_rect.x = GlobalPos.x;
 	debug_rect.y = GlobalPos.y;
 
+	
+	debug_rect.w = Rect.w;
+	debug_rect.h = Rect.h;
+
 	return true;
 }
 
