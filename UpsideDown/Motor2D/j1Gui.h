@@ -42,6 +42,7 @@ enum class Function
 	SETTINGS,
 	MENU,
 	APPLY,
+	CREDITS,
 	NONE
 };
 

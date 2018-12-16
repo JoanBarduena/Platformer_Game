@@ -73,7 +73,7 @@ public:
 	bool saved_game = false;
 	bool loading_saved_game = false;
 
-	Gui_Elements* Settings_Menu = nullptr;
+	
 
 private:
 	
@@ -119,6 +119,9 @@ private:
 	int Music_Slider_pos = 95;
 
 	Gui_Elements* Main_Menu = nullptr;
+
+	Gui_Elements* Settings_Menu = nullptr;
+	Gui_Elements* Credits_Menu = nullptr;
 	
 };
 
